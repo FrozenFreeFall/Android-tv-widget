@@ -57,7 +57,6 @@ public class FocusRelativeLayout extends RelativeLayout {
 		mBorderView = new FocusBorderView(getContext());
 		addView(mBorderView);
 		mBorderView.setVisibility(View.INVISIBLE);
-		mBorderView.bringToFront();
 	}
 
 	public void setBorderShow(boolean b) {

@@ -44,6 +44,7 @@ public class ReflectionRelativeLayout extends RelativeLayout {
 							R.styleable.ReflectionRelativeLayout_waterreflection,
 							false);
 			value = array.getString(R.styleable.ReflectionRelativeLayout_value);
+			array.recycle();
 		}
 	}
 
