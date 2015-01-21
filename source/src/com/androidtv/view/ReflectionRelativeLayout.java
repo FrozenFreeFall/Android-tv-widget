@@ -16,7 +16,7 @@ public class ReflectionRelativeLayout extends RelativeLayout {
 
 	private Context mContext = null;
 	boolean isReflection = false;
-	String value = null;
+	String value = "";
 	TypedArray array;
 
 	public ReflectionRelativeLayout(Context context) {
@@ -56,7 +56,7 @@ public class ReflectionRelativeLayout extends RelativeLayout {
 	}
 
 	public String getvalue() {
-		return value;
+		return value != null ? value : "";
 	}
 
 }

@@ -45,18 +45,19 @@ public class FocusRelativeLayout extends RelativeLayout {
 
 	public FocusRelativeLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		initFocusRelativeLayout();
+//		initFocusRelativeLayout();
 	}
 
 	public FocusRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		initFocusRelativeLayout();
+//		initFocusRelativeLayout();
 	}
 
 	private void initFocusRelativeLayout() {
 		mBorderView = new FocusBorderView(getContext());
 		addView(mBorderView);
 		mBorderView.setVisibility(View.INVISIBLE);
+		mBorderView.bringToFront();
 	}
 
 	public void setBorderShow(boolean b) {
@@ -204,6 +205,7 @@ public class FocusRelativeLayout extends RelativeLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		initFocusRelativeLayout();
 	}
 
 	@Override
@@ -268,11 +270,11 @@ public class FocusRelativeLayout extends RelativeLayout {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (mBorderView != null && hasFocus) {
-					// 获取焦点.
+					// 获取焦点前.
 					if (mFocusRelativeLayoutCallBack != null
 							&& (v instanceof ReflectionRelativeLayout)) {
 						mFocusRelativeLayoutCallBack
-								.onFocusInChild((ReflectionRelativeLayout) v);
+								.onFirstFocusInChild((ReflectionRelativeLayout) v);
 					}
 					// 显示mborderview.
 					if (isBorderShow) {
@@ -286,12 +288,18 @@ public class FocusRelativeLayout extends RelativeLayout {
 					mBorderView.runTranslateAnimation(v, scaleX, scaleY);
 					// 放大动画.
 					onFocusChildAnimator(v, scaleX, scaleY);
-				} else {
-					// 失去焦点.
+					// 获取焦点后.
 					if (mFocusRelativeLayoutCallBack != null
 							&& (v instanceof ReflectionRelativeLayout)) {
 						mFocusRelativeLayoutCallBack
-								.onFocusOutChild((ReflectionRelativeLayout) v);
+								.onLastFocusInChild((ReflectionRelativeLayout) v);
+					}
+				} else {
+					// 失去焦点前.
+					if (mFocusRelativeLayoutCallBack != null
+							&& (v instanceof ReflectionRelativeLayout)) {
+						mFocusRelativeLayoutCallBack
+								.onFirstFocusOutChild((ReflectionRelativeLayout) v);
 					}
 					// 恢复动画.
 					onFocusChildAnimator(v, DEFUALT_SCALE_VALUE,
@@ -300,6 +308,12 @@ public class FocusRelativeLayout extends RelativeLayout {
 					if (v.equals(drawChild)) {
 						drawChild = null;
 						invalidate();
+					}
+					// 失去焦点后.
+					if (mFocusRelativeLayoutCallBack != null
+							&& (v instanceof ReflectionRelativeLayout)) {
+						mFocusRelativeLayoutCallBack
+								.onLastFocusOutChild((ReflectionRelativeLayout) v);
 					}
 				}
 			}
@@ -315,8 +329,6 @@ public class FocusRelativeLayout extends RelativeLayout {
 			android.view.ViewPropertyAnimator animator = v.animate()
 					.scaleX(scaleX1).scaleY(scaleY1);
 			animator.start();
-			// !!! 修复BUG: 边框跑到了后�?!!!!
-			bringChildToFront(mBorderView);
 		} else { // 恢复.
 			android.view.ViewPropertyAnimator animator = v.animate()
 					.scaleX(scaleX1).scaleY(scaleY1);
@@ -325,14 +337,26 @@ public class FocusRelativeLayout extends RelativeLayout {
 	}
 
 	// 回调事件.
-	public static interface FocusRelativeLayoutCallBack {
+	public static class FocusRelativeLayoutCallBack {
 		// 子控件获取焦点.
-		public void onFocusInChild(
-				ReflectionRelativeLayout reflectionRelativeLayout);
+		public void onFirstFocusInChild(
+				ReflectionRelativeLayout reflectionRelativeLayout) {
+		}
 
 		// 子控件失去焦点.
-		public void onFocusOutChild(
-				ReflectionRelativeLayout reflectionRelativeLayout);
+		public void onFirstFocusOutChild(
+				ReflectionRelativeLayout reflectionRelativeLayout) {
+		}
+
+		// 子控件获取焦点.
+		public void onLastFocusInChild(
+				ReflectionRelativeLayout reflectionRelativeLayout) {
+		}
+
+		// 子控件失去焦点.
+		public void onLastFocusOutChild(
+				ReflectionRelativeLayout reflectionRelativeLayout) {
+		}
 	}
 
 }
