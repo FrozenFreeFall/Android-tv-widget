@@ -1,21 +1,23 @@
 package com.androidtv.activity;
 
-import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
-import android.annotation.SuppressLint;
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.androidtv.R;
-import com.androidtv.view.FocusBorderView;
 import com.androidtv.view.FocusRelativeLayout;
 import com.androidtv.view.FocusRelativeLayout.FocusRelativeLayoutCallBack;
 import com.androidtv.view.ReflectionRelativeLayout;
+import com.nineoldandroids.view.ViewPropertyAnimator;
 
 /**
  * 首先需要将FocusRelativeLayout作为主布局. <br>
@@ -26,79 +28,103 @@ import com.androidtv.view.ReflectionRelativeLayout;
  *
  */
 public class MainActivity extends Activity {
-	private static final String TAG_base = "MainActivity";
-	FocusBorderView mBorderView;
-	Handler mHandler = new Handler();
-	ImageView imageView1;
-	FocusRelativeLayout focusView;
+	// FocusRelativeLayout focusView;
+	ViewPager pager1;
+	ArrayList<View> viewList = new ArrayList<View>();//
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// setContentView(R.layout.page1);
 		setContentView(R.layout.activity_main_test);
-		imageView1 = (ImageView) findViewById(R.id.imageView1);
-		focusView = (FocusRelativeLayout) findViewById(R.id.focus1);
-		focusView.setBorderViewBg(R.drawable.focus_bound);
-		// focusView.setBorderViewBg(R.drawable.ic_white_border_none);
-		focusView.setBorderScale(1.5f, 1.5f); // 放大比例.
-		focusView.setBorderViewSize(1, 1); // 如果移动边框带有阴影，将阴影的距离填写上去.
-		focusView.setReflectPadding(5); // 设置倒影和子控件之间的距离.
-		// focusView.setBorderShow(false);
-		focusView.setBorderTV(false); // 设置 tv还有手机像素.
-		focusView.setBorderShow(true); // 显示外边框.
-		focusView
-				.setOnFocusRelativeLayoutCallBack(new FocusRelativeLayoutCallBack() {
-					@SuppressLint("NewApi")
-					@Override
-					public void onLastFocusOutChild(
-							ReflectionRelativeLayout reflectionRelativeLayout) {
-						// 可以在子控件失去焦点的时候设置一些子控件内部子控件的动画或者改变属性等等.
-						for (int i = 0; i < reflectionRelativeLayout
-								.getChildCount(); i++) {
-							View v = reflectionRelativeLayout.getChildAt(i);
-							if (v instanceof RadioButton) {
-								android.view.ViewPropertyAnimator vpa = v
-										.animate();
-								vpa.scaleX(1.0f).scaleY(1.0f).start();
-							} else if (v instanceof Button) {
-								Button b = (Button) v;
-								b.setText("关闭效果");
-							}
-						}
-						if (reflectionRelativeLayout.getvalue().equals("100")) {
-							android.view.ViewPropertyAnimator vpa = imageView1
-									.animate();
-							vpa.scaleX(1.0f).scaleY(1.0f).start();
-							imageView1.bringToFront();
-						}
-					}
-
-					@SuppressLint("NewApi")
-					@Override
-					public void onFirstFocusInChild(
-							ReflectionRelativeLayout reflectionRelativeLayout) {
-						//
-						for (int i = 0; i < reflectionRelativeLayout
-								.getChildCount(); i++) {
-							View v = reflectionRelativeLayout.getChildAt(i);
-							if (v instanceof RadioButton) {
-								android.view.ViewPropertyAnimator vpa = v
-										.animate();
-								vpa.scaleX(1.5f).scaleY(1.5f).start();
-							} else if (v instanceof Button) {
-								Button b = (Button) v;
-								b.setText("开启动画效果");
-							}
-						}
-						//
-						if (reflectionRelativeLayout.getvalue().equals("100")) {
-							android.view.ViewPropertyAnimator vpa1 = imageView1
-									.animate();
-							vpa1.scaleX(1.2f).scaleY(1.2f).start();
-							imageView1.bringToFront();
-						}
-					}
-				});
+		LayoutInflater layoutInf = getLayoutInflater().from(this);
+		View view1 = layoutInf.inflate(R.layout.page1, null);
+		View view2 = layoutInf.inflate(R.layout.page2, null);
+		View view3 = layoutInf.inflate(R.layout.page3, null);
+		viewList.add(view1);
+		viewList.add(view2);
+		viewList.add(view3);
+		pager1 = (ViewPager) findViewById(R.id.pager1);
+		pager1.setAdapter(new MyPagerView());
 	}
 
+	class MyPagerView extends PagerAdapter {
+
+		@Override
+		public int getCount() {
+			return viewList.size();
+		}
+
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			return arg0 == arg1;
+		}
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			container.removeView(viewList.get(position));
+		}
+
+		@Override
+		public int getItemPosition(Object object) {
+			return super.getItemPosition(object);
+		}
+
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			container.addView(viewList.get(position), 0);// 添加页卡
+			
+			FocusRelativeLayout focusView = (FocusRelativeLayout) findViewById(R.id.focus1);
+			final ImageView imageView2 = (ImageView) findViewById(R.id.imageView2); // 测试.
+			focusView.setBorderViewBg(R.drawable.focus_bound);
+			// focusView.setBorderViewBg(R.drawable.ic_white_border_none);
+			focusView.setBorderScale(1.2f, 1.2f); // 放大比例.
+			focusView.setBorderViewSize(8, 8); // 如果移动边框带有阴影，将阴影的距离填写上去.
+			focusView.setReflectPadding(5); // 设置倒影和子控件之间的距离.
+			focusView.setBorderTV(false); // 设置 tv还有手机像素.
+			focusView.setBorderShow(true); // 显示外边框.
+			focusView
+					.setOnFocusRelativeLayoutCallBack(new FocusRelativeLayoutCallBack() {
+						@Override
+						public void onFirstFocusInChild(
+								ReflectionRelativeLayout reflectionRelativeLayout) {
+							String value = reflectionRelativeLayout.getvalue();
+							if (value.equals("movie_hide")) {
+								View child = reflectionRelativeLayout
+										.getChildAt(1);
+								if (child instanceof TextView) {
+									child.setVisibility(View.VISIBLE);
+								}
+								//
+								imageView2.bringToFront();
+								android.view.ViewPropertyAnimator animator =  imageView2.animate()
+										.scaleX(1.8f).scaleY(1.8f);
+								animator.start();
+							}
+							super.onFirstFocusInChild(reflectionRelativeLayout);
+						}
+
+						@Override
+						public void onFirstFocusOutChild(
+								ReflectionRelativeLayout reflectionRelativeLayout) {
+							String value = reflectionRelativeLayout.getvalue();
+							if (value.equals("movie_hide")) {
+								View child = reflectionRelativeLayout
+										.getChildAt(1);
+								if (child instanceof TextView) {
+									child.setVisibility(View.GONE);
+								}
+								//
+								imageView2.bringToFront();
+								android.view.ViewPropertyAnimator animator =  imageView2.animate()
+										.scaleX(1.0f).scaleY(1.0f);
+								animator.start();
+							} 
+							
+							super.onFirstFocusOutChild(reflectionRelativeLayout);
+						}
+					});
+			return viewList.get(position);
+		}
+	}
 }

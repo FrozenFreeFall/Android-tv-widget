@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_lancher"
+    android:orientation="vertical" xmlns:app="http://schemas.android.com/apk/res/com.androidtv">
+
+    <com.androidtv.view.FocusRelativeLayout
+        android:id="@+id/focus1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/focusRelativeLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="38dp"
+            android:layout_marginLeft="33dp" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/jiemuzhinan" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="400dp"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@+id/imageView1"
+                android:layout_alignParentLeft="true"
+                android:background="#55000000"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="测试指南"
+                android:textSize="23dip" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/reflectionRelativeLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            app:value="movie_hide"
+            android:layout_above="@+id/focusRelativeLayout1"
+            android:layout_alignLeft="@+id/focusRelativeLayout1" >
+
+            <ImageView
+                android:id="@+id/ImageView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/gaoqingpindao" />
+
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="400dp"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@+id/ImageView01"
+                android:layout_alignParentLeft="true"
+                android:background="#55000000"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="测试高清"
+                android:textSize="23dip"
+                android:visibility="gone" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/reflectionRelativeLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/focusRelativeLayout1"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/focusRelativeLayout1" >
+
+            <ImageView
+                android:id="@+id/ImageView03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/dianying" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/reflectionRelativeLayout1"
+            android:layout_alignLeft="@+id/reflectionRelativeLayout2"
+            android:layout_marginBottom="5dp" >
+
+            <ImageView
+                android:id="@+id/ImageView02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/zongyi" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/ReflectionRelativeLayout01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_alignTop="@+id/reflectionRelativeLayout1"
+            android:layout_toRightOf="@+id/reflectionRelativeLayout2" >
+
+            <ImageView
+                android:id="@+id/ImageView04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/dongman" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+    </com.androidtv.view.FocusRelativeLayout>
+
+</LinearLayout>

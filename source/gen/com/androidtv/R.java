@@ -42,42 +42,55 @@ containing a value of this type.
         public static final int activity_vertical_margin=0x7f060001;
     }
     public static final class drawable {
-        public static final int bk_around=0x7f020000;
-        public static final int bk_three=0x7f020001;
-        public static final int bound=0x7f020002;
-        public static final int bound2=0x7f020003;
-        public static final int focus_bound=0x7f020004;
-        public static final int frame_gallery_thumb_pressed=0x7f020005;
-        public static final int ic_launcher=0x7f020006;
-        public static final int ic_light=0x7f020007;
-        public static final int ic_normal=0x7f020008;
-        public static final int ic_play_list=0x7f020009;
-        public static final int ic_recomend=0x7f02000a;
-        public static final int ic_white_border_none=0x7f02000b;
-        public static final int shadow_big_center=0x7f02000c;
-        public static final int shadow_big_left=0x7f02000d;
-        public static final int shadow_big_right=0x7f02000e;
-        public static final int test_bg=0x7f02000f;
-        public static final int white_border=0x7f020010;
-        public static final int white_border1=0x7f020011;
+        public static final int bg_lancher=0x7f020000;
+        public static final int bk_around=0x7f020001;
+        public static final int bk_three=0x7f020002;
+        public static final int bound11=0x7f020003;
+        public static final int bound112=0x7f020004;
+        public static final int dianying=0x7f020005;
+        public static final int dongman=0x7f020006;
+        public static final int focus_bound=0x7f020007;
+        public static final int frame_gallery_thumb_pressed=0x7f020008;
+        public static final int gaoqingpindao=0x7f020009;
+        public static final int ic_launcher=0x7f02000a;
+        public static final int ic_light=0x7f02000b;
+        public static final int ic_normal=0x7f02000c;
+        public static final int ic_play_list=0x7f02000d;
+        public static final int ic_recomend=0x7f02000e;
+        public static final int ic_white_border_none=0x7f02000f;
+        public static final int jiemuzhinan=0x7f020010;
+        public static final int shadow_big_center=0x7f020011;
+        public static final int shadow_big_left=0x7f020012;
+        public static final int shadow_big_right=0x7f020013;
+        public static final int test_bg=0x7f020014;
+        public static final int white_border=0x7f020015;
+        public static final int white_border1=0x7f020016;
+        public static final int zongyi=0x7f020017;
     }
     public static final class id {
-        public static final int Button011=0x7f0a0003;
-        public static final int action_settings=0x7f0a000c;
-        public static final int button1=0x7f0a0006;
-        public static final int button2=0x7f0a000a;
-        public static final int button3=0x7f0a0002;
-        public static final int button4=0x7f0a0008;
-        public static final int focus1=0x7f0a0000;
-        public static final int imageView1=0x7f0a000b;
-        public static final int progressBar1=0x7f0a0007;
-        public static final int radioButton1=0x7f0a0009;
-        public static final int reflectionRelativeLayout1=0x7f0a0004;
-        public static final int reflectionRelativeLayout2=0x7f0a0005;
-        public static final int relativeLayout1=0x7f0a0001;
+        public static final int ImageView01=0x7f0a0006;
+        public static final int ImageView02=0x7f0a000b;
+        public static final int ImageView03=0x7f0a0009;
+        public static final int ImageView04=0x7f0a000d;
+        public static final int ReflectionRelativeLayout01=0x7f0a000c;
+        public static final int TextView01=0x7f0a0007;
+        public static final int action_settings=0x7f0a000f;
+        public static final int focus1=0x7f0a0001;
+        public static final int focusRelativeLayout1=0x7f0a0002;
+        public static final int imageView1=0x7f0a0003;
+        public static final int imageView2=0x7f0a000e;
+        public static final int pager1=0x7f0a0000;
+        public static final int reflectionRelativeLayout1=0x7f0a0005;
+        public static final int reflectionRelativeLayout2=0x7f0a0008;
+        public static final int reflectionRelativeLayout3=0x7f0a000a;
+        public static final int textView1=0x7f0a0004;
     }
     public static final class layout {
         public static final int activity_main_test=0x7f030000;
+        public static final int page1=0x7f030001;
+        public static final int page2=0x7f030002;
+        public static final int page3=0x7f030003;
+        public static final int page4=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f090000;

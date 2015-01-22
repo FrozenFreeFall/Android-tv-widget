@@ -1,6 +1,8 @@
 package com.androidtv.view;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.androidtv.utils.ImageReflect;
@@ -45,15 +47,15 @@ public class FocusRelativeLayout extends RelativeLayout {
 
 	public FocusRelativeLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-//		initFocusRelativeLayout();
+		// initFocusRelativeLayout();
 	}
 
 	public FocusRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-//		initFocusRelativeLayout();
+		// initFocusRelativeLayout();
 	}
 
-	private void initFocusRelativeLayout() {
+	public void initFocusRelativeLayout() {
 		mBorderView = new FocusBorderView(getContext());
 		addView(mBorderView);
 		mBorderView.setVisibility(View.INVISIBLE);
@@ -205,6 +207,16 @@ public class FocusRelativeLayout extends RelativeLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		initFocusRelativeLayout();
+		/* 保存所有子控件，用于恢复 */
+		initSaveChildWidget();
+	}
+
+	List<View> viewList = new ArrayList<View>();
+
+	private void initSaveChildWidget() {
+		for (int i = 0; i < getChildCount(); i++) {
+			viewList.add(getChildAt(i));
+		}
 	}
 
 	@Override
@@ -269,6 +281,9 @@ public class FocusRelativeLayout extends RelativeLayout {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (mBorderView != null && hasFocus) {
+					// 设置焦点(!!!bug,无法到最前面).
+					v.bringToFront();
+					mBorderView.bringToFront();
 					// 获取焦点前.
 					if (mFocusRelativeLayoutCallBack != null
 							&& (v instanceof ReflectionRelativeLayout)) {
@@ -294,7 +309,11 @@ public class FocusRelativeLayout extends RelativeLayout {
 								.onLastFocusInChild((ReflectionRelativeLayout) v);
 					}
 				} else {
-					// 失去焦点前.
+					// 恢复所有焦点状态(!!!bug,焦点状态打乱，重新恢复).
+					resetChildWidgetFocusState();
+					//
+					mBorderView.setVisibility(View.GONE);
+					// 失去焦点前-事件回调.
 					if (mFocusRelativeLayoutCallBack != null
 							&& (v instanceof ReflectionRelativeLayout)) {
 						mFocusRelativeLayoutCallBack
@@ -308,7 +327,7 @@ public class FocusRelativeLayout extends RelativeLayout {
 						drawChild = null;
 						invalidate();
 					}
-					// 失去焦点后.
+					// 失去焦点后-事件回调.
 					if (mFocusRelativeLayoutCallBack != null
 							&& (v instanceof ReflectionRelativeLayout)) {
 						mFocusRelativeLayoutCallBack
@@ -318,7 +337,13 @@ public class FocusRelativeLayout extends RelativeLayout {
 			}
 		});
 	}
-
+	
+	private void resetChildWidgetFocusState() {
+		for (int i = 0; i < viewList.size(); i++) {
+			viewList.get(i).bringToFront();
+		}
+	}
+	
 	/**
 	 * 重写这个函数 <br>
 	 * 设置子控件的动画效果，放大，缩小，还是跳动.
