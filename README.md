@@ -41,5 +41,5 @@ Android 组件，主要用于 投影仪，TV电视，手机等等Android设备.
 ##例子图片查看
 =============================================================
 ![github](https://github.com/FrozenFreeFall/Android-tv-widget/blob/master/demo/QQ%E5%9B%BE%E7%89%8720150123025437.png)
-
+![github](https://github.com/FrozenFreeFall/Android-tv-widget/blob/master/demo/QQ%E5%9B%BE%E7%89%8720150123025444.jpg)
 如果想在GridView上加上BorderView，只需要调用 runTranslateAnimation
