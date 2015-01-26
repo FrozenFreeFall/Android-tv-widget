@@ -10,24 +10,30 @@ Android 组件，主要用于 投影仪，TV电视，手机等等Android设备.
 =============================================================
 
 目录结构：
+=============================
 --com/androidtv/activity
-----activity.java : 测试demo
+-----------------------------
+###----activity.java : 测试demo
 --com/androidtv/color (获取图片颜色主色和其它颜色)
-----ColorArt.java ：
-----HashBag.java
+-----------------------------
+###----ColorArt.java ：
+###----HashBag.java
 --com/androidtv/utils (一些常用函数)
-----AnimUtils.java
-----DensityUtil.java
-----FastBlur.java  ：高斯模糊
-----ImageUtils.java
+-----------------------------
+###----AnimUtils.java
+###----DensityUtil.java
+###----FastBlur.java  ：高斯模糊
+###----ImageUtils.java
 --com/androidtv/view
-----BorderView.java ：移动边框
-----CopyOfCopyOfFocusBorderView.java
-----FocusBorderView.java
-----FocusRelativeLayout.java
-----ReflectionRelativeLayout.java
-----VerticalSmoothGridView.java
+-----------------------------
+###----BorderView.java ：移动边框
+###----CopyOfCopyOfFocusBorderView.java
+###----FocusBorderView.java
+###----FocusRelativeLayout.java
+###----ReflectionRelativeLayout.java
+###----VerticalSmoothGridView.java
 --net.qiujuer.imageblurring.jni (高斯模糊JNI)
+-----------------------------
 
 =============================================================
 
