@@ -8,7 +8,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import com.androidtv.R;
 import com.androidtv.view.FocusRelativeLayout;
 import com.androidtv.view.FocusRelativeLayout.FocusRelativeLayoutCallBack;
 import com.androidtv.view.ReflectionRelativeLayout;
-import com.nineoldandroids.view.ViewPropertyAnimator;
 
 /**
  * 首先需要将FocusRelativeLayout作为主布局. <br>

@@ -6,3 +6,29 @@ Android 组件，主要用于 投影仪，TV电视，手机等等Android设备.
 高斯模糊(毛玻璃效果)
 图片主色
 主题  http://www.oschina.net/p/colortheme
+
+=============================================================
+
+目录结构：
+--com/androidtv/activity
+----activity.java : 测试demo
+--com/androidtv/color (获取图片颜色主色和其它颜色)
+----ColorArt.java ：
+----HashBag.java
+--com/androidtv/utils (一些常用函数)
+----AnimUtils.java
+----DensityUtil.java
+----FastBlur.java  ：高斯模糊
+----ImageUtils.java
+--com/androidtv/view
+----BorderView.java ：移动边框
+----CopyOfCopyOfFocusBorderView.java
+----FocusBorderView.java
+----FocusRelativeLayout.java
+----ReflectionRelativeLayout.java
+----VerticalSmoothGridView.java
+--net.qiujuer.imageblurring.jni (高斯模糊JNI)
+
+=============================================================
+
+如果想在GridView上加上BorderView，只需要调用 runTranslateAnimation
