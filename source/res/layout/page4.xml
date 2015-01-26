@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            app:value="movie_hide"
+            app:isfirst="true"
             android:layout_above="@+id/focusRelativeLayout1"
             android:layout_alignLeft="@+id/focusRelativeLayout1" >
 
@@ -99,6 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            app:islast="true"
             android:layout_alignTop="@+id/reflectionRelativeLayout1"
             android:layout_toRightOf="@+id/reflectionRelativeLayout2" >
 

@@ -212,10 +212,20 @@ public class FocusRelativeLayout extends RelativeLayout {
 	}
 
 	List<View> viewList = new ArrayList<View>();
-
+	HashMap<String, View> viewMap = new HashMap<String, View>();
+	
 	private void initSaveChildWidget() {
 		for (int i = 0; i < getChildCount(); i++) {
-			viewList.add(getChildAt(i));
+			View child = getChildAt(i);
+			if (checkReflectionRLay(child)) {
+				ReflectionRelativeLayout rf = (ReflectionRelativeLayout) child;
+				if (rf.isFirst()) {
+					viewMap.put("first", child);
+				} else if(rf.isLast()) {
+					viewMap.put("last", child);
+				}
+				viewList.add(child);
+			}
 		}
 	}
 
@@ -338,10 +348,22 @@ public class FocusRelativeLayout extends RelativeLayout {
 		});
 	}
 	
+	/**
+	 * 重置子控件的焦点顺序.
+	 */
 	private void resetChildWidgetFocusState() {
+		// 设置第一个.
+		View child = viewMap.get("first");
+		if (child != null) { child.bringToFront(); }
+		// 设置每一个
 		for (int i = 0; i < viewList.size(); i++) {
-			viewList.get(i).bringToFront();
+			View v = viewList.get(i);
+			if (v != null && !v.equals(child))
+				v.bringToFront();
 		}
+		// 设置最后一个
+		child = viewMap.get("last");
+		if (child != null) { child.bringToFront(); }
 	}
 	
 	/**

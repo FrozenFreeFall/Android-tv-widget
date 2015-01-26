@@ -42,11 +42,13 @@
             android:id="@+id/reflectionRelativeLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:isfirst="true"
+            app:value="movie_hide"
+            app:pos="0"
             android:layout_above="@+id/focusRelativeLayout1"
             android:layout_alignLeft="@+id/focusRelativeLayout1"
             android:layout_marginBottom="5dp"
-            app:value="movie_hide" >
-
+            >
             <ImageView
                 android:id="@+id/ImageView01"
                 android:layout_width="wrap_content"
@@ -69,21 +71,6 @@
         </com.androidtv.view.ReflectionRelativeLayout>
 
         <com.androidtv.view.ReflectionRelativeLayout
-            android:id="@+id/reflectionRelativeLayout2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/focusRelativeLayout1"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/focusRelativeLayout1" >
-
-            <ImageView
-                android:id="@+id/ImageView03"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/dianying" />
-        </com.androidtv.view.ReflectionRelativeLayout>
-
-        <com.androidtv.view.ReflectionRelativeLayout
             android:id="@+id/reflectionRelativeLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +82,10 @@
                 android:id="@+id/ImageView02"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
                 android:src="@drawable/zongyi" />
+
         </com.androidtv.view.ReflectionRelativeLayout>
 
         <com.androidtv.view.ReflectionRelativeLayout
@@ -104,6 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/reflectionRelativeLayout1"
             android:layout_marginLeft="5dp"
+            app:pos="4"
+            app:islast="true"
             android:layout_toRightOf="@+id/reflectionRelativeLayout2" >
 
             <ImageView
@@ -121,6 +113,23 @@
             android:layout_alignTop="@+id/reflectionRelativeLayout3"
             android:layout_marginLeft="104dp"
             android:src="@drawable/test_bg" />
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/reflectionRelativeLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="80dp"
+            android:layout_toRightOf="@+id/imageView2" >
+
+            <ImageView
+                android:id="@+id/ImageView03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/dianying" />
+        </com.androidtv.view.ReflectionRelativeLayout>
 
     </com.androidtv.view.FocusRelativeLayout>
 

@@ -13,6 +13,30 @@ public final class R {
         public static final int box_normal=0x7f040001;
     }
     public static final class attr {
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int isfirst=0x7f010003;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int islast=0x7f010004;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int pos=0x7f010001;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -28,7 +52,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int waterreflection=0x7f010001;
+        public static final int waterreflection=0x7f010002;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -68,22 +92,25 @@ containing a value of this type.
         public static final int zongyi=0x7f020017;
     }
     public static final class id {
-        public static final int ImageView01=0x7f0a0006;
-        public static final int ImageView02=0x7f0a000b;
-        public static final int ImageView03=0x7f0a0009;
-        public static final int ImageView04=0x7f0a000d;
-        public static final int ReflectionRelativeLayout01=0x7f0a000c;
-        public static final int TextView01=0x7f0a0007;
-        public static final int action_settings=0x7f0a000f;
-        public static final int focus1=0x7f0a0001;
-        public static final int focusRelativeLayout1=0x7f0a0002;
-        public static final int imageView1=0x7f0a0003;
-        public static final int imageView2=0x7f0a000e;
+        public static final int ImageView01=0x7f0a0009;
+        public static final int ImageView02=0x7f0a000d;
+        public static final int ImageView03=0x7f0a0011;
+        public static final int ImageView04=0x7f0a000f;
+        public static final int ReflectionRelativeLayout01=0x7f0a000e;
+        public static final int TextView01=0x7f0a000a;
+        public static final int action_settings=0x7f0a0012;
+        public static final int button1=0x7f0a0001;
+        public static final int button2=0x7f0a0002;
+        public static final int button3=0x7f0a0003;
+        public static final int focus1=0x7f0a0004;
+        public static final int focusRelativeLayout1=0x7f0a0005;
+        public static final int imageView1=0x7f0a0006;
+        public static final int imageView2=0x7f0a0010;
         public static final int pager1=0x7f0a0000;
-        public static final int reflectionRelativeLayout1=0x7f0a0005;
-        public static final int reflectionRelativeLayout2=0x7f0a0008;
-        public static final int reflectionRelativeLayout3=0x7f0a000a;
-        public static final int textView1=0x7f0a0004;
+        public static final int reflectionRelativeLayout1=0x7f0a0008;
+        public static final int reflectionRelativeLayout2=0x7f0a000c;
+        public static final int reflectionRelativeLayout3=0x7f0a000b;
+        public static final int textView1=0x7f0a0007;
     }
     public static final class layout {
         public static final int activity_main_test=0x7f030000;
@@ -138,15 +165,64 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #ReflectionRelativeLayout_isfirst com.androidtv:isfirst}</code></td><td></td></tr>
+           <tr><td><code>{@link #ReflectionRelativeLayout_islast com.androidtv:islast}</code></td><td></td></tr>
+           <tr><td><code>{@link #ReflectionRelativeLayout_pos com.androidtv:pos}</code></td><td></td></tr>
            <tr><td><code>{@link #ReflectionRelativeLayout_value com.androidtv:value}</code></td><td></td></tr>
            <tr><td><code>{@link #ReflectionRelativeLayout_waterreflection com.androidtv:waterreflection}</code></td><td></td></tr>
            </table>
+           @see #ReflectionRelativeLayout_isfirst
+           @see #ReflectionRelativeLayout_islast
+           @see #ReflectionRelativeLayout_pos
            @see #ReflectionRelativeLayout_value
            @see #ReflectionRelativeLayout_waterreflection
          */
         public static final int[] ReflectionRelativeLayout = {
-            0x7f010000, 0x7f010001
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
+            0x7f010004
         };
+        /**
+          <p>This symbol is the offset where the {@link com.androidtv.R.attr#isfirst}
+          attribute's value can be found in the {@link #ReflectionRelativeLayout} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.androidtv:isfirst
+        */
+        public static final int ReflectionRelativeLayout_isfirst = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.androidtv.R.attr#islast}
+          attribute's value can be found in the {@link #ReflectionRelativeLayout} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.androidtv:islast
+        */
+        public static final int ReflectionRelativeLayout_islast = 4;
+        /**
+          <p>This symbol is the offset where the {@link com.androidtv.R.attr#pos}
+          attribute's value can be found in the {@link #ReflectionRelativeLayout} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.androidtv:pos
+        */
+        public static final int ReflectionRelativeLayout_pos = 1;
         /**
           <p>This symbol is the offset where the {@link com.androidtv.R.attr#value}
           attribute's value can be found in the {@link #ReflectionRelativeLayout} array.
@@ -174,6 +250,6 @@ theme attribute (in the form
 containing a value of this type.
           @attr name com.androidtv:waterreflection
         */
-        public static final int ReflectionRelativeLayout_waterreflection = 1;
+        public static final int ReflectionRelativeLayout_waterreflection = 2;
     };
 }
