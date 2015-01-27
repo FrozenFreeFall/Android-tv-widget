@@ -1,11 +1,7 @@
 package com.androidtv.view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import com.androidtv.utils.ImageReflect;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,10 +11,13 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+
+import com.androidtv.utils.ImageReflect;
 
 /**
  * 
@@ -71,6 +70,45 @@ public class FocusRelativeLayout extends RelativeLayout {
 	 */
 	public void setOnFocusRelativeLayoutCallBack(FocusRelativeLayoutCallBack cb) {
 		mFocusRelativeLayoutCallBack = cb;
+	}
+
+	private ViewGroup mViewGroupParent = null;
+	
+	/*
+	 * 为了控制焦点顺序的BUG.
+	 */
+	public void setViewGroup(ViewGroup vg) {
+		mViewGroupParent = vg;
+	}
+	
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		int action = event.getAction();
+		if (action == KeyEvent.ACTION_DOWN && mViewGroupParent != null) {
+			int id = -1;
+			int code = event.getKeyCode(); 
+			switch (code) {
+			case KeyEvent.KEYCODE_DPAD_LEFT:
+				id = getFocusedChild().getNextFocusLeftId();
+				break;
+			case KeyEvent.KEYCODE_DPAD_RIGHT:
+				id = getFocusedChild().getNextFocusRightId();
+				break;
+			case KeyEvent.KEYCODE_PAGE_DOWN:
+				id = getFocusedChild().getNextFocusDownId();
+				break;
+			case KeyEvent.KEYCODE_DPAD_UP:
+				break;
+			default:
+				break;
+			}
+			/* 获取下一个焦点的子控件 */
+			View requestFocusChild = mViewGroupParent.findViewById(id);
+			if (requestFocusChild != null) {
+				requestFocusChild.requestFocus();
+			}
+		}
+		return super.dispatchKeyEvent(event);
 	}
 
 	/**
@@ -207,26 +245,6 @@ public class FocusRelativeLayout extends RelativeLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		initFocusRelativeLayout();
-		/* 保存所有子控件，用于恢复 */
-		initSaveChildWidget();
-	}
-
-	List<View> viewList = new ArrayList<View>();
-	HashMap<String, View> viewMap = new HashMap<String, View>();
-	
-	private void initSaveChildWidget() {
-		for (int i = 0; i < getChildCount(); i++) {
-			View child = getChildAt(i);
-			if (checkReflectionRLay(child)) {
-				ReflectionRelativeLayout rf = (ReflectionRelativeLayout) child;
-				if (rf.isFirst()) {
-					viewMap.put("first", child);
-				} else if(rf.isLast()) {
-					viewMap.put("last", child);
-				}
-				viewList.add(child);
-			}
-		}
 	}
 
 	@Override
@@ -319,8 +337,6 @@ public class FocusRelativeLayout extends RelativeLayout {
 								.onLastFocusInChild((ReflectionRelativeLayout) v);
 					}
 				} else {
-					// 恢复所有焦点状态(!!!bug,焦点状态打乱，重新恢复).
-					resetChildWidgetFocusState();
 					//
 					mBorderView.setVisibility(View.GONE);
 					// 失去焦点前-事件回调.
@@ -347,25 +363,7 @@ public class FocusRelativeLayout extends RelativeLayout {
 			}
 		});
 	}
-	
-	/**
-	 * 重置子控件的焦点顺序.
-	 */
-	private void resetChildWidgetFocusState() {
-		// 设置第一个.
-		View child = viewMap.get("first");
-		if (child != null) { child.bringToFront(); }
-		// 设置每一个
-		for (int i = 0; i < viewList.size(); i++) {
-			View v = viewList.get(i);
-			if (v != null && !v.equals(child))
-				v.bringToFront();
-		}
-		// 设置最后一个
-		child = viewMap.get("last");
-		if (child != null) { child.bringToFront(); }
-	}
-	
+
 	/**
 	 * 重写这个函数 <br>
 	 * 设置子控件的动画效果，放大，缩小，还是跳动.

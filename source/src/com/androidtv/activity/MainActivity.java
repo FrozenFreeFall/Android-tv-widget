@@ -70,11 +70,12 @@ public class MainActivity extends Activity {
 
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
-			container.addView(viewList.get(position), 0);// 添加页卡
-			
+			container.addView(viewList.get(position), 0); // 添加页卡
+
 			FocusRelativeLayout focusView = (FocusRelativeLayout) findViewById(R.id.focus1);
 			final ImageView imageView2 = (ImageView) findViewById(R.id.imageView2); // 测试.
 			focusView.setBorderViewBg(R.drawable.focus_bound);
+			focusView.setViewGroup(container); // 控制焦点顺序.
 			// focusView.setBorderViewBg(R.drawable.ic_white_border_none);
 			focusView.setBorderScale(1.2f, 1.2f); // 放大比例.
 			focusView.setBorderViewSize(8, 8); // 如果移动边框带有阴影，将阴影的距离填写上去.
@@ -94,10 +95,13 @@ public class MainActivity extends Activity {
 									child.setVisibility(View.VISIBLE);
 								}
 								//
-								imageView2.bringToFront();
-								android.view.ViewPropertyAnimator animator =  imageView2.animate()
-										.scaleX(1.8f).scaleY(1.8f);
-								animator.start();
+								if (imageView2 != null) {
+									imageView2.bringToFront();
+									android.view.ViewPropertyAnimator animator = imageView2
+											.animate().scaleX(1.8f)
+											.scaleY(1.8f);
+									animator.start();
+								}
 							}
 							super.onFirstFocusInChild(reflectionRelativeLayout);
 						}
@@ -113,12 +117,15 @@ public class MainActivity extends Activity {
 									child.setVisibility(View.GONE);
 								}
 								//
-								imageView2.bringToFront();
-								android.view.ViewPropertyAnimator animator =  imageView2.animate()
-										.scaleX(1.0f).scaleY(1.0f);
-								animator.start();
-							} 
-							
+								if (imageView2 != null) {
+									imageView2.bringToFront();
+									android.view.ViewPropertyAnimator animator = imageView2
+											.animate().scaleX(1.0f)
+											.scaleY(1.0f);
+									animator.start();
+								}
+							}
+
 							super.onFirstFocusOutChild(reflectionRelativeLayout);
 						}
 					});

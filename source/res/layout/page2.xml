@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.androidtv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFF0000"
-    android:orientation="vertical" xmlns:app="http://schemas.android.com/apk/res/com.androidtv">
+    android:orientation="vertical" >
 
     <com.androidtv.view.FocusRelativeLayout
         android:id="@+id/focus1"
@@ -11,14 +12,13 @@
         android:layout_height="match_parent" >
 
         <com.androidtv.view.ReflectionRelativeLayout
-            android:id="@+id/focusRelativeLayout1"
+            android:id="@+id/page2_item1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:waterreflection="true"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="38dp"
-            android:layout_marginLeft="33dp" >
+            android:layout_below="@+id/page2_item8"
+            android:nextFocusLeft="@+id/page1_item6"
+            android:layout_marginTop="28dp"
+            app:waterreflection="true" >
 
             <ImageView
                 android:id="@+id/imageView1"
@@ -33,20 +33,20 @@
                 android:layout_alignBottom="@+id/imageView1"
                 android:layout_alignParentLeft="true"
                 android:background="#55000000"
-                 android:textColor="#FFFF0000"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="测试指南"
+                android:textColor="#FFFF0000"
                 android:textSize="23dip" />
         </com.androidtv.view.ReflectionRelativeLayout>
 
         <com.androidtv.view.ReflectionRelativeLayout
-            android:id="@+id/reflectionRelativeLayout1"
+            android:id="@+id/page2_item2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            app:isfirst="true"
-            android:layout_above="@+id/focusRelativeLayout1"
-            android:layout_alignLeft="@+id/focusRelativeLayout1" >
+           android:nextFocusLeft="@+id/page1_item5"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            app:isfirst="true" >
 
             <ImageView
                 android:id="@+id/ImageView01"
@@ -68,48 +68,54 @@
         </com.androidtv.view.ReflectionRelativeLayout>
 
         <com.androidtv.view.ReflectionRelativeLayout
-            android:id="@+id/reflectionRelativeLayout2"
+            android:id="@+id/page2_item5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/focusRelativeLayout1"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/focusRelativeLayout1" >
-
-            <ImageView
-                android:id="@+id/ImageView03"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/dianying" />
-        </com.androidtv.view.ReflectionRelativeLayout>
-
-        <com.androidtv.view.ReflectionRelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/reflectionRelativeLayout1"
-            android:layout_alignLeft="@+id/reflectionRelativeLayout2"
-            android:layout_marginBottom="5dp" >
-
-            <ImageView
-                android:id="@+id/ImageView02"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/zongyi" />
-        </com.androidtv.view.ReflectionRelativeLayout>
-
-        <com.androidtv.view.ReflectionRelativeLayout
-            android:id="@+id/ReflectionRelativeLayout01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:islast="true"
-            android:layout_marginLeft="5dp"
-            android:layout_alignTop="@+id/reflectionRelativeLayout1"
-            android:layout_toRightOf="@+id/reflectionRelativeLayout2" >
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="20dp"
+            android:nextFocusDown="@+id/page2_item1"
+            android:layout_toRightOf="@+id/page2_item1" >
 
             <ImageView
                 android:id="@+id/ImageView04"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/dongman" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/page2_item8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/page2_item5"
+            android:layout_marginLeft="38dp"
+            android:nextFocusRight="@+id/page3_item4"
+            android:layout_toRightOf="@+id/page2_item5"
+            app:islast="true" >
+
+            <ImageView
+                android:id="@+id/ImageView02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/zongyi" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/page2_item3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusRight="@+id/page3_item1"
+            android:layout_alignLeft="@+id/page2_item8"
+            android:layout_alignTop="@+id/page2_item1" >
+
+            <ImageView
+                android:id="@+id/ImageView03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/dianying" />
         </com.androidtv.view.ReflectionRelativeLayout>
 
     </com.androidtv.view.FocusRelativeLayout>

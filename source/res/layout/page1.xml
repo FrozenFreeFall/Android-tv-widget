@@ -12,7 +12,7 @@
         android:layout_height="match_parent" >
 
         <com.androidtv.view.ReflectionRelativeLayout
-            android:id="@+id/focusRelativeLayout1"
+            android:id="@+id/page1_item1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -39,7 +39,7 @@
         </com.androidtv.view.ReflectionRelativeLayout>
 
         <com.androidtv.view.ReflectionRelativeLayout
-            android:id="@+id/reflectionRelativeLayout1"
+            android:id="@+id/page1_item3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:isfirst="true"
@@ -70,41 +70,6 @@
 
         </com.androidtv.view.ReflectionRelativeLayout>
 
-        <com.androidtv.view.ReflectionRelativeLayout
-            android:id="@+id/reflectionRelativeLayout3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/reflectionRelativeLayout1"
-            android:layout_alignLeft="@+id/reflectionRelativeLayout2"
-            android:layout_marginBottom="5dp" >
-
-            <ImageView
-                android:id="@+id/ImageView02"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:src="@drawable/zongyi" />
-
-        </com.androidtv.view.ReflectionRelativeLayout>
-
-        <com.androidtv.view.ReflectionRelativeLayout
-            android:id="@+id/ReflectionRelativeLayout01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/reflectionRelativeLayout1"
-            android:layout_marginLeft="5dp"
-            app:pos="4"
-            app:islast="true"
-            android:layout_toRightOf="@+id/reflectionRelativeLayout2" >
-
-            <ImageView
-                android:id="@+id/ImageView04"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/dongman" />
-        </com.androidtv.view.ReflectionRelativeLayout>
-
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="150dp"
@@ -115,12 +80,12 @@
             android:src="@drawable/test_bg" />
 
         <com.androidtv.view.ReflectionRelativeLayout
-            android:id="@+id/reflectionRelativeLayout2"
+            android:id="@+id/page1_item6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:nextFocusRight="@+id/page2_item1"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="80dp"
-            android:layout_toRightOf="@+id/imageView2" >
+            android:layout_alignParentRight="true" >
 
             <ImageView
                 android:id="@+id/ImageView03"
@@ -129,6 +94,40 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:src="@drawable/dianying" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/page1_item2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="13dp"
+            android:layout_toRightOf="@+id/page1_item1" >
+
+            <ImageView
+                android:id="@+id/ImageView04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/dongman" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/page1_item5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/page1_item1"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="33dp"
+            android:nextFocusRight="@+id/page2_item2" >
+
+            <ImageView
+                android:id="@+id/ImageView02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/zongyi" />
         </com.androidtv.view.ReflectionRelativeLayout>
 
     </com.androidtv.view.FocusRelativeLayout>
