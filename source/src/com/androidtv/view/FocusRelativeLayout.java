@@ -43,7 +43,7 @@ public class FocusRelativeLayout extends RelativeLayout {
 
 	public FocusRelativeLayout(Context context) {
 		super(context);
-		initFocusRelativeLayout();
+		// initFocusRelativeLayout();
 	}
 
 	public FocusRelativeLayout(Context context, AttributeSet attrs) {
@@ -57,6 +57,10 @@ public class FocusRelativeLayout extends RelativeLayout {
 	}
 
 	public void initFocusRelativeLayout() {
+		// 让子控件放大，边框移动出去绘制出来.
+		setClipChildren(false);
+		setClipToPadding(false);
+		// 边框初始化设置.
 		mBorderView = new FocusBorderView(getContext());
 		addView(mBorderView);
 		mBorderView.setVisibility(View.INVISIBLE);
@@ -115,7 +119,7 @@ public class FocusRelativeLayout extends RelativeLayout {
 		}
 		return super.dispatchKeyEvent(event);
 	}
-	
+
 	/**
 	 * 检查当前焦点的子控件的下一个焦点的父控件是否和一致.
 	 */
@@ -123,7 +127,7 @@ public class FocusRelativeLayout extends RelativeLayout {
 		return (!requestFocusChild.getParent().equals(
 				getFocusedChild().getParent()));
 	}
-	
+
 	/**
 	 * 设置TV和手机之间的像素.
 	 */

@@ -21,7 +21,7 @@ public class ReflectionRelativeLayout extends RelativeLayout {
 	String value = "";
 	Integer pos = -1;
 	TypedArray array;
-	
+
 	public ReflectionRelativeLayout(Context context) {
 		super(context);
 		init(context, null);
@@ -39,6 +39,8 @@ public class ReflectionRelativeLayout extends RelativeLayout {
 	}
 
 	private void init(Context context, AttributeSet attrs) {
+//		setClipChildren(false);
+//		setClipToPadding(false);
 		if (attrs != null) {
 			array = context.obtainStyledAttributes(attrs,
 					R.styleable.ReflectionRelativeLayout);
@@ -47,9 +49,12 @@ public class ReflectionRelativeLayout extends RelativeLayout {
 							R.styleable.ReflectionRelativeLayout_waterreflection,
 							false);
 			value = array.getString(R.styleable.ReflectionRelativeLayout_value);
-			pos = array.getInteger(R.styleable.ReflectionRelativeLayout_pos, -1);
-			isFirst = array.getBoolean(R.styleable.ReflectionRelativeLayout_isfirst, false);
-			isLast = array.getBoolean(R.styleable.ReflectionRelativeLayout_islast, false);
+			pos = array
+					.getInteger(R.styleable.ReflectionRelativeLayout_pos, -1);
+			isFirst = array.getBoolean(
+					R.styleable.ReflectionRelativeLayout_isfirst, false);
+			isLast = array.getBoolean(
+					R.styleable.ReflectionRelativeLayout_islast, false);
 			array.recycle();
 		}
 	}
@@ -69,13 +74,13 @@ public class ReflectionRelativeLayout extends RelativeLayout {
 	public Integer getPos() {
 		return pos;
 	}
-	
+
 	public boolean isFirst() {
 		return isFirst;
 	}
-	
+
 	public boolean isLast() {
 		return isLast;
 	}
-	
+
 }

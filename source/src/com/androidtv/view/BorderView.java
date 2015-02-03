@@ -38,7 +38,7 @@ public class BorderView extends ImageView implements AnimationListener {
 
     public BorderView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+      
         mContext = context;
     }
 

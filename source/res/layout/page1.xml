@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_lancher"
     android:orientation="vertical" >
-
+	
     <com.androidtv.view.FocusRelativeLayout
         android:id="@+id/focus1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" 
         android:nextFocusRight="@+id/focus1" 
+        android:paddingTop="150dp"
         >
 
         <com.androidtv.view.ReflectionRelativeLayout
@@ -145,5 +146,7 @@
         </com.androidtv.view.ReflectionRelativeLayout>
 
     </com.androidtv.view.FocusRelativeLayout>
+
+   
 
 </LinearLayout>
