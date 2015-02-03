@@ -13,6 +13,8 @@
 
         <com.androidtv.view.ReflectionRelativeLayout
             android:id="@+id/page2_item1"
+             android:focusable="true"
+        android:focusableInTouchMode="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/page2_item8"
@@ -41,6 +43,8 @@
 
         <com.androidtv.view.ReflectionRelativeLayout
             android:id="@+id/page2_item2"
+             android:focusable="true"
+        android:focusableInTouchMode="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
            android:nextFocusLeft="@+id/page1_item5"
@@ -69,12 +73,13 @@
 
         <com.androidtv.view.ReflectionRelativeLayout
             android:id="@+id/page2_item5"
+             android:focusable="true"
+        android:focusableInTouchMode="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="22dp"
             android:layout_marginTop="20dp"
-            android:nextFocusDown="@+id/page2_item1"
             android:layout_toRightOf="@+id/page2_item1" >
 
             <ImageView
@@ -86,6 +91,8 @@
 
         <com.androidtv.view.ReflectionRelativeLayout
             android:id="@+id/page2_item8"
+             android:focusable="true"
+        android:focusableInTouchMode="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/page2_item5"
@@ -105,6 +112,8 @@
 
         <com.androidtv.view.ReflectionRelativeLayout
             android:id="@+id/page2_item3"
+             android:focusable="true"
+        android:focusableInTouchMode="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:nextFocusRight="@+id/page3_item1"

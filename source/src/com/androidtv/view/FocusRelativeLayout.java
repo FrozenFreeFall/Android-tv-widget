@@ -1,6 +1,8 @@
 package com.androidtv.view;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
@@ -11,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,7 +39,6 @@ public class FocusRelativeLayout extends RelativeLayout {
 
 	private View drawChild = null;
 	private static Map<View, Bitmap> reflectMap = new HashMap<View, Bitmap>();
-
 	private FocusRelativeLayoutCallBack mFocusRelativeLayoutCallBack = null;
 
 	public FocusRelativeLayout(Context context) {
@@ -73,20 +75,20 @@ public class FocusRelativeLayout extends RelativeLayout {
 	}
 
 	private ViewGroup mViewGroupParent = null;
-	
+
 	/*
 	 * 为了控制焦点顺序的BUG.
 	 */
 	public void setViewGroup(ViewGroup vg) {
 		mViewGroupParent = vg;
 	}
-	
+
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		int action = event.getAction();
 		if (action == KeyEvent.ACTION_DOWN && mViewGroupParent != null) {
 			int id = -1;
-			int code = event.getKeyCode(); 
+			int code = event.getKeyCode();
 			switch (code) {
 			case KeyEvent.KEYCODE_DPAD_LEFT:
 				id = getFocusedChild().getNextFocusLeftId();
@@ -98,6 +100,7 @@ public class FocusRelativeLayout extends RelativeLayout {
 				id = getFocusedChild().getNextFocusDownId();
 				break;
 			case KeyEvent.KEYCODE_DPAD_UP:
+				id = getFocusedChild().getNextFocusUpId();
 				break;
 			default:
 				break;
@@ -105,12 +108,22 @@ public class FocusRelativeLayout extends RelativeLayout {
 			/* 获取下一个焦点的子控件 */
 			View requestFocusChild = mViewGroupParent.findViewById(id);
 			if (requestFocusChild != null) {
-				requestFocusChild.requestFocus();
+				if (checkChildParent(requestFocusChild)) {
+					requestFocusChild.requestFocus();
+				}
 			}
 		}
 		return super.dispatchKeyEvent(event);
 	}
-
+	
+	/**
+	 * 检查当前焦点的子控件的下一个焦点的父控件是否和一致.
+	 */
+	private boolean checkChildParent(View requestFocusChild) {
+		return (!requestFocusChild.getParent().equals(
+				getFocusedChild().getParent()));
+	}
+	
 	/**
 	 * 设置TV和手机之间的像素.
 	 */

@@ -30,6 +30,7 @@
             android:id="@+id/page3_item5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:nextFocusRight="@+id/page5_item2"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             app:islast="true" >

@@ -83,22 +83,31 @@ containing a value of this type.
         public static final int ic_recomend=0x7f02000e;
         public static final int ic_white_border_none=0x7f02000f;
         public static final int jiemuzhinan=0x7f020010;
-        public static final int shadow_big_center=0x7f020011;
-        public static final int shadow_big_left=0x7f020012;
-        public static final int shadow_big_right=0x7f020013;
-        public static final int test_bg=0x7f020014;
-        public static final int white_border=0x7f020015;
-        public static final int white_border1=0x7f020016;
-        public static final int zongyi=0x7f020017;
+        public static final int page2_item1=0x7f020011;
+        public static final int page2_item2=0x7f020012;
+        public static final int page2_item3=0x7f020013;
+        public static final int page2_item4=0x7f020014;
+        public static final int page3_item1=0x7f020015;
+        public static final int page3_item2=0x7f020016;
+        public static final int page3_item3=0x7f020017;
+        public static final int page3_item4=0x7f020018;
+        public static final int page3_item5=0x7f020019;
+        public static final int shadow_big_center=0x7f02001a;
+        public static final int shadow_big_left=0x7f02001b;
+        public static final int shadow_big_right=0x7f02001c;
+        public static final int test_bg=0x7f02001d;
+        public static final int white_border=0x7f02001e;
+        public static final int white_border1=0x7f02001f;
+        public static final int zongyi=0x7f020020;
     }
     public static final class id {
         public static final int ImageView01=0x7f0a000a;
         public static final int ImageView02=0x7f0a0016;
         public static final int ImageView03=0x7f0a0011;
-        public static final int ImageView04=0x7f0a0013;
-        public static final int ReflectionRelativeLayout01=0x7f0a0022;
+        public static final int ImageView04=0x7f0a0014;
+        public static final int ReflectionRelativeLayout01=0x7f0a0023;
         public static final int TextView01=0x7f0a000b;
-        public static final int action_settings=0x7f0a0023;
+        public static final int action_settings=0x7f0a0029;
         public static final int button1=0x7f0a0001;
         public static final int button2=0x7f0a0002;
         public static final int button3=0x7f0a0003;
@@ -106,26 +115,32 @@ containing a value of this type.
         public static final int focusRelativeLayout1=0x7f0a0009;
         public static final int imageView1=0x7f0a0006;
         public static final int imageView2=0x7f0a000c;
+        public static final int imageView3=0x7f0a0026;
+        public static final int imageView4=0x7f0a0028;
         public static final int page1_item1=0x7f0a0005;
         public static final int page1_item2=0x7f0a0012;
         public static final int page1_item3=0x7f0a0008;
-        public static final int page1_item5=0x7f0a0014;
+        public static final int page1_item5=0x7f0a0013;
         public static final int page1_item6=0x7f0a000f;
         public static final int page2_item1=0x7f0a0010;
         public static final int page2_item2=0x7f0a0015;
         public static final int page2_item3=0x7f0a001a;
         public static final int page2_item5=0x7f0a0018;
         public static final int page2_item8=0x7f0a0017;
-        public static final int page2_itemyyyyy11=0x7f0a001f;
+        public static final int page2_itemyyyyy11=0x7f0a0020;
         public static final int page3_item1=0x7f0a001b;
-        public static final int page3_item2=0x7f0a001e;
-        public static final int page3_item3=0x7f0a0020;
+        public static final int page3_item2=0x7f0a001f;
+        public static final int page3_item3=0x7f0a0021;
         public static final int page3_item4=0x7f0a0019;
         public static final int page3_item5=0x7f0a001d;
+        public static final int page5_item1=0x7f0a0024;
+        public static final int page5_item2=0x7f0a001e;
+        public static final int page5_item3=0x7f0a0025;
+        public static final int page5_item4=0x7f0a0027;
         public static final int page_3reflectionRelativeLayout2=0x7f0a001c;
         public static final int pager1=0x7f0a0000;
         public static final int reflectionRelativeLayout1=0x7f0a000d;
-        public static final int reflectionRelativeLayout2=0x7f0a0021;
+        public static final int reflectionRelativeLayout2=0x7f0a0022;
         public static final int reflectionRelativeLayout3=0x7f0a000e;
         public static final int textView1=0x7f0a0007;
     }
@@ -135,6 +150,7 @@ containing a value of this type.
         public static final int page2=0x7f030002;
         public static final int page3=0x7f030003;
         public static final int page4=0x7f030004;
+        public static final int page5=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f090000;

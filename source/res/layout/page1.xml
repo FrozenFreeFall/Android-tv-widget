@@ -9,12 +9,16 @@
     <com.androidtv.view.FocusRelativeLayout
         android:id="@+id/focus1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent" 
+        android:nextFocusRight="@+id/focus1" 
+        >
 
         <com.androidtv.view.ReflectionRelativeLayout
             android:id="@+id/page1_item1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+             android:focusable="true"
+        android:focusableInTouchMode="true"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="38dp"
@@ -42,6 +46,8 @@
             android:id="@+id/page1_item3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+             android:focusable="true"
+        android:focusableInTouchMode="true"
             app:isfirst="true"
             app:value="movie_hide"
             app:pos="0"
@@ -83,6 +89,8 @@
             android:id="@+id/page1_item6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:nextFocusRight="@+id/page2_item1"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true" >
@@ -100,8 +108,12 @@
             android:id="@+id/page1_item2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+             android:focusable="true"
+        android:focusableInTouchMode="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="13dp"
+            android:nextFocusRight="@+id/page1_item5"
+            android:nextFocusDown="@+id/page1_item6"
             android:layout_toRightOf="@+id/page1_item1" >
 
             <ImageView
@@ -115,6 +127,8 @@
             android:id="@+id/page1_item5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+             android:focusable="true"
+        android:focusableInTouchMode="true"
             android:layout_above="@+id/page1_item1"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="15dp"

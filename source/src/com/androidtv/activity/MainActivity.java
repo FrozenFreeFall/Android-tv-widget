@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,23 +30,27 @@ public class MainActivity extends Activity {
 	// FocusRelativeLayout focusView;
 	ViewPager pager1;
 	ArrayList<View> viewList = new ArrayList<View>();//
-
+	
+	LayoutInflater layoutInf;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// setContentView(R.layout.page1);
 		setContentView(R.layout.activity_main_test);
-		LayoutInflater layoutInf = getLayoutInflater().from(this);
+		layoutInf = getLayoutInflater().from(this);
 		View view1 = layoutInf.inflate(R.layout.page1, null);
 		View view2 = layoutInf.inflate(R.layout.page2, null);
 		View view3 = layoutInf.inflate(R.layout.page3, null);
+		View view5 = layoutInf.inflate(R.layout.page5, null);
 		viewList.add(view1);
 		viewList.add(view2);
 		viewList.add(view3);
+		viewList.add(view5);
 		pager1 = (ViewPager) findViewById(R.id.pager1);
 		pager1.setAdapter(new MyPagerView());
 	}
-
+	
 	class MyPagerView extends PagerAdapter {
 
 		@Override
@@ -57,7 +62,7 @@ public class MainActivity extends Activity {
 		public boolean isViewFromObject(View arg0, Object arg1) {
 			return arg0 == arg1;
 		}
-
+		
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
 			container.removeView(viewList.get(position));
@@ -67,7 +72,7 @@ public class MainActivity extends Activity {
 		public int getItemPosition(Object object) {
 			return super.getItemPosition(object);
 		}
-
+		
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
 			container.addView(viewList.get(position), 0); // 添加页卡
