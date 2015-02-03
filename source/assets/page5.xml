@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:background="#FFFF0000"
+    android:orientation="vertical" >
+
+    <com.androidtv.view.FocusRelativeLayout
+        android:id="@+id/focus1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/page5_item1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:nextFocusLeft="@+id/page5_item2"
+            android:nextFocusDown="@+id/page5_item3"
+            android:layout_marginTop="97dp" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/page2_item1" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/page5_item2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:nextFocusLeft="@+id/page3_item5"
+            android:layout_alignTop="@+id/page5_item1"
+            android:layout_toLeftOf="@+id/page5_item1" >
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/jiemuzhinan" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/page5_item3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusLeft="@+id/page3_item5"
+            android:layout_alignBottom="@+id/page5_item1"
+            android:layout_alignLeft="@+id/page5_item2" >
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/jiemuzhinan" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+
+        <com.androidtv.view.ReflectionRelativeLayout
+            android:id="@+id/page5_item4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_alignTop="@+id/page5_item1"
+            android:layout_toRightOf="@+id/page5_item1" >
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/page2_item2" />
+        </com.androidtv.view.ReflectionRelativeLayout>
+    </com.androidtv.view.FocusRelativeLayout>
+
+</LinearLayout>

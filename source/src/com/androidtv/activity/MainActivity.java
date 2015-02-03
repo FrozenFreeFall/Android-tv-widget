@@ -1,12 +1,18 @@
 package com.androidtv.activity;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import android.app.Activity;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +49,27 @@ public class MainActivity extends Activity {
 		View view2 = layoutInf.inflate(R.layout.page2, null);
 		View view3 = layoutInf.inflate(R.layout.page3, null);
 		View view5 = layoutInf.inflate(R.layout.page5, null);
+		// 思维扩展.
+//        try {
+//        	AssetManager am = null;  
+//        	     am = getAssets();  
+//        	    InputStream is = am.open("page5.xml");  
+//        	// 读取原始资源文件的XML布局.此宽展主要用于.
+//    		XmlPullParserFactory pullParserFactory=XmlPullParserFactory.newInstance();
+//            //获取XmlPullParser的实例
+//            XmlPullParser xmlPullParser=pullParserFactory.newPullParser();
+//            //设置输入流  xml文件
+//			xmlPullParser.setInput(is, "UTF-8");
+//			View view6 = layoutInf.inflate(xmlPullParser, null);
+//			//
+//			if (view6 != null) {
+//				viewList.add(view6);
+//			}
+//		} catch (XmlPullParserException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		viewList.add(view1);
 		viewList.add(view2);
 		viewList.add(view3);
