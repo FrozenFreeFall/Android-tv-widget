@@ -1,52 +1,52 @@
-¡¾Ç°ÑÔ¡¿
+ã€å‰è¨€ã€‘
 ---------------------------
 
-ÒòÎªÒª¼ÓÇ¿ Android Í¶Ó°ÒÇµÄ luncher µ¹Ó°¹ú¼Ê»¯µÄ¹¦ÄÜ£¬ËùÒÔ¿ªÊ¼µÄÊ±ºòÔÚBroderViewµÄ»ù´¡¸ÄÁËĞ©¶«Î÷.
+å› ä¸ºè¦åŠ å¼º Android æŠ•å½±ä»ªçš„ luncher å€’å½±å›½é™…åŒ–çš„åŠŸèƒ½ï¼Œæ‰€ä»¥å¼€å§‹çš„æ—¶å€™åœ¨BroderViewçš„åŸºç¡€æ”¹äº†äº›ä¸œè¥¿.
 
-ºóÀ´ÓÖÒ»Ğ©BUG£¬ĞŞ¸´ÁË£¬¸Ğ¾õ±Ï¾¹ÊÇÓÃµÄ±ğÈËµÄ¿ªÔ´´úÂë£¬Èç¹û²»¿ªÔ´ÓÖ²»ºÃÒâË¼£¬ÔÙËµÁË£¬Õâ¸ö´úÂëÒ²²»ÊôÓÚ
+åæ¥åˆä¸€äº›BUGï¼Œä¿®å¤äº†ï¼Œæ„Ÿè§‰æ¯•ç«Ÿæ˜¯ç”¨çš„åˆ«äººçš„å¼€æºä»£ç ï¼Œå¦‚æœä¸å¼€æºåˆä¸å¥½æ„æ€ï¼Œå†è¯´äº†ï¼Œè¿™ä¸ªä»£ç ä¹Ÿä¸å±äº
 
-ÔÚÖ°ÆÚ¼ä¿ª·¢£¬ÊÇÒµÓàÊ±¼ä±àĞ´£¬ËùÒÔÃ»ÓĞÊ²Ã´ÎÊÌâ.»¶Ó­´ó¼Ò¶à¶àÖ¸½Ì.
+åœ¨èŒæœŸé—´å¼€å‘ï¼Œæ˜¯ä¸šä½™æ—¶é—´ç¼–å†™ï¼Œæ‰€ä»¥æ²¡æœ‰ä»€ä¹ˆé—®é¢˜.æ¬¢è¿å¤§å®¶å¤šå¤šæŒ‡æ•™.
 
-¡¾Android-tv-widget¡¿
+ã€Android-tv-widgetã€‘
 ---------------------------
 
-Android ×é¼ş£¬Ö÷ÒªÓÃÓÚ Í¶Ó°ÒÇ£¬TVµçÊÓ£¬ÊÖ»úµÈµÈAndroidÉè±¸.
+Android ç»„ä»¶ï¼Œä¸»è¦ç”¨äº æŠ•å½±ä»ªï¼ŒTVç”µè§†ï¼Œæ‰‹æœºç­‰ç­‰Androidè®¾å¤‡.
 
-ĞèÒª¶¨ÖÆluncher×ÀÃæµÄÇë²»ÒªÁªÏµÎÒ.
+éœ€è¦å®šåˆ¶luncheræ¡Œé¢çš„è¯·ä¸è¦è”ç³»æˆ‘.
 
-ÒÆ¶¯±ß¿ò£¬½¹µã¿Ø¼ş¶¯»­.
+ç§»åŠ¨è¾¹æ¡†ï¼Œç„¦ç‚¹æ§ä»¶åŠ¨ç”».
 
-¸ßË¹Ä£ºı(Ã«²£Á§Ğ§¹û)
+é«˜æ–¯æ¨¡ç³Š(æ¯›ç»ç’ƒæ•ˆæœ)
 
-Í¼Æ¬Ö÷É«
+å›¾ç‰‡ä¸»è‰²
 
-Ö÷Ìâ  http://www.oschina.net/p/colortheme
+ä¸»é¢˜  http://www.oschina.net/p/colortheme
 
-Ä¿Â¼½á¹¹£º
+ç›®å½•ç»“æ„ï¼š
 ---------------------------
 > --com/androidtv/activity
 >
->> ----activity.java : ²âÊÔdemo
+>> ----activity.java : æµ‹è¯•demo
 >
->>--com/androidtv/color (»ñÈ¡Í¼Æ¬ÑÕÉ«Ö÷É«ºÍÆäËüÑÕÉ«)
+>>--com/androidtv/color (è·å–å›¾ç‰‡é¢œè‰²ä¸»è‰²å’Œå…¶å®ƒé¢œè‰²)
 >
->>----ColorArt.java £º
+>>----ColorArt.java ï¼š
 >
 >>----HashBag.java
 >
->--com/androidtv/utils (Ò»Ğ©³£ÓÃº¯Êı)
+>--com/androidtv/utils (ä¸€äº›å¸¸ç”¨å‡½æ•°)
 >
 >>----AnimUtils.java
 >
 >>----DensityUtil.java
 >
->>----FastBlur.java  £º¸ßË¹Ä£ºı
+>>----FastBlur.java  ï¼šé«˜æ–¯æ¨¡ç³Š
 >
 >>----ImageUtils.java
 >
 >>--com/androidtv/view
 >
->>----BorderView.java £ºÒÆ¶¯±ß¿ò
+>>----BorderView.java ï¼šç§»åŠ¨è¾¹æ¡†
 >
 >>----CopyOfCopyOfFocusBorderView.java
 >
@@ -58,16 +58,127 @@ Android ×é¼ş£¬Ö÷ÒªÓÃÓÚ Í¶Ó°ÒÇ£¬TVµçÊÓ£¬ÊÖ»úµÈµÈAndroidÉè±¸.
 >
 >>----VerticalSmoothGridView.java
 >
->--net.qiujuer.imageblurring.jni (¸ßË¹Ä£ºıJNI)
+>--net.qiujuer.imageblurring.jni (é«˜æ–¯æ¨¡ç³ŠJNI)
 
-Àı×ÓÍ¼Æ¬²é¿´
+ä¾‹å­å›¾ç‰‡æŸ¥çœ‹
 ----------------------------------
 
 ![github](https://github.com/FrozenFreeFall/Android-tv-widget/blob/master/demo/QQ%E5%9B%BE%E7%89%8720150123025437.png)
 
 ![github](https://github.com/FrozenFreeFall/Android-tv-widget/blob/master/demo/QQ%E5%9B%BE%E7%89%8720150123025444.jpg)
 
-×¢Òâ
+æ³¨æ„
 ----------------------------------
 
-Èç¹ûÏëÔÚGridViewÉÏ¼ÓÉÏBorderView£¬Ö»ĞèÒªµ÷ÓÃ runTranslateAnimation
+å¦‚æœæƒ³åœ¨GridViewä¸ŠåŠ ä¸ŠBorderViewï¼Œåªéœ€è¦è°ƒç”¨ runTranslateAnimation
+
+
+
+#### æœ€è¿‘æ‰¾äº†ä¸€ç§æ–°çš„æ–¹æ³•ï¼Œå¯ä»¥åœ¨æœ€ä¸Šé¢æ”¾å¤§... ....å¸ƒå±€åªéœ€è¦å°†éœ€è¦æ”¾å¤§çš„æˆ¿åœ¨æœ€ä¸Šå±‚ #####
+package com.xgimi.doubanfm.utils;
+
+import com.xgimi.doubanfm.widgets.ZoomFrameWidget;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
+
+public class ZoomHelper {
+	private static final float DEFULAT_SCALE_VALUE = 1.2f;
+	private static final float DEFULAT_SCALE_VALUE2 = 1.4f;
+
+	public void zoomImageFromThumb(final View container, final View thumbView,
+			final ZoomFrameWidget zoomView) {
+		final Rect startBounds = new Rect();
+		final Rect finalBounds = new Rect();
+		final Point globalOffset = new Point();
+
+		thumbView.getGlobalVisibleRect(startBounds);
+		container.getGlobalVisibleRect(finalBounds, globalOffset);
+		startBounds.offset(-globalOffset.x, -globalOffset.y);
+
+		zoomView.setVisibility(View.VISIBLE);
+		thumbView.setDrawingCacheEnabled(true);
+		Bitmap b = thumbView.getDrawingCache();
+		zoomView.setImageBitmap(b);
+		zoomView.setPivotX(0f);
+		zoomView.setPivotY(0f);
+
+		AnimatorSet set = new AnimatorSet();
+		float deltaWidth = (startBounds.width() * DEFULAT_SCALE_VALUE - startBounds
+				.width()) / 2;
+		float deltaHeight = (startBounds.height() * DEFULAT_SCALE_VALUE - startBounds
+				.height()) / 2;
+		set.play(
+				ObjectAnimator.ofFloat(zoomView, View.X, startBounds.left,
+						startBounds.left - deltaWidth))
+				.with(ObjectAnimator.ofFloat(zoomView, View.Y, startBounds.top,
+						startBounds.top - deltaWidth))
+				.with(ObjectAnimator.ofFloat(zoomView, View.SCALE_X, 1.0f,
+						DEFULAT_SCALE_VALUE))
+				.with(ObjectAnimator.ofFloat(zoomView, View.SCALE_Y, 1.0f,
+						DEFULAT_SCALE_VALUE));
+		set.setDuration(200);
+		set.setInterpolator(new DecelerateInterpolator());
+		set.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+			}
+		});
+		set.start();
+	}
+
+	/**
+	 * è®¾ç½®ç§»åŠ¨è¾¹æ¡†.
+	 */
+	public void zoomImageFromThumb(final View container, final View thumbView,
+			final ImageView zoomView) {
+		final Rect startBounds = new Rect();
+		final Rect finalBounds = new Rect();
+		final Point globalOffset = new Point();
+
+		thumbView.getGlobalVisibleRect(startBounds);
+		container.getGlobalVisibleRect(finalBounds, globalOffset);
+		startBounds.offset(-globalOffset.x, -globalOffset.y);
+
+		zoomView.setVisibility(View.VISIBLE);
+		thumbView.setDrawingCacheEnabled(true);
+		Bitmap thumbViewBitmap = thumbView.getDrawingCache();
+		zoomView.setDrawingCacheEnabled(true);
+		Bitmap b = zoomView.getDrawingCache();
+		Bitmap mBitmap = Bitmap.createScaledBitmap(b,
+				thumbViewBitmap.getWidth(), thumbViewBitmap.getHeight(), true);
+		zoomView.setImageBitmap(mBitmap);
+		zoomView.setPivotX(0f);
+		zoomView.setPivotY(0f);
+
+		AnimatorSet set = new AnimatorSet();
+		float deltaWidth = (startBounds.width() * DEFULAT_SCALE_VALUE2 - startBounds
+				.width()) / 2;
+		float deltaHeight = (startBounds.height() * DEFULAT_SCALE_VALUE2 - startBounds
+				.height()) / 2;
+		set.play(
+				ObjectAnimator.ofFloat(zoomView, View.X, startBounds.left,
+						startBounds.left - deltaWidth))
+				.with(ObjectAnimator.ofFloat(zoomView, View.Y, startBounds.top,
+						startBounds.top - deltaWidth))
+				.with(ObjectAnimator.ofFloat(zoomView, View.SCALE_X, 1.0f,
+						DEFULAT_SCALE_VALUE2))
+				.with(ObjectAnimator.ofFloat(zoomView, View.SCALE_Y, 1.0f,
+						DEFULAT_SCALE_VALUE2));
+		set.setDuration(200);
+		set.setInterpolator(new DecelerateInterpolator());
+		set.start();
+	}
+}
