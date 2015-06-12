@@ -1,4 +1,5 @@
-【前言】
+【前言】 最新的一个想法的延伸，基于适配器的可扩展思路，所以编写另一个android tv控件，更灵活，更易于使用.
+https://gitcafe.com/hailongqiu/android-tv-widget
 ---------------------------
 
 因为要加强 Android 投影仪的 luncher 倒影国际化的功能，所以开始的时候在BroderView的基础改了些东西.
