@@ -2,6 +2,8 @@
 https://gitcafe.com/hailongqiu/android-tv-widget
 ---------------------------
 
+如果你的横向滚动或者纵向滚动出现了问题（到达最后一个的时候，边框有问题），请看这篇文章:http://my.oschina.net/hailongqiu/blog/471525
+
 因为要加强 Android 投影仪的 luncher 倒影国际化的功能，所以开始的时候在BroderView的基础改了些东西.
 
 后来又一些BUG，修复了，感觉毕竟是用的别人的开源代码，如果不开源又不好意思，再说了，这个代码也不属于
