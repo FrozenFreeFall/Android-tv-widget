@@ -1,3 +1,5 @@
+此项目已经不维护，最新的更新地址在这里：https://git.oschina.net/hailongqiu/AndroidTVWidget (请关注这个项目地址，会继续更新此项目)
+
 【前言】 最新的一个想法的延伸，基于适配器的可扩展思路，所以编写另一个android tv控件，更灵活，更易于使用.
 https://gitcafe.com/hailongqiu/android-tv-widget
 ---------------------------
