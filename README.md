@@ -1,3 +1,6 @@
+
+现在这里已经不维护了，转到了 https://git.oschina.net/hailongqiu/AndroidTVWidget 这里继续开发和维护.
+
 # AndroidTVWidget
 
  欢迎进入 TV开发，希望大家不断的分享代码，一起进步，谢谢.
