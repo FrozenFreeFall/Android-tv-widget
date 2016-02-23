@@ -36,6 +36,13 @@ public class MainActivity extends Activity implements OnFocusChangeListener {
 				startActivity(new Intent(getApplicationContext(), DemoGridViewActivity.class));
 			}
 		});
+		findViewById(R.id.listview_flayt).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getApplicationContext(), "Listview demo test", Toast.LENGTH_LONG).show();
+				startActivity(new Intent(getApplicationContext(), DemoListViewActivity.class));
+			}
+		});
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
 		// mainUpView1 = new MainUpView(getApplicationContext(), relayout11);
 		mainUpView1.setUpRectResource(R.drawable.white_light_10);

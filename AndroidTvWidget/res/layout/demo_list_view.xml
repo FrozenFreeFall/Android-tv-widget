@@ -2,16 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
+    android:clipChildren="false"
+    android:focusable="false"
+    android:clipToPadding="false"
     android:orientation="vertical" >
 
     <com.open.androidtvwidget.view.SmoothVorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="50dp"
         android:fillViewport="true"
         android:clipChildren="false"
+        android:focusable="false"
         android:scrollbars="none" >
 
         <FrameLayout
+            android:focusable="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipChildren="false" >
@@ -21,14 +28,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipChildren="false"
+                android:focusable="false"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal" >
 
                 <com.open.androidtvwidget.view.SmoothListView
                     android:id="@+id/listview"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="match_parent"
+                    android:minHeight="50dp"
+                    android:background="#000000"
+                    android:clipChildren="false"
                     android:focusable="false"
-                    android:focusableInTouchMode="true"
+                    android:focusableInTouchMode="false"
                     android:gravity="center_vertical" />
             </LinearLayout>
         </FrameLayout>
@@ -36,7 +48,7 @@
 
     <com.open.androidtvwidget.view.MainUpView
         android:id="@+id/mainUpView1"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_width="300px"
+        android:layout_height="50px" />
 
 </LinearLayout>

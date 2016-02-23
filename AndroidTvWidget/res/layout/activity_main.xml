@@ -71,6 +71,7 @@
                 android:focusableInTouchMode="true" >
 
                 <FrameLayout
+                    android:id="@+id/listview_flayt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/icon_v_default" >
@@ -78,9 +79,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
+                        android:gravity="center_vertical|center_horizontal"
                         android:layout_gravity="bottom"
                         android:background="#FF0000"
-                        android:text="电影"
+                        android:text="listview 测试"
                         android:textColor="#ffffff" />
                 </FrameLayout>
             </com.open.androidtvwidget.view.ReflectItemView>
