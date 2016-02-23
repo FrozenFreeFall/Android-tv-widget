@@ -14,25 +14,48 @@
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2015/0905/163056_5d6b6a7a_111902.png "test123")
 
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0223/190022_02e85c54_111902.png "ListVie的支持")
+
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0223/190048_e9e0be4c_111902.png "GridView的支持")
+
 正在移动的边框.
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2015/0905/163423_be647737_111902.png "在这里输入图片标题")
 
 【MainUpView 部分API】
-    
-     public void setShadow(int resId) { // 设置阴影图片
+   
+   private static int TRAN_DUR_ANIM = 300; // 控件动画的时间.(默认时间，建议不更改)
+   
+   public void setTranDurAnimTime(int time) { // 控件动画的时间.
+   
+   public void runTranslateAnimation(View toView, float scaleX, float scaleY) { // 边框移动到那个焦点控件.
+   
+   public void setFocusView(View view, float scale) { 设置焦点子控件的移动和放大.
+   
+   public void setUnFocusView(View view) { 设置无焦点子控件还原.
+   
+   public void setDrawUpRectPadding(int size) { 根据图片边框 自行 填写 相差的边距.
 
-     public void setShadow(Drawable shadowDrawable) { // 设置阴影图片
-
-     mainUpView1.setUpRect(R.drawable.white_light_10); // 设置移动边框图片.
-
-     mainUpView1.setDrawUpRectPadding(new Rect(22, 22, 22, 22)); // 根据图片边框 自行 填写 相差的边距.
-
-     public void setDrawUpRectPadding(int size) { // 根据图片边框 自行 填写 相差的边距.
-
-    public void setDrawUpRect(boolean isDrawUpRect) { // 设置是否移动边框在最下层. true : 移动边框在最上层. 反之否.
-
-
+   public void setDrawUpRectPadding(Rect rect) { 根据图片边框 自行 填写 相差的边距.
+   
+   public void setShadowDrawable(Drawable shadowDrawable) {  当图片边框不自带阴影的话，可以自行设置阴影图片.
+   
+   public void setShadowResource(int resId) {
+   
+   public void setUpRectDrawable(Drawable upRectDrawable) { 设置移动边框，也是最上层的边框
+   
+   public void setUpRectResource(int resId) {
+   
+   // 设置 setDrawUpRectEnabled 类似图片中的小人，如果想让小人在最上面，需要设置这个属性.
+   
+   public void setDrawUpRectEnabled(boolean isDrawUpRect) { // 设置是否移动边框在最下层. true : 移动边框在最上层. 反之否.
+   
+   public void setTvScreenEnabled(boolean isTvScreen) { // 是否是TV的设备
+   
+   public boolean isTvScreenEnabled() {
+   
+   public void setInDraw(boolean isInDraw) { // 屏蔽 阴影，倒影，子控件的绘制.
+   
 【需要倒影功能 XML布局就可以设置 app:isReflect="false" 默认为 true ，有倒影，如果无法满足，请查看代码，自行修改】
 
  <com.open.androidtvwidget.view.ReflectItemView
