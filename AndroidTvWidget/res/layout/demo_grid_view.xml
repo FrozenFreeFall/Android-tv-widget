@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:orientation="vertical" >
+
+    <com.open.androidtvwidget.view.SmoothVorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:clipChildren="false"
+        android:scrollbars="none" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false" >
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:orientation="horizontal" >
+
+                <com.open.androidtvwidget.view.SmoothGridView
+                    android:id="@+id/gridView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:clipChildren="false"
+                    android:columnWidth="200dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical"
+                    android:horizontalSpacing="3dp"
+                    android:numColumns="auto_fit"
+                    android:scrollbars="vertical"
+                    android:verticalSpacing="6dp" />
+            </LinearLayout>
+        </FrameLayout>
+    </com.open.androidtvwidget.view.SmoothVorizontalScrollView>
+
+    <com.open.androidtvwidget.view.MainUpView
+        android:id="@+id/mainUpView1"
+        android:layout_width="250dp"
+        android:layout_height="250dp" />
+
+</LinearLayout>

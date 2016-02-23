@@ -1,7 +1,9 @@
 package com.open.androidtvwidget.view;
 
+import com.open.androidtvwidget.R;
+import com.open.androidtvwidget.utils.DensityUtil;
+
 import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,10 +16,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.DecelerateInterpolator;
-
-import com.open.androidtvwidget.R;
-import com.open.androidtvwidget.utils.DensityUtil;
+import android.widget.RelativeLayout;
 
 public class MainUpView extends View {
 
@@ -29,10 +30,24 @@ public class MainUpView extends View {
 
 	private boolean isInDraw = true;
 	private boolean isTvScreen = false;
-	private boolean isDrawUpRect = false;
+	private boolean isDrawUpRect = true;
 
 	public MainUpView(Context context) {
 		super(context, null, 0);
+		init(context);
+	}
+	
+	public MainUpView(Context context, View view) {
+		super(context, null, 0);
+		// 如果是单独添加，就将view加进来.
+		if (view != null) {
+			ViewGroup viewGroup = (ViewGroup) view.getRootView();
+			if (viewGroup != null && this.getParent() != viewGroup) {
+				LayoutParams layParams = new LayoutParams(500, 500);
+				viewGroup.addView(this, layParams);
+			}
+		}
+		//
 		init(context);
 	}
 
@@ -50,7 +65,7 @@ public class MainUpView extends View {
 		mContext = context;
 		try {
 			mDrawableUpRect = mContext.getResources().getDrawable(R.drawable.item_highlight); // 移动的边框.
-			mDrawableShadow = mContext.getResources().getDrawable(R.drawable.item_shadow); // 外部的阴影.
+			mDrawableShadow = null; // mContext.getResources().getDrawable(R.drawable.item_shadow); // 外部的阴影.
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,11 +76,11 @@ public class MainUpView extends View {
 		invalidate();
 	}
 
-	public boolean isTvScreen() {
+	public boolean isTvScreenEnabled() {
 		return isTvScreen;
 	}
 
-	public void setTvScreen(boolean isTvScreen) {
+	public void setTvScreenEnabled(boolean isTvScreen) {
 		this.isTvScreen = isTvScreen;
 		invalidate();
 	}
@@ -73,12 +88,12 @@ public class MainUpView extends View {
 	/**
 	 * 设置是否移动边框在最下层. true : 移动边框在最上层. 反之否.
 	 */
-	public void setDrawUpRect(boolean isDrawUpRect) {
+	public void setDrawUpRectEnabled(boolean isDrawUpRect) {
 		this.isDrawUpRect = isDrawUpRect;
 		invalidate();
 	}
 
-	public void setUpRect(int resId) {
+	public void setUpRectResource(int resId) {
 		try {
 			this.mDrawableUpRect = mContext.getResources().getDrawable(resId); // 移动的边框.
 			invalidate();
@@ -90,24 +105,26 @@ public class MainUpView extends View {
 	/**
 	 * 设置最上层的边框.
 	 */
-	public void setUpRect(Drawable upRectDrawable) {
+	public void setUpRectDrawable(Drawable upRectDrawable) {
 		this.mDrawableUpRect = upRectDrawable;
 		invalidate();
 	}
 
-	public void setShadow(int resId) {
+	public void setShadowResource(int resId) {
 		try {
 			this.mDrawableShadow = mContext.getResources().getDrawable(resId); // 移动的边框.
 			invalidate();
 		} catch (Exception e) {
+			this.mDrawableShadow = null;
 			e.printStackTrace();
 		}
 	}
 
 	/**
+	 * 当图片边框不自带阴影的话，可以自行设置阴影图片.
 	 * 设置阴影.
 	 */
-	public void setShadow(Drawable shadowDrawable) {
+	public void setShadowDrawable(Drawable shadowDrawable) {
 		this.mDrawableShadow = shadowDrawable;
 		invalidate();
 	}
@@ -149,20 +166,7 @@ public class MainUpView extends View {
 		}
 		// 绘制焦点子控件.
 		if (mFocusView != null && isInDraw) {
-			View view = mFocusView;
-			canvas.save();
-			if (mFocusView instanceof ReflectItemView) {
-				ReflectItemView reflectItemView = (ReflectItemView) mFocusView;
-				View tempView = reflectItemView.getChildAt(0);
-				if (tempView != null) {
-					view = tempView;
-				}
-			}
-			float scaleX = (float) (this.getWidth()) / (float) view.getWidth();
-			float scaleY = (float) (this.getHeight()) / (float) view.getHeight();
-			canvas.scale(scaleX, scaleY);
-			view.draw(canvas);
-			canvas.restore();
+			onDrawFocusView(canvas);
 		}
 		// 绘制最上层的边框.
 		if (isDrawUpRect) {
@@ -170,7 +174,24 @@ public class MainUpView extends View {
 		}
 		canvas.restore();
 	}
-
+	
+	private void onDrawFocusView(Canvas canvas) {
+		View view = mFocusView;
+		canvas.save();
+		if (mFocusView instanceof ReflectItemView) {
+			ReflectItemView reflectItemView = (ReflectItemView) mFocusView;
+			View tempView = reflectItemView.getChildAt(0);
+			if (tempView != null) {
+				view = tempView;
+			}
+		}
+		float scaleX = (float) (this.getWidth()) / (float) view.getWidth();
+		float scaleY = (float) (this.getHeight()) / (float) view.getHeight();
+		canvas.scale(scaleX, scaleY);
+		view.draw(canvas);
+		canvas.restore();
+	}
+	
 	/**
 	 * 绘制外部阴影.
 	 */
@@ -195,7 +216,7 @@ public class MainUpView extends View {
 	public void setDrawUpRectPadding(int size) {
 		setDrawUpRectPadding(new Rect(size, size, size, size));
 	}
-	
+
 	/**
 	 * 根据图片边框 自行 填写 相差的边距. <br>
 	 * 比如 res/drawble/white_light_10.9.png的图片，边距就差很多.
@@ -239,7 +260,7 @@ public class MainUpView extends View {
 	public void setFocusView(View view, float scale) {
 		if (mFocusView != view) {
 			mFocusView = view;
-			mFocusView.animate().scaleX(scale).scaleY(scale).start();
+			mFocusView.animate().scaleX(scale).scaleY(scale).setDuration(TRAN_DUR_ANIM).start();
 			runTranslateAnimation(mFocusView, scale, scale);
 		}
 	}
@@ -252,7 +273,15 @@ public class MainUpView extends View {
 	}
 
 	private static int TRAN_DUR_ANIM = 300;
-
+	
+	/**
+	 * 控件动画时间.
+	 */
+	public void setTranDurAnimTime(int time) {
+		MainUpView.TRAN_DUR_ANIM = time;
+		invalidate();
+	}
+	
 	/**
 	 */
 	public void runTranslateAnimation(View toView, float scaleX, float scaleY) {

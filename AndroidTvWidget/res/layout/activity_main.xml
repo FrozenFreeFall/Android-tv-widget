@@ -31,6 +31,7 @@
                 android:focusableInTouchMode="true" >
 
                 <FrameLayout
+                    android:id="@+id/gridview_flayt1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
 
@@ -39,6 +40,15 @@
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
                         android:src="@drawable/mine_handler" />
+
+                    <TextView
+                        android:text="GridView测试"
+                        android:background="#50000000"
+                        android:textColor="#FFFFFF"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:layout_gravity="bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp" />
 
                     <ImageView
                         android:id="@+id/test_top_iv"
@@ -130,8 +140,8 @@
                 android:layout_toRightOf="@+id/relayout1112233"
                 android:clickable="true"
                 android:focusable="true"
-                app:isReflect="false"
-                android:focusableInTouchMode="true" >
+                android:focusableInTouchMode="true"
+                app:isReflect="false" >
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -145,8 +155,8 @@
                         android:src="@drawable/dianying" />
                 </FrameLayout>
             </com.open.androidtvwidget.view.ReflectItemView>
-            
-              <com.open.androidtvwidget.view.ReflectItemView
+
+            <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/relayout111223344"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
@@ -168,8 +178,8 @@
                         android:src="@drawable/mine_handler" />
                 </FrameLayout>
             </com.open.androidtvwidget.view.ReflectItemView>
-            
-               <com.open.androidtvwidget.view.ReflectItemView
+
+            <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/relayout11122334455"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
@@ -191,7 +201,6 @@
                         android:src="@drawable/mine_handler" />
                 </FrameLayout>
             </com.open.androidtvwidget.view.ReflectItemView>
-            
         </com.open.androidtvwidget.view.MainLayout>
     </com.open.androidtvwidget.view.SmoothHorizontalScrollView>
 
@@ -199,7 +208,7 @@
 
     <com.open.androidtvwidget.view.MainUpView
         android:id="@+id/mainUpView1"
-        android:layout_width="250dp"
-        android:layout_height="250dp" />
+        android:layout_width="250px"
+        android:layout_height="250px" />
 
 </FrameLayout>
