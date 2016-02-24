@@ -8,15 +8,6 @@
     android:clipToPadding="false"
     android:orientation="vertical" >
 
-    <com.open.androidtvwidget.view.SmoothVorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="50dp"
-        android:fillViewport="true"
-        android:clipChildren="false"
-        android:focusable="false"
-        android:scrollbars="none" >
-
         <FrameLayout
             android:focusable="false"
             android:layout_width="match_parent"
@@ -25,6 +16,8 @@
 
             <LinearLayout
                 android:id="@+id/linearLayout"
+                android:paddingTop="67dp"
+                android:paddingBottom="78dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipChildren="false"
@@ -32,19 +25,19 @@
                 android:gravity="center_horizontal"
                 android:orientation="horizontal" >
 
-                <com.open.androidtvwidget.view.SmoothListView
+                <ListView
                     android:id="@+id/listview"
                     android:layout_width="300dp"
                     android:layout_height="match_parent"
                     android:minHeight="50dp"
-                    android:background="#000000"
+                    android:listSelector="#00000000"
                     android:clipChildren="false"
                     android:focusable="false"
+                    android:scrollbars="none"
                     android:focusableInTouchMode="false"
                     android:gravity="center_vertical" />
             </LinearLayout>
         </FrameLayout>
-    </com.open.androidtvwidget.view.SmoothVorizontalScrollView>
 
     <com.open.androidtvwidget.view.MainUpView
         android:id="@+id/mainUpView1"
