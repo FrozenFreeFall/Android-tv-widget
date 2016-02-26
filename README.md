@@ -8,13 +8,7 @@
 
 ##Tab 测试DEMO图片.
 
-![输入图片说明](http://git.oschina.net/uploads/images/2015/0905/050539_109ee7a3_111902.png "test1")
-
-![输入图片说明](http://git.oschina.net/uploads/images/2015/0905/050611_b341a277_111902.png "test2")
-
-![输入图片说明](http://git.oschina.net/uploads/images/2015/0905/163056_5d6b6a7a_111902.png "test123")
-
-![输入图片说明](http://git.oschina.net/uploads/images/2015/0905/163423_be647737_111902.png "正在移动的边框")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0227/030817_cbece78a_111902.png "在这里输入图片标题")
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/0223/190022_02e85c54_111902.png "ListVie的支持")
 
