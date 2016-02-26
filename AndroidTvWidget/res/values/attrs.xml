@@ -5,5 +5,32 @@
     <declare-styleable name="reflectItemView">
         <attr name="isReflect" format="boolean" />
     </declare-styleable>
-	
+    
+    <declare-styleable name="TvTabHost">
+        <attr name="cursorRes" format="reference" />
+        <attr name="textColorDefault" format="color" />
+        <attr name="textColorSelected" format="color" />
+        <attr name="titleWidth" format="dimension"></attr>
+        <attr name="titleHeight" format="dimension"></attr>
+        <attr name="titleSpace" format="dimension"></attr>
+        <attr name="textSize" format="dimension" />
+        <attr name="dividerHeight" format="dimension"></attr>
+        <attr name="durationScroll" format="integer"></attr>
+        <attr name="scalable" format="boolean"></attr>
+        <attr name="scale" format="float"></attr>
+        <attr name="animationType">
+            <enum name="DEFAULT" value="0"></enum>
+            <enum name="TRANSLATE" value="1"></enum>
+        </attr>
+        <attr name="durationLarge" format="integer"></attr>
+        <attr name="durationSmall" format="integer"></attr>
+        <attr name="delay" format="integer" />
+        <attr name="cursorWidth" format="dimension"></attr>
+        <attr name="cursorHeight" format="dimension"></attr>
+        <attr name="cursorMarginLeft" format="dimension"></attr>
+        <attr name="cursorMarginTop" format="dimension"></attr>
+        <attr name="cursorMarginRight" format="dimension"></attr>
+        <attr name="cursorMarginBottom" format="dimension"></attr>
+    </declare-styleable>
+
 </resources>

@@ -14,13 +14,15 @@
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2015/0905/163056_5d6b6a7a_111902.png "test123")
 
+![输入图片说明](http://git.oschina.net/uploads/images/2015/0905/163423_be647737_111902.png "正在移动的边框")
+
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/0223/190022_02e85c54_111902.png "ListVie的支持")
+
+当ListView中有一些抢焦点的控件的时候，请使用 setDescendantFocusability ... ... 比如 Button，EditText
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/0223/190048_e9e0be4c_111902.png "GridView的支持")
 
-正在移动的边框.
-
-![输入图片说明](http://git.oschina.net/uploads/images/2015/0905/163423_be647737_111902.png "在这里输入图片标题")
+![标题栏](http://git.oschina.net/uploads/images/2016/0224/150241_7657d29b_111902.png "标题栏")
 
 【MainUpView 部分API】
    

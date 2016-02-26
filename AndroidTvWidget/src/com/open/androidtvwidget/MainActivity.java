@@ -4,6 +4,8 @@ import com.open.androidtvwidget.view.MainLayout;
 import com.open.androidtvwidget.view.MainUpView;
 import com.open.androidtvwidget.view.ReflectItemView;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +13,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 /**
  * DEMO测试.
  */
-public class MainActivity extends Activity implements OnFocusChangeListener {
+public class MainActivity extends Activity {
 
 	MainUpView mainUpView1;
 	View test_top_iv;
@@ -45,72 +46,57 @@ public class MainActivity extends Activity implements OnFocusChangeListener {
 		});
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
 		// mainUpView1 = new MainUpView(getApplicationContext(), relayout11);
-		mainUpView1.setUpRectResource(R.drawable.white_light_10);
-		mainUpView1.setShadowDrawable(null);
-		mainUpView1.setDrawUpRectPadding(10);
-//		mainUpView1.setTranDurAnimTime(500);
-
+		mainUpView1.setUpRectResource(R.drawable.item_highlight);
+		// mainUpView1.setUpRectResource(R.drawable.white_light_10);
+		mainUpView1.setShadowResource(R.drawable.item_shadow);
+		// mainUpView1.setDrawUpRectPadding(12);
+		mainUpView1.setDrawShadowPadding(-3); // 阴影图片设置距离.
+		// mainUpView1.setTranDurAnimTime(500);
 		MainLayout main_lay11 = (MainLayout) findViewById(R.id.main_lay11);
 		main_lay11.getViewTreeObserver().addOnGlobalFocusChangeListener(new OnGlobalFocusChangeListener() {
+
 			@Override
-			public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-				if (newFocus != null) {
-					mainUpView1.setFocusView(newFocus, 1.2f);
-				}
-				if (oldFocus != null) {
-					mainUpView1.setUnFocusView(oldFocus);
-				}
+			public void onGlobalFocusChanged(final View oldFocus, final View newFocus) {
+				newFocus.bringToFront(); // 防止放大的view被压在下面.
+				mainUpView1.setFocusView(newFocus, oldFocus, 1.2f);
+				mainUpView1.setDrawUpRectEnabled(true);
+			}
+		});
+
+		test_top_iv = findViewById(R.id.test_top_iv);
+		findViewById(R.id.relayout11).setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
 				// 测试第一个小人放大的效果.
-				if (newFocus.getId() == R.id.relayout11) {
-					mainUpView1.setDrawUpRectEnabled(false);
-					test_top_iv.animate().scaleX(1.2f).scaleY(1.4f).setDuration(500).start();
+				if (hasFocus) {
+					test_top_iv.animate().scaleX(1.6f).scaleY(1.5f).setDuration(300)
+							.setListener(new AnimatorListener() {
+						@Override
+						public void onAnimationStart(Animator animation) {
+							mainUpView1.setDrawUpRectEnabled(true);
+						}
+
+						@Override
+						public void onAnimationRepeat(Animator animation) {
+						}
+
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							mainUpView1.setDrawUpRectEnabled(false);
+							mainUpView1.setDrawUpRectPadding(-2); // 让移动边框显示出来.
+						}
+
+						@Override
+						public void onAnimationCancel(Animator animation) {
+						}
+					}).start();
 				} else {
-					mainUpView1.setDrawUpRectEnabled(true);
-					if (oldFocus != null) {
-						test_top_iv.animate().scaleX(1.0f).scaleY(1.0f).setDuration(200).start();
-					}
+					mainUpView1.setDrawUpRectPadding(0);
+					mainUpView1.setDrawUpRectEnabled(true); // 
+					test_top_iv.animate().scaleX(1.0f).scaleY(1.0f).setDuration(200).start();
 				}
 			}
 		});
-		// final ReflectItemView relayout1 = (ReflectItemView)
-		// findViewById(R.id.relayout11);
-		// final ReflectItemView relayout2 = (ReflectItemView)
-		// findViewById(R.id.relayout2);
-		// final ReflectItemView relayout3 = (ReflectItemView)
-		// findViewById(R.id.relayout3);
-		// final ReflectItemView relayout11122 = (ReflectItemView)
-		// findViewById(R.id.relayout11122);
-		// final ReflectItemView relayout1112233 = (ReflectItemView)
-		// findViewById(R.id.relayout1112233);
-
-		test_top_iv = findViewById(R.id.test_top_iv);
-
-		// relayout1.setOnFocusChangeListener(this);
-		// relayout2.setOnFocusChangeListener(this);
-		// relayout3.setOnFocusChangeListener(this);
-		// relayout11122.setOnFocusChangeListener(this);
-		// relayout1112233.setOnFocusChangeListener(this);
-	}
-
-	private void testtest(View v, boolean hasFocus) {
-		if (hasFocus) {
-			mainUpView1.setFocusView(v, 1.2f);
-		} else {
-			mainUpView1.setUnFocusView(v);
-		}
-	}
-
-	@Override
-	public void onFocusChange(View v, boolean hasFocus) {
-		testtest(v, hasFocus);
-		// 测试.
-		if (v.getId() == R.id.relayout11) {
-			if (hasFocus) {
-				test_top_iv.animate().scaleX(1.2f).scaleY(1.2f).setDuration(500).start();
-			} else {
-				test_top_iv.animate().scaleX(1.0f).scaleY(1.0f).setDuration(200).start();
-			}
-		}
 	}
 
 }

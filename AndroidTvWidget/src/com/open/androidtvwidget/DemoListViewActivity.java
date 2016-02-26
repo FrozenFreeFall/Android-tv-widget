@@ -61,7 +61,7 @@ public class DemoListViewActivity extends Activity {
 //				}
 			}
 		});
-//		listView.setSelection(0);
+		listView.setSelection(0);
 	}
 
 	public void initData() {
