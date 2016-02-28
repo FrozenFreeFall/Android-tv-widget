@@ -2,7 +2,6 @@ package com.open.androidtvwidget.view;
 
 import com.open.androidtvwidget.R;
 
-import android.R.bool;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -13,7 +12,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -45,7 +43,7 @@ public class ReflectItemView extends FrameLayout {
 			TypedArray tArray = context.obtainStyledAttributes(attrs,
 					R.styleable.reflectItemView);// 获取配置属性
 			boolean isReflect = tArray.getBoolean(
-					R.styleable.reflectItemView_isReflect, true);
+					R.styleable.reflectItemView_isReflect, false);
 			setReflection(isReflect);
 		}
 		//
@@ -82,14 +80,14 @@ public class ReflectItemView extends FrameLayout {
 		return mContentView;
 	}
 
-	@Override
-	public boolean performClick() {
-		if (mContentView != null) {
-			return mContentView.performClick();
-		} else {
-			return super.performClick();
-		}
-	}
+//	@Override
+//	public boolean performClick() {
+//		if (mContentView != null) {
+//			return mContentView.performClick();
+//		} else {
+//			return super.performClick();
+//		}
+//	}
 
 	private boolean mIsReflection = true;
 

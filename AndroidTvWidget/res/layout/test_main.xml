@@ -1,0 +1,179 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content11"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mainbackground"
+    android:clipChildren="false"
+    android:clipToPadding="false" >
+
+    <com.open.androidtvwidget.view.SmoothHorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none" >
+
+        <com.open.androidtvwidget.view.MainLayout
+            android:id="@+id/main_lay"
+            android:paddingRight="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <com.open.androidtvwidget.view.ReflectItemView
+                android:id="@+id/gridview_lay"
+                android:layout_width="@dimen/px840"
+                android:layout_height="@dimen/px394"
+                android:layout_marginLeft="@dimen/px96"
+                android:layout_marginTop="@dimen/px204"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:nextFocusDown="@+id/listview_lay"
+                android:nextFocusRight="@+id/top_lay" >
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/mainview_tuijian" />
+
+                    <ImageView
+                        android:id="@+id/test_top_iv"
+                        android:layout_width="@dimen/px220"
+                        android:layout_height="@dimen/px350"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/top_test_bg" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:background="#50000000"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="GridView测试"
+                        android:textColor="#FFFFFF" />
+                </FrameLayout>
+            </com.open.androidtvwidget.view.ReflectItemView>
+
+            <com.open.androidtvwidget.view.ReflectItemView
+                android:id="@+id/listview_lay"
+                android:layout_width="@dimen/px404"
+                android:layout_height="@dimen/px246"
+                android:layout_marginLeft="@dimen/px96"
+                android:layout_marginTop="@dimen/px630"
+                android:background="@drawable/mainview_searchsong"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true" >
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/mainview_searchsong" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:background="#FF0000"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="listview 测试"
+                        android:textColor="#ffffff" />
+                </FrameLayout>
+            </com.open.androidtvwidget.view.ReflectItemView>
+
+            <com.open.androidtvwidget.view.ReflectItemView
+                android:id="@+id/hot_lay"
+                android:layout_width="@dimen/px412"
+                android:layout_height="@dimen/px672"
+                android:layout_marginLeft="@dimen/px1412"
+                android:layout_marginTop="@dimen/px204"
+                android:background="@drawable/mainview_huodong"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/mainview_huodong" />
+            </com.open.androidtvwidget.view.ReflectItemView>
+
+            <com.open.androidtvwidget.view.ReflectItemView
+                android:id="@+id/top_lay"
+                android:layout_width="@dimen/px412"
+                android:layout_height="@dimen/px672"
+                android:layout_marginLeft="@dimen/px968"
+                android:layout_marginTop="@dimen/px204"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:src="@drawable/mainview_cloudlist" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/mainview_cloudlist" />
+            </com.open.androidtvwidget.view.ReflectItemView>
+
+            <com.open.androidtvwidget.view.ReflectItemView
+                android:id="@+id/class_lay"
+                android:layout_width="@dimen/px404"
+                android:layout_height="@dimen/px246"
+                android:layout_marginLeft="@dimen/px532"
+                android:layout_marginTop="@dimen/px630"
+                android:background="@drawable/mainview_type"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:nextFocusRight="@+id/top_lay" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/mainview_type" />
+            </com.open.androidtvwidget.view.ReflectItemView>
+
+            <com.open.androidtvwidget.view.ReflectItemView
+                android:layout_width="@dimen/px412"
+                android:layout_height="@dimen/px672"
+                android:layout_marginLeft="@dimen/px1858"
+                android:layout_marginTop="@dimen/px204"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:src="@drawable/mainview_cloudlist" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/mainview_cloudlist" />
+            </com.open.androidtvwidget.view.ReflectItemView>
+            
+        </com.open.androidtvwidget.view.MainLayout>
+    </com.open.androidtvwidget.view.SmoothHorizontalScrollView>
+
+    <!-- 最顶层边框 -->
+
+    <com.open.androidtvwidget.view.MainUpView
+        android:id="@+id/mainUpView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -3,13 +3,12 @@ package com.open.androidtvwidget.view;
 import com.open.androidtvwidget.R;
 import com.open.androidtvwidget.utils.DensityUtil;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -59,6 +58,7 @@ public class MainUpView extends View {
 	}
 
 	private void init(Context context) {
+		setVisibility(View.GONE);
 		mContext = context;
 		try {
 			mDrawableUpRect = mContext.getResources().getDrawable(R.drawable.white_light_10); // 移动的边框.
@@ -217,7 +217,7 @@ public class MainUpView extends View {
 	}
 
 	/**
-	 * 绘制最上层的边框.
+	 * 绘制最上层的移动边框.
 	 */
 	private void onDrawUpRect(Canvas canvas) {
 		if (mDrawableUpRect != null) {
@@ -236,11 +236,25 @@ public class MainUpView extends View {
 	 * 设置焦点子控件的移动和放大.
 	 */
 	public void setFocusView(View view, float scale) {
-		if (mFocusView != view) {
+		if (view != null && mFocusView != view) {
 			mScale = scale;
 			mFocusView = view;
 			mNewFocus = view;
-			mFocusView.animate().scaleX(scale).scaleY(scale).setDuration(TRAN_DUR_ANIM).start();
+			mFocusView.animate().scaleX(scale).scaleY(scale).setDuration(TRAN_DUR_ANIM).setListener(new AnimatorListener() {
+				@Override
+				public void onAnimationStart(Animator animation) {
+				}
+				@Override
+				public void onAnimationRepeat(Animator animation) {
+				}
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					setVisibility(View.VISIBLE);
+				}
+				@Override
+				public void onAnimationCancel(Animator animation) {
+				}
+			}).start();
 			runTranslateAnimation(mFocusView, scale, scale);
 		}
 	}
@@ -275,25 +289,18 @@ public class MainUpView extends View {
 		Rect fromRect = findLocationWithView(this);
 		Rect toRect = findLocationWithView(toView);
 
-		int x = toRect.left - fromRect.left;
-		int y = toRect.top - fromRect.top;
+		float x = toRect.left - fromRect.left;
+		float y = toRect.top - fromRect.top;
 
-		int deltaX = 0; // (toView.getWidth() - this.getWidth()) / 2;
-		int deltaY = 0; // (toView.getHeight() - this.getHeight()) / 2;
-		// tv
+		/**
+		 * 有一些分辨率和TV的不一样.
+		 */
 		if (isTvScreen) {
-			x = DensityUtil.dip2px(this.getContext(), x + deltaX);
-			y = DensityUtil.dip2px(this.getContext(), y + deltaY);
-		} else {
-			x = x + deltaX;
-			y = y + deltaY;
-		}
-		float toWidth = toView.getWidth() * scaleX;
-		float toHeight = toView.getHeight() * scaleY;
-		int width = (int) (toWidth);
-		int height = (int) (toHeight);
-
-		flyWhiteBorder(width, height, x, y);
+			x = DensityUtil.dip2px(this.getContext(), x);
+			y = DensityUtil.dip2px(this.getContext(), y);
+		} 
+		
+		flyWhiteBorder(x, y);
 	}
 
 	private View mNewFocus;
@@ -305,13 +312,7 @@ public class MainUpView extends View {
 
 	/**
 	 * */
-	private void flyWhiteBorder(int width, int height, float x, float y) {
-		int mWidth = this.getWidth();
-		int mHeight = this.getHeight();
-
-		float scaleX = (float) width / (float) mWidth;
-		float scaleY = (float) height / (float) mHeight;
-
+	private void flyWhiteBorder(float x, float y) {
 		if (mNewFocus != null) {
 			mNewWidth = (int) ((float) mNewFocus.getMeasuredWidth() * mScale);
 			mNewHeight = (int) ((float) mNewFocus.getMeasuredHeight() * mScale);
@@ -336,6 +337,12 @@ public class MainUpView extends View {
 		mAnimatorSet.start();
 	}
 
+	/*
+	 * BUG 2016.02.26
+	 * 因为以前是顶层移动边框不改变宽高，
+	 * 原有是放大，会导致图片严重的失真变形，
+	 * 无法适应现有开发中去，所以才去改成改变宽高.
+	 */
 	private class ScaleView {
 		private View view;
 		private int width;

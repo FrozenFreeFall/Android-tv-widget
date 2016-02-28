@@ -12,6 +12,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.SimpleAdapter;
 
 /**
@@ -42,6 +44,15 @@ public class DemoGridViewActivity extends Activity {
 		gridView.setAdapter(simpleAdapter);
 		simpleAdapter.notifyDataSetChanged();
 		//
+//		gridView.setOnItemSelectedListener(new OnItemSelectedListener() {
+//			@Override
+//			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//				mainUpView1.setFocusView(view, 1.0f);
+//			}
+//			@Override
+//			public void onNothingSelected(AdapterView<?> parent) {
+//			}
+//		});
 		gridView.getViewTreeObserver().addOnGlobalFocusChangeListener(new OnGlobalFocusChangeListener() {
 			@Override
 			public void onGlobalFocusChanged(View oldFocus, View newFocus) {
