@@ -8,7 +8,6 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -60,14 +59,26 @@ public class MainActivity extends Activity {
 		main_lay11.getViewTreeObserver().addOnGlobalFocusChangeListener(new OnGlobalFocusChangeListener() {
 			@Override
 			public void onGlobalFocusChanged(final View oldFocus, final View newFocus) {
-				newFocus.bringToFront(); // 防止放大的view被压在下面.
-				mainUpView1.setFocusView(newFocus, oldFocus, 1.2f);
-				mainUpView1.setDrawUpRectEnabled(true);
-				if (newFocus != null) {
-//					testTopDemo(newFocus);
+				newFocus.bringToFront(); // 防止放大的view被压在下面. (建议使用MainLayout)
+				float scale = 1.2f;
+				if (newFocus instanceof ReflectItemView) {
+					mainUpView1.setVisibleWidget(false);
+				} else {
+					scale = 1.1f;
+					mainUpView1.setVisibleWidget(true);
 				}
+				mainUpView1.setFocusView(newFocus, oldFocus, scale);
+				// 测试是否让边框绘制在下面，还是上面. (建议不要使用此函数)
+//				mainUpView1.setDrawUpRectEnabled(true);
+//				if (newFocus != null) {
+//					testTopDemo(newFocus);
+//				}
 			}
 		});
+		// 测试边框无操作开关.
+//		mainUpView1.setAnimEnabled(false);
+		// 测试监听回调.
+//		mainUpView1.setOnAnimatorListener(new NewAnimatorListener() {
 	}
 
 	public void testTopDemo(View newView) {

@@ -2,17 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:padding="10dp"
-    android:focusable="true"
-    android:gravity="center" >
+    android:gravity="center"
+    android:padding="10dp" >
 
     <TextView
         android:id="@+id/textView"
-        android:background="#FF7F50"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_gravity="center"
+        android:background="#FF7F50"
         android:focusable="false"
         android:gravity="center"
         android:textAlignment="center"

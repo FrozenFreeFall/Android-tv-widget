@@ -12,6 +12,9 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.provider.Settings;
+import android.view.inputmethod.InputMethodInfo;
+import android.view.inputmethod.InputMethodManager;
 
 /**
  * 设置默认APP.
@@ -22,9 +25,7 @@ import android.net.Uri;
 public class CustomApplicationHelper {
 
 	private Context mContext;
-	private Intent mInitIntent;
 	private PackageManager pm;
-	private List<ResolveInfo> resolveInfos;
 
 	public CustomApplicationHelper(Context context) {
 		this.mContext = context;
@@ -33,27 +34,47 @@ public class CustomApplicationHelper {
 		}
 	}
 
-	public CustomApplicationHelper(Context context, Intent intent) {
-		this.mContext = context;
-		if (mContext != null) {
-			this.pm = context.getPackageManager();
-			getSpeAppResolveInfos(intent);
+	public List<ResolveInfo> getSpeAppResolveInfos(Intent intent) {
+		List<ResolveInfo> resolveInfos = null;
+		if (intent != null && pm != null) {
+			resolveInfos = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+		}
+		return resolveInfos;
+	}
+
+	public List<InputMethodInfo> getAllInputMethod() {
+		InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+		List<InputMethodInfo> methodList = imm.getInputMethodList();
+		return methodList;
+	}
+
+	public void setDefaultInputMethod(InputMethodInfo info) {
+		// 设置默认输入法.
+		String packName = info.getPackageName();
+		String serviceName = info.getServiceName();
+		int lastIndex = serviceName.lastIndexOf(".");
+		if (lastIndex != -1) {
+			String setInfo = packName + "/" + serviceName.substring(lastIndex);
+			Settings.Secure.putString(mContext.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD,
+					"" + setInfo);
 		}
 	}
 
-	public List<ResolveInfo> getSpeAppResolveInfos(Intent intent) {
-		this.mInitIntent = intent;
-		if (intent != null && pm != null) {
-			this.resolveInfos = pm.queryIntentActivities(mInitIntent, PackageManager.MATCH_DEFAULT_ONLY);
+	public boolean isDefualtInputMethod(InputMethodInfo info) {
+		// 获取当前默认输入法.
+		String currentInputmethod = Settings.Secure.getString(mContext.getContentResolver(),
+				Settings.Secure.DEFAULT_INPUT_METHOD);
+		if (currentInputmethod.contains("" + info.getPackageName())) {
+			return true;
 		}
-		return this.resolveInfos;
+		return false;
 	}
 
 	/**
 	 * 处理Intent.
 	 */
-	public Intent intentForResolveInfo(ResolveInfo dri) {
-		Intent intent = new Intent(mInitIntent);
+	public Intent intentForResolveInfo(ResolveInfo dri, Intent initIntent) {
+		Intent intent = new Intent(initIntent);
 		intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT | Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
 		ActivityInfo ai = dri.activityInfo;
 		intent.setComponent(new ComponentName(ai.applicationInfo.packageName, ai.name));
@@ -63,9 +84,9 @@ public class CustomApplicationHelper {
 	/**
 	 * 设置默认APP.
 	 */
-	public void setDefaultApplication(ResolveInfo dri) {
+	public void setDefaultApplication(Intent initIntent, ResolveInfo dri, List<ResolveInfo> resolveInfos) {
 		// 获取 Intent.
-		Intent intent = intentForResolveInfo(dri);
+		Intent intent = intentForResolveInfo(dri, initIntent);
 		//
 		IntentFilter filter = new IntentFilter();
 		// 初始化 action.
@@ -115,7 +136,7 @@ public class CustomApplicationHelper {
 	/**
 	 * 清除默认选择. 清除之前的选项.
 	 */
-	public void clearDefaultApp() {
+	public void clearDefaultApp(List<ResolveInfo> resolveInfos) {
 		if (resolveInfos != null) {
 			for (int i = 0; i < resolveInfos.size(); i++) {
 				ResolveInfo resolveInfo = resolveInfos.get(i);
@@ -152,5 +173,5 @@ public class CustomApplicationHelper {
 		}
 		return false;
 	}
-	
+
 }

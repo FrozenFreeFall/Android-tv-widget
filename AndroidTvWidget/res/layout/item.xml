@@ -4,7 +4,6 @@
     android:layout_height="200dp"
     android:layout_margin="12dp"
     android:background="#FF7F50"
-    android:focusable="true"
     android:gravity="center" >
 
     <TextView
@@ -13,7 +12,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_gravity="center"
-        android:focusable="false"
         android:gravity="center"
         android:textAlignment="center"
         android:textColor="#FFFFFF"

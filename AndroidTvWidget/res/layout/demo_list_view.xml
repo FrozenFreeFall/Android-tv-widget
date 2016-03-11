@@ -4,44 +4,42 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:clipChildren="false"
-    android:focusable="false"
     android:clipToPadding="false"
+    android:focusable="false"
     android:orientation="vertical" >
 
-        <FrameLayout
-            android:focusable="false"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:focusable="false" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipChildren="false" >
+            android:clipChildren="false"
+            android:focusable="false"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingBottom="78dp"
+            android:paddingTop="67dp" >
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:paddingTop="67dp"
-                android:paddingBottom="78dp"
-                android:layout_width="match_parent"
+            <ListView
+                android:id="@+id/listview"
+                android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:clipChildren="false"
-                android:focusable="false"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal" >
-
-                <ListView
-                    android:id="@+id/listview"
-                    android:layout_width="300dp"
-                    android:layout_height="match_parent"
-                    android:minHeight="50dp"
-                    android:listSelector="#00000000"
-                    android:clipChildren="false"
-                    android:focusable="false"
-                    android:scrollbars="none"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center_vertical" />
-            </LinearLayout>
-        </FrameLayout>
+                android:gravity="center_vertical"
+                android:listSelector="#00000000"
+                android:minHeight="50dp"
+                android:scrollbars="none" />
+        </LinearLayout>
+    </FrameLayout>
 
     <com.open.androidtvwidget.view.MainUpView
         android:id="@+id/mainUpView1"
-        android:layout_width="300px"
-        android:layout_height="50px" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

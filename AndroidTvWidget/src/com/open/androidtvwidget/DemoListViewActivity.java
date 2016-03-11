@@ -7,15 +7,18 @@ import com.open.androidtvwidget.view.MainUpView;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DemoListViewActivity extends Activity {
 
@@ -43,25 +46,22 @@ public class DemoListViewActivity extends Activity {
 		listView.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (view != null)
+				if (view != null) {
 					mainUpView1.setFocusView(view, 1.0f);
+				}
 			}
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-		listView.getViewTreeObserver().addOnGlobalFocusChangeListener(new OnGlobalFocusChangeListener() {
+		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-//				if (newFocus != null) {
-//					mainUpView1.setFocusView(newFocus, 1.2f);
-//				}
-//				if (oldFocus != null) {
-//					mainUpView1.setUnFocusView(oldFocus);
-//				}
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Toast.makeText(getApplicationContext(), "position : " + position, Toast.LENGTH_LONG).show();
 			}
 		});
-		listView.setSelection(0);
+		// 要与不要都没有什么鸟用.
+//		listView.setSelection(0);
 	}
 
 	public void initData() {

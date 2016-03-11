@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 全键盘-26-字母 -->
+<Keyboard 
+    width="25%p"
+    height="25%p" >
+
+    <row
+        left_padding="1%p"
+        start_pos_x="14%p"
+        start_pos_y="12%p" >
+        <keys
+            codes="45|51|33|46|48|53|49|37|43|44"
+            labels="Q|W|E|R|T|Y|U|I|O|P"
+            splitter="|" >
+        </keys>
+    </row>
+    
+    <row>
+        <inkeys labels="2|A|B|C" >
+        </inkeys>
+    </row>
+
+</Keyboard>
