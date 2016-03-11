@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 		main_lay11.getViewTreeObserver().addOnGlobalFocusChangeListener(new OnGlobalFocusChangeListener() {
 			@Override
 			public void onGlobalFocusChanged(final View oldFocus, final View newFocus) {
-				newFocus.bringToFront(); // 防止放大的view被压在下面. (建议使用MainLayout)
+//				newFocus.bringToFront(); // 防止放大的view被压在下面. (建议使用MainLayout)
 				float scale = 1.2f;
 				if (newFocus instanceof ReflectItemView) {
 					mainUpView1.setVisibleWidget(false);
