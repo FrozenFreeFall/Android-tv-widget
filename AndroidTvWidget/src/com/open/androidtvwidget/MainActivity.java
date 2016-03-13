@@ -26,9 +26,44 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.test_main);
-
+		//
 		ReflectItemView gridview_lay = (ReflectItemView) findViewById(R.id.gridview_lay);
 		test_top_iv = findViewById(R.id.test_top_iv);
+		// MainUpView 设置.
+		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
+		// mainUpView1 = new MainUpView(getApplicationContext(), gridview_lay);
+		// mainUpView1.setUpRectResource(R.drawable.item_highlight);
+		 mainUpView1.setUpRectResource(R.drawable.white_light_10);
+//		mainUpView1.setUpRectResource(R.drawable.test_rectangle);
+//		mainUpView1.setShadowResource(R.drawable.item_shadow);
+		// mainUpView1.setDrawUpRectPadding(12);//getResources().getDimensionPixelSize(R.dimen.px25));
+		// mainUpView1.setDrawShadowPadding(0); // 阴影图片设置距离.
+		// mainUpView1.setTranDurAnimTime(500);
+		MainLayout main_lay11 = (MainLayout) findViewById(R.id.main_lay);
+		main_lay11.getViewTreeObserver().addOnGlobalFocusChangeListener(new OnGlobalFocusChangeListener() {
+			@Override
+			public void onGlobalFocusChanged(final View oldFocus, final View newFocus) {
+				newFocus.bringToFront(); // 防止放大的view被压在下面. (建议使用MainLayout)
+				float scale = 1.2f;
+				if (newFocus instanceof ReflectItemView) {
+					mainUpView1.setVisibleWidget(false);
+				} else {
+					scale = 1.1f;
+					mainUpView1.setVisibleWidget(true);
+				}
+				mainUpView1.setFocusView(newFocus, oldFocus, scale);
+				// 测试是否让边框绘制在下面，还是上面. (建议不要使用此函数)
+				// mainUpView1.setDrawUpRectEnabled(true);
+				// if (newFocus != null) {
+				// testTopDemo(newFocus);
+				// }
+			}
+		});
+		// 测试边框无操作开关.
+		// mainUpView1.setAnimEnabled(false);
+		// 测试监听回调.
+		// mainUpView1.setOnAnimatorListener(new NewAnimatorListener() {
+		//
 		// Gridview demo 测试.
 		findViewById(R.id.gridview_lay).setOnClickListener(new OnClickListener() {
 			@Override
@@ -45,40 +80,14 @@ public class MainActivity extends Activity {
 				startActivity(new Intent(getApplicationContext(), DemoListViewActivity.class));
 			}
 		});
-		// MainUpView 设置.
-		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
-		// mainUpView1 = new MainUpView(getApplicationContext(), gridview_lay);
-//		 mainUpView1.setUpRectResource(R.drawable.item_highlight);
-//		 mainUpView1.setUpRectResource(R.drawable.white_light_10);
-		 mainUpView1.setUpRectResource(R.drawable.test_rectangle);
-		 mainUpView1.setShadowResource(R.drawable.item_shadow);
-//		mainUpView1.setDrawUpRectPadding(12);//getResources().getDimensionPixelSize(R.dimen.px25));
-//		 mainUpView1.setDrawShadowPadding(0); // 阴影图片设置距离.
-		// mainUpView1.setTranDurAnimTime(500);
-		MainLayout main_lay11 = (MainLayout) findViewById(R.id.main_lay);
-		main_lay11.getViewTreeObserver().addOnGlobalFocusChangeListener(new OnGlobalFocusChangeListener() {
+		// 键盘测试.
+		findViewById(R.id.class_lay).setOnClickListener(new OnClickListener() {
 			@Override
-			public void onGlobalFocusChanged(final View oldFocus, final View newFocus) {
-//				newFocus.bringToFront(); // 防止放大的view被压在下面. (建议使用MainLayout)
-				float scale = 1.2f;
-				if (newFocus instanceof ReflectItemView) {
-					mainUpView1.setVisibleWidget(false);
-				} else {
-					scale = 1.1f;
-					mainUpView1.setVisibleWidget(true);
-				}
-				mainUpView1.setFocusView(newFocus, oldFocus, scale);
-				// 测试是否让边框绘制在下面，还是上面. (建议不要使用此函数)
-//				mainUpView1.setDrawUpRectEnabled(true);
-//				if (newFocus != null) {
-//					testTopDemo(newFocus);
-//				}
+			public void onClick(View v) {
+				Toast.makeText(getApplicationContext(), "键盘 demo test", Toast.LENGTH_LONG).show();
+				startActivity(new Intent(getApplicationContext(), DemoKeyBoardActivity.class));
 			}
 		});
-		// 测试边框无操作开关.
-//		mainUpView1.setAnimEnabled(false);
-		// 测试监听回调.
-//		mainUpView1.setOnAnimatorListener(new NewAnimatorListener() {
 	}
 
 	public void testTopDemo(View newView) {

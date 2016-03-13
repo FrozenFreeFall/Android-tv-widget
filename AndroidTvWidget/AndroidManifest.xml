@@ -21,8 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- 测试DEMO Activity -->
         <activity android:name="com.open.androidtvwidget.DemoGridViewActivity"/>
         <activity android:name="com.open.androidtvwidget.DemoListViewActivity"/>
+        <activity android:name="com.open.androidtvwidget.DemoKeyBoardActivity"/>
+        
     </application>
 
 </manifest>

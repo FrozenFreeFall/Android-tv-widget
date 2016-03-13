@@ -1,6 +1,7 @@
 package com.open.androidtvwidget.keyboard;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * 加载XML键盘布局文件.
@@ -9,7 +10,9 @@ import android.content.Context;
  *
  */
 public class SkbPool {
-
+	
+	private static final String TAG = "SkbPool";
+	
 	private static SkbPool mInstance = new SkbPool(); // 单例模式.
 
 	private SkbPool() {

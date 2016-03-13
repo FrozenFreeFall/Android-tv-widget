@@ -6,7 +6,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -17,9 +16,9 @@ import android.widget.RelativeLayout;
  *
  */
 public class SkbContainer extends RelativeLayout {
-	
+
 	private static final String TAG = "SkbContainer";
-	
+
 	public SkbContainer(Context context) {
 		super(context);
 		init(context, null);
@@ -49,6 +48,8 @@ public class SkbContainer extends RelativeLayout {
 		View.inflate(context, R.layout.softkey_layout_view, this);
 		mInputModeSwitcher = new InputModeSwitcher();
 		updateInputMode();
+		setFocusable(true);
+		setFocusableInTouchMode(true);
 	}
 
 	/**
@@ -64,6 +65,7 @@ public class SkbContainer extends RelativeLayout {
 		if (mSkbLayout != skbLayout) {
 			mSkbLayout = skbLayout;
 			updateSkbLayout(); // 更新软键盘布局.
+			setDefualtSelectKey(0, 0); // 设置默认选中的按键.
 		}
 	}
 
@@ -77,25 +79,64 @@ public class SkbContainer extends RelativeLayout {
 		default:
 			break;
 		}
-		Log.d(TAG, "softKeyboard:" + softKeyboard);
 		mSoftKeyboardView = (SoftKeyboardView) findViewById(R.id.softKeyboardView);
 		// 重新绘制 软键盘.
 		mSoftKeyboardView.setSoftKeyboard(softKeyboard);
 	}
-	
+
 	public boolean onKeyDown() {
 		return false;
 	}
-	
-	SoftKeyListener mSoftKeyListener;
-	
-	public void setOnSoftKeyListener(SoftKeyListener cb) {
+
+	SoftKeyBoardListener mSoftKeyListener;
+
+	public void setOnSoftKeyBoardListener(SoftKeyBoardListener cb) {
 		mSoftKeyListener = cb;
 	}
+
+	public void setDefualtSelectKey(int row, int index) {
+		SoftKeyboard softKeyboard = mSoftKeyboardView.getSoftKeyboard();
+		softKeyboard.setOneKeySelected(row, index);
+	}
 	
-	class SoftKeyListener {
-		public void onCommitText(String text) {
+	/**
+	 * 暂时测试,不能使用这个事件,<br>
+	 * 必须使用activity的事件.
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_ENTER) {
+			String ch = ""; 
+			SoftKeyboard softKeyboard = mSoftKeyboardView.getSoftKeyboard();
+			SoftKey softKey = softKeyboard.getSelectSoftKey();
+			if (softKey != null) {
+				ch = softKey.getKeyLabel();
+				Log.d(TAG, "onKeyDown onCommitText text:" + ch);
+			}
+			if (mSoftKeyListener != null) {
+				mSoftKeyListener.onCommitText(ch);
+			} 
+		} else {
+			actionForKeyEvent(keyCode); // 按键移动.
 		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		return super.onKeyUp(keyCode, event);
+	}
+
+	public boolean actionForKeyEvent(int direction) {
+		if (mSoftKeyboardView != null) {
+			return mSoftKeyboardView.moveToNextKey(direction);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+		return super.onKeyLongPress(keyCode, event);
 	}
 	
 }

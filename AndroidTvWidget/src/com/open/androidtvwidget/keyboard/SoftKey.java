@@ -20,11 +20,41 @@ public class SoftKey {
 	private float mTopF;
 	private float mBottomF;
 
+	private boolean isSelected;
+
+	public float getLeftF() {
+		return mLeftF;
+	}
+
+	public float getRightF() {
+		return mRightF;
+	}
+
+	public float getTopF() {
+		return mTopF;
+	}
+
+	public float getBottomF() {
+		return mBottomF;
+	}
+
+	public float getWidth() {
+		return mRightF - mLeftF;
+	}
+
+	public float getHeight() {
+		return mBottomF - mTopF;
+	}
+
 	public void setKeyDimensions(float left, float top, float right, float bottom) {
 		mLeftF = left;
 		mTopF = top;
 		mRightF = right;
 		mBottomF = bottom;
+	}
+
+	public void setKeyLabel(String label) {
+		this.mKeyLabel = label;
 	}
 
 	public Drawable getKeyIcon() {
@@ -40,6 +70,18 @@ public class SoftKey {
 
 	public String getKeyLabel() {
 		return mKeyLabel;
+	}
+
+	/**
+	 * 是否選中.
+	 * 键值要高亮.
+	 */
+	public void setKeySelected(boolean is) {
+		isSelected = is;
+	}
+
+	public boolean isKeySelected() {
+		return this.isSelected;
 	}
 
 	@Override

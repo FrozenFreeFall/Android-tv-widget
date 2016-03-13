@@ -10,12 +10,21 @@ import java.util.List;
  *
  */
 public class KeyRow {
-	
-	public List<SoftKey> mSoftKeys = new ArrayList<SoftKey>();
+
+	private List<SoftKey> mSoftKeys = new ArrayList<SoftKey>();
 	public int mRowId;
 	//
 	public float mTopF;
 	public float mBottomF;
 	public int mTop;
 	public int mBottom;
+
+	public List<SoftKey> getSoftKeys() {
+		return mSoftKeys;
+	}
+
+	public void setSoftKeys(List<SoftKey> mSoftKeys) {
+		this.mSoftKeys = mSoftKeys;
+	}
+
 }

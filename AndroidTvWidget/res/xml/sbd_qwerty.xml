@@ -1,23 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 全键盘-26-字母 -->
-<Keyboard 
-    width="25%p"
-    height="25%p" >
+<Keyboard
+    height="50.0"
+    width="50.0" >
 
     <row
-        left_padding="1%p"
-        start_pos_x="14%p"
-        start_pos_y="12%p" >
+        left_padding="10.0"
+        start_pos_x="100"
+        start_pos_y="50"
+        textSize="13sp" >
         <keys
-            codes="45|51|33|46|48|53|49|37|43|44"
-            labels="Q|W|E|R|T|Y|U|I|O|P"
-            splitter="|" >
-        </keys>
+            labels="A|B|C|D|E|F"
+            splitter="|"
+            text_size="35" />
+    </row>
+    <row
+        left_padding="10.0"
+        start_pos_x="100"
+        start_pos_y="110"
+        textSize="13sp" >
+        <keys
+            labels="G|H|I|J|K|L"
+            splitter="|"
+            text_size="35" />
+    </row>
+    <row
+        left_padding="10.0"
+        start_pos_x="100"
+        start_pos_y="170"
+        textSize="13sp" >
+        <keys
+            labels="M|N|O|P|Q|R"
+            splitter="|"
+            text_size="35" />
+    </row>
+	
+    <row
+        left_padding="10.0"
+        start_pos_x="100"
+        start_pos_y="230"
+        textSize="13sp" >
+        <keys
+            labels="S|T|U|V|W|X"
+            splitter="|"
+            text_size="35" />
     </row>
     
-    <row>
-        <inkeys labels="2|A|B|C" >
-        </inkeys>
+    <row
+        left_padding="10.0"
+        start_pos_x="220"
+        start_pos_y="290"
+        textSize="13sp" >
+        <keys
+            labels="Y|Z"
+            splitter="|"
+            text_size="35" />
     </row>
-
+    
 </Keyboard>

@@ -348,8 +348,8 @@ public class MainUpView extends View {
 
 	private View mNewFocus;
 	private float mScale = 1.0f;
-	private int mNewWidth;
-	private int mNewHeight;
+	private float mNewWidth;
+	private float mNewHeight;
 	private int mOldWidth;
 	private int mOldHeight;
 
@@ -357,8 +357,8 @@ public class MainUpView extends View {
 	 * */
 	private void flyWhiteBorder(float x, float y) {
 		if (mNewFocus != null) {
-			mNewWidth = (int) ((float) mNewFocus.getMeasuredWidth() * mScale);
-			mNewHeight = (int) ((float) mNewFocus.getMeasuredHeight() * mScale);
+			mNewWidth = ((float) mNewFocus.getMeasuredWidth() * mScale);
+			mNewHeight = ((float) mNewFocus.getMeasuredHeight() * mScale);
 			x = x + (mNewFocus.getMeasuredWidth() - mNewWidth) / 2;
 			y = y + (mNewFocus.getMeasuredHeight() - mNewHeight) / 2;
 		}
@@ -374,8 +374,8 @@ public class MainUpView extends View {
 		ObjectAnimator transAnimatorY = ObjectAnimator.ofFloat(this, "translationY", y);
 		// BUG，因为缩放会造成图片失真(拉伸).
 		// hailong.qiu 2016.02.26 修复 :)
-		ObjectAnimator scaleXAnimator = ObjectAnimator.ofInt(new ScaleView(this), "width", mOldWidth, mNewWidth);
-		ObjectAnimator scaleYAnimator = ObjectAnimator.ofInt(new ScaleView(this), "height", mOldHeight, mNewHeight);
+		ObjectAnimator scaleXAnimator = ObjectAnimator.ofInt(new ScaleView(this), "width", mOldWidth, (int)mNewWidth);
+		ObjectAnimator scaleYAnimator = ObjectAnimator.ofInt(new ScaleView(this), "height", mOldHeight, (int)mNewHeight);
 		//
 		AnimatorSet mAnimatorSet = new AnimatorSet();
 		mAnimatorSet.playTogether(transAnimatorX, transAnimatorY, scaleXAnimator, scaleYAnimator);

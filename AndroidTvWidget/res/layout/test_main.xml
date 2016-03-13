@@ -162,6 +162,16 @@
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
                     android:src="@drawable/mainview_type" />
+                
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:background="#FF0000"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="键盘 测试"
+                        android:textColor="#ffffff" />
+                
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
@@ -210,12 +220,5 @@
         android:id="@+id/mainUpView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <com.open.androidtvwidget.keyboard.SkbContainer
-        android:id="@+id/skbContainer1"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.open.androidtvwidget.keyboard.SkbContainer>
 
 </RelativeLayout>

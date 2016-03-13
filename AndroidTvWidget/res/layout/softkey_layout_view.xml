@@ -4,8 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
+    <!-- 需要绘制的键盘布局 -->
 	<com.open.androidtvwidget.keyboard.SoftKeyboardView 
 	    android:id="@+id/softKeyboardView"
+	    android:layout_height="match_parent"
+	    android:layout_width="match_parent"/>
+	
+	<!-- 弹出的键盘布局 -->
+	<com.open.androidtvwidget.keyboard.SoftKeyboardView 
+	    android:id="@+id/popup_keyboardview"
+	    android:visibility="gone"
 	    android:layout_height="match_parent"
 	    android:layout_width="match_parent"/>
 </LinearLayout>
