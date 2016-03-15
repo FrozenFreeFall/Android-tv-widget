@@ -16,12 +16,6 @@ public class InputModeSwitcher {
 
 	private int mInputMode = INPUT_TYPE_ALL_EN;
 
-//	private SoftKeyService mSoftService;
-//
-//	public InputModeSwitcher(SoftKeyService softService) {
-//		mSoftService = softService;
-//	}
-
 	public int getInputMode() {
 		return mInputMode;
 	}

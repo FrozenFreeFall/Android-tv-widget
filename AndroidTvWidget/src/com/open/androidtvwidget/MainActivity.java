@@ -33,9 +33,9 @@ public class MainActivity extends Activity {
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
 		// mainUpView1 = new MainUpView(getApplicationContext(), gridview_lay);
 		// mainUpView1.setUpRectResource(R.drawable.item_highlight);
-		 mainUpView1.setUpRectResource(R.drawable.white_light_10);
-//		mainUpView1.setUpRectResource(R.drawable.test_rectangle);
-//		mainUpView1.setShadowResource(R.drawable.item_shadow);
+		// mainUpView1.setUpRectResource(R.drawable.white_light_10);
+		mainUpView1.setUpRectResource(R.drawable.test_rectangle);
+		mainUpView1.setShadowResource(R.drawable.item_shadow);
 		// mainUpView1.setDrawUpRectPadding(12);//getResources().getDimensionPixelSize(R.dimen.px25));
 		// mainUpView1.setDrawShadowPadding(0); // 阴影图片设置距离.
 		// mainUpView1.setTranDurAnimTime(500);
@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 				if (newFocus instanceof ReflectItemView) {
 					mainUpView1.setVisibleWidget(false);
 				} else {
-					scale = 1.1f;
+					scale = 1.0f;
 					mainUpView1.setVisibleWidget(true);
 				}
 				mainUpView1.setFocusView(newFocus, oldFocus, scale);

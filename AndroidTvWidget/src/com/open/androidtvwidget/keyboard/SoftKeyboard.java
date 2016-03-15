@@ -3,10 +3,28 @@ package com.open.androidtvwidget.keyboard;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.drawable.Drawable;
+
+/**
+ * 软键盘
+ * 
+ * @author hailong.qiu 356752238@qq.com
+ *
+ */
 public class SoftKeyboard {
 
 	private List<KeyRow> mKeyRows = new ArrayList<KeyRow>();
-
+	
+	private Drawable mKeyboardBg = null; // 键盘背景.
+	
+	public Drawable getKeyboardBg() {
+		return this.mKeyboardBg;
+	}
+	
+	public void setKeyboardBg(Drawable keyboardBg) {
+		this.mKeyboardBg = keyboardBg;
+	}
+	
 	public KeyRow getKeyRowForDisplay(int row) {
 		return mKeyRows.get(row);
 	}

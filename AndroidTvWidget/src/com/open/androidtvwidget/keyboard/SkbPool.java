@@ -1,7 +1,6 @@
 package com.open.androidtvwidget.keyboard;
 
 import android.content.Context;
-import android.util.Log;
 
 /**
  * 加载XML键盘布局文件.

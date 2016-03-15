@@ -1,60 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 全键盘-26-字母 -->
 <Keyboard
-    height="50.0"
-    width="50.0" >
+    bg_res="@drawable/mainbackground"
+    height="@dimen/px100"
+    key_bg_res="@drawable/key_bg_rectangle"
+    key_select_res="@drawable/key_select_rectangle"
+    key_press_res="@drawable/softkey_bg_select2"
+    left_padding="@dimen/px10"
+    start_pos_x="@dimen/px400"
+    start_pos_y="@dimen/px150"
+    text_color="#FFFFFF"
+    text_size="@dimen/px60"
+    top_padding="@dimen/px10"
+    width="@dimen/px100" >
 
+    <!-- 第一行 -->
     <row
-        left_padding="10.0"
-        start_pos_x="100"
-        start_pos_y="50"
-        textSize="13sp" >
+        text_color="@color/red"
+        text_size="40" >
         <keys
             labels="A|B|C|D|E|F"
-            splitter="|"
-            text_size="35" />
+            splitter="|" />
+
+        <key
+            key_code="32"
+            key_icon="@drawable/delete"
+            width="@dimen/px150" />
     </row>
-    <row
-        left_padding="10.0"
-        start_pos_x="100"
-        start_pos_y="110"
-        textSize="13sp" >
+
+    <!-- 第二行 -->
+    <row>
         <keys
             labels="G|H|I|J|K|L"
             splitter="|"
-            text_size="35" />
+            text_color="@color/green"
+            text_size="30" />
     </row>
+
+    <!-- 第三行 -->
     <row
-        left_padding="10.0"
-        start_pos_x="100"
-        start_pos_y="170"
-        textSize="13sp" >
+        text_color="@color/yellow"
+        text_size="@dimen/px30" >
         <keys
             labels="M|N|O|P|Q|R"
-            splitter="|"
-            text_size="35" />
+            splitter="|" />
     </row>
-	
-    <row
-        left_padding="10.0"
-        start_pos_x="100"
-        start_pos_y="230"
-        textSize="13sp" >
+    <!-- 第四行 -->
+    <row text_size="@dimen/px40" >
         <keys
             labels="S|T|U|V|W|X"
-            splitter="|"
-            text_size="35" />
+            splitter="|" />
     </row>
-    
-    <row
-        left_padding="10.0"
-        start_pos_x="220"
-        start_pos_y="290"
-        textSize="13sp" >
+
+    <!-- 第五行 -->
+    <row start_pos_x="@dimen/px400" >
         <keys
             labels="Y|Z"
-            splitter="|"
-            text_size="35" />
+            splitter="|" />
     </row>
-    
+
 </Keyboard>

@@ -8,6 +8,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -60,19 +61,30 @@ public class XmlKeyboardLoader {
 	private static final String XMLTAG_KEY = "key";
 	private static final String XMLTAG_INCKEY = "inckey";
 
+	// Kyes.
 	private static final String XMLATTR_KEY_LABELS = "labels";
 	private static final String XMLATTR_KEY_CODES = "codes";
-	private static final String XMLATTR_KEY_LABEL = "label";
-	private static final String XMLATTR_KEY_ICON = "icon";
-
 	private static final String XMLATTR_KEY_SPLITTER = "splitter";
+	// key.
+	private static final String XMLATTR_KEY_LABEL = "key_label";
+	private static final String XMLATTR_KEY_ICON = "key_icon";
+	private static final String XMLATTR_KEY_CODE = "key_code";
+
 	private static final String XMLATTR_TEXT_SIZE = "text_size";
+	private static final String XMLATTR_TEXT_COLOR = "text_color"; // 文本颜色.
 	private static final String XMLATTR_KEY_WIDTH = "width";
 	private static final String XMLATTR_KEY_HEIGHT = "height";
 
-	int mTextSize = 0;
-	float mSaveKeyXPos;
+	private static final String XMLATTR_KEYBOARD_BG = "bg_res"; // 键盘界面.
+	private static final String XMLATTR_KEY_BG = "key_bg_res"; // 键盘按键背景图片.
+	private static final String XMLATTR_KEY_SELECT_RES = "key_select_res"; // 键盘按键选中状态图片.
+	private static final String XMLATTR_KEY_PRESS_RES = "key_press_res"; // 键盘按键按下.
+
+	float mSaveKeyXPos; // 保存键值的位置.
 	float mSaveKeyYPos;
+	boolean isStartPosY = true;
+
+	Drawable d;
 
 	/**
 	 * 解析XML键盘文件.
@@ -103,7 +115,10 @@ public class XmlKeyboardLoader {
 					if (XMLTAG_KEYBOARD.compareTo(attr) == 0) { // keyboard
 						if (!attrSkb.getAttributes(attrDef))
 							return null;
+						Drawable bg = getDrawable(xrp, XMLATTR_KEYBOARD_BG, null); // 获取键盘背景.
 						softKeyboard = new SoftKeyboard();
+						softKeyboard.setKeyboardBg(bg);
+						mSaveKeyYPos = attrSkb.mKeyYPos;
 					} else if (XMLTAG_ROW.compareTo(attr) == 0) { // row 列.
 						if (!attrRow.getAttributes(attrSkb)) {
 							return null;
@@ -112,6 +127,7 @@ public class XmlKeyboardLoader {
 							KeyRow keyRow = new KeyRow();
 							softKeyboard.addKeyRow(keyRow);
 						}
+						isStartPosY = getFloat(xrp, XMLATTR_START_POS_Y, -1.0f) != -1.0f ? true : false;
 						mSaveKeyXPos = 0;
 					} else if (XMLTAG_KEYS.compareTo(attr) == 0) { // keys.
 						if (!attrKeys.getAttributes(attrRow)) {
@@ -121,26 +137,17 @@ public class XmlKeyboardLoader {
 						String splitter = xrp.getAttributeValue(null, XMLATTR_KEY_SPLITTER);
 						splitter = Pattern.quote(splitter);
 						String labels = xrp.getAttributeValue(null, XMLATTR_KEY_LABELS);
-						String codes = xrp.getAttributeValue(null, XMLATTR_KEY_CODES);
-						int textSize = getInteger(xrp, XMLATTR_TEXT_SIZE, mTextSize);
+						String codes = xrp.getAttributeValue(null, XMLATTR_KEY_CODES); // 后续加入.
 						if (null == splitter || null == labels) {
 							return null;
 						}
 						String labelArr[] = labels.split(splitter);
 						// 添加KEYS中的键值.
-						float saveKeyX = 0;
 						for (int i = 0; i < labelArr.length; i++) {
-							softKey = new SoftKey();
-							softKey.setKeyLabel(labelArr[i]);
-							// key 位置.
-							float left, right, top, bottom;
-							left = saveKeyX + attrKeys.mKeyXPos + attrKeys.mKeyLeftPadding;
-							right = left + attrKeys.keyWidth;
-							top = attrKeys.mKeyYPos;
-							bottom = top + attrKeys.keyHeight;
-							softKey.setKeyDimensions(left, top, right, bottom);
+							softKey = getSoftKey(xrp, attrKeys);
+							softKey.setKeyLabel(labelArr[i]); // 设置 label.
 							softKeyboard.addSoftKey(softKey);
-							saveKeyX += softKey.getWidth() + attrKeys.mKeyLeftPadding;
+							mSaveKeyXPos += softKey.getWidth() + attrKeys.mKeyLeftPadding;
 						}
 					} else if (XMLTAG_KEY.compareTo(attr) == 0) { // key
 						if (null == softKeyboard) {
@@ -149,9 +156,16 @@ public class XmlKeyboardLoader {
 						if (!attrKey.getAttributes(attrRow)) {
 							return null;
 						}
+						softKey = getSoftKey(xrp, attrKey);
+						softKeyboard.addSoftKey(softKey);
+						mSaveKeyXPos += softKey.getWidth() + attrKey.mKeyLeftPadding;
 					}
 				} else if (mXmlEventType == XmlResourceParser.END_TAG) {
-					//
+					// 判断是否为 </row>
+					String attr = xrp.getName();
+					if (XMLTAG_ROW.compareTo(attr) == 0) {
+						mSaveKeyYPos += attrRow.keyHeight + attrRow.mKeyTopPadding;
+					}
 				}
 				mXmlEventType = xrp.next();
 			}
@@ -171,28 +185,76 @@ public class XmlKeyboardLoader {
 	}
 
 	/**
+	 * 获取按键.
+	 */
+	private SoftKey getSoftKey(XmlResourceParser xrp, KeyCommonAttributes attrKey) {
+		int keyCode = getInteger(xrp, XMLATTR_KEY_CODE, 0); // key_code
+		Drawable keyIcon = getDrawable(xrp, XMLATTR_KEY_ICON, null); // key_icon
+		String keyLabel = getString(xrp, XMLATTR_KEY_LABEL, null); // key_label
+		float textSize = getFloat(xrp, XMLATTR_TEXT_SIZE, attrKey.mTextSize); // 按键文本字体大小
+		int textColor = getColor(xrp, XMLATTR_TEXT_COLOR, attrKey.mTextColor); // 按键文本颜色.
+		//
+		float left, right, top = 0, bottom;
+		left = mSaveKeyXPos + attrKey.mKeyXPos + attrKey.mKeyLeftPadding;
+		right = left + attrKey.keyWidth;
+		// 判断是否<key 没有设置 start_pos_y
+		if (isStartPosY) {
+			top = attrKey.mKeyYPos + attrKey.mKeyTopPadding;
+			mSaveKeyYPos = attrKey.mKeyYPos ; // 保存 top属性.
+		} else {
+			top = mSaveKeyYPos + attrKey.mKeyTopPadding;
+		}
+		bottom = top + attrKey.keyHeight;
+		// 按键.
+		SoftKey softKey = new SoftKey();
+		softKey.setTextSize(textSize);
+		softKey.setKeyLabel(keyLabel);
+		softKey.setKeyIcon(keyIcon);
+		softKey.setTextColor(textColor);
+		softKey.setKeyCode(keyCode); // 自定义的一些值,比如删除,回车.
+		softKey.setKeySelectDrawable(attrKey.mKeySelectDrawable); // 设置选中的图片.
+		softKey.setKeyPressDrawable(attrKey.mKeyPressDrawable); // 按下的图片.
+		softKey.setKeyBgDrawable(attrKey.mKeyBgDrawable); // 按键背景.
+		softKey.setKeyDimensions(left, top, right, bottom);
+		return softKey;
+	}
+
+	/**
 	 * 用于读取键值中的属性.
 	 */
 	class KeyCommonAttributes {
+		private static final float KEY_TEXT_SIZE = 30;
+
 		XmlResourceParser mXrp;
 		float keyWidth;
 		float keyHeight;
 		float mKeyXPos;
 		float mKeyYPos;
 		float mKeyLeftPadding;
+		float mKeyTopPadding;
+		float mTextSize = KEY_TEXT_SIZE;
+		int mTextColor = Color.RED; // 按键文本颜色.
+
+		Drawable mKeySelectDrawable;
+		Drawable mKeyPressDrawable;
+		Drawable mKeyBgDrawable;
 
 		public KeyCommonAttributes(XmlResourceParser xrp) {
 			this.mXrp = xrp;
 		}
 
 		boolean getAttributes(KeyCommonAttributes defAttr) {
-			mKeyLeftPadding = getFloat(mXrp, XMLATTR_LEFT_PADDING, defAttr.mKeyLeftPadding);
-			mKeyXPos = getFloat(mXrp, XMLATTR_START_POS_X, defAttr.mKeyXPos);
-			mKeyYPos = getFloat(mXrp, XMLATTR_START_POS_Y, defAttr.mKeyYPos);
-			// 宽度.
-			keyWidth = getFloat(mXrp, XMLATTR_KEY_WIDTH, defAttr.keyWidth);
-			// 高度.
-			keyHeight = getFloat(mXrp, XMLATTR_KEY_HEIGHT, defAttr.keyHeight);
+			this.mKeyBgDrawable = getDrawable(mXrp, XMLATTR_KEY_BG, defAttr.mKeyBgDrawable); // 按键背景.
+			this.mKeySelectDrawable = getDrawable(mXrp, XMLATTR_KEY_SELECT_RES, defAttr.mKeySelectDrawable); // 按键选中.
+			this.mKeyPressDrawable = getDrawable(mXrp, XMLATTR_KEY_PRESS_RES, defAttr.mKeyPressDrawable); // 按键按下.
+			this.mKeyLeftPadding = getFloat(mXrp, XMLATTR_LEFT_PADDING, defAttr.mKeyLeftPadding);
+			this.mKeyTopPadding = getFloat(mXrp, XMLATTR_TOP_PADDING, defAttr.mKeyTopPadding);
+			this.mKeyXPos = getFloat(mXrp, XMLATTR_START_POS_X, defAttr.mKeyXPos);
+			this.mKeyYPos = getFloat(mXrp, XMLATTR_START_POS_Y, defAttr.mKeyYPos);
+			this.keyWidth = getFloat(mXrp, XMLATTR_KEY_WIDTH, defAttr.keyWidth);
+			this.keyHeight = getFloat(mXrp, XMLATTR_KEY_HEIGHT, defAttr.keyHeight);
+			this.mTextSize = getFloat(mXrp, XMLATTR_TEXT_SIZE, defAttr.mTextSize); // 按键文本大小.
+			this.mTextColor = getColor(mXrp, XMLATTR_TEXT_COLOR, defAttr.mTextColor); // 按键文本颜色.
 			return true;
 		}
 	}
@@ -222,6 +284,15 @@ public class XmlKeyboardLoader {
 			s = xrp.getAttributeValue(null, name);
 			if (null == s)
 				return defValue;
+			// 判断是否为 "#FF0000"
+			if (s.startsWith("#")) {
+				try {
+					return Color.parseColor(s);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return defValue;
+				}
+			}
 			try {
 				int ret = Integer.valueOf(s);
 				return ret;

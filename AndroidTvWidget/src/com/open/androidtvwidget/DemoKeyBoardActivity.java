@@ -1,6 +1,7 @@
 package com.open.androidtvwidget;
 
 import com.open.androidtvwidget.keyboard.SkbContainer;
+import com.open.androidtvwidget.keyboard.SoftKey;
 import com.open.androidtvwidget.keyboard.SoftKeyBoardListener;
 
 import android.app.Activity;
@@ -24,8 +25,8 @@ public class DemoKeyBoardActivity extends Activity {
 		skbContainer = (SkbContainer) findViewById(R.id.skbContainer);
 		skbContainer.setOnSoftKeyBoardListener(new SoftKeyBoardListener() {
 			@Override
-			public void onCommitText(String text) {
-				input_tv.setText(input_tv.getText() + text);
+			public void onCommitText(SoftKey softKey) {
+				input_tv.setText(input_tv.getText() + softKey.getKeyLabel());
 			}
 		});
 	}
