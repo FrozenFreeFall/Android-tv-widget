@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import com.open.androidtvwidget.utils.OPENLOG;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -24,13 +26,11 @@ public class XmlKeyboardLoader {
 
 	private Context mContext;
 	private Resources mResources;
-
 	private int mXmlEventType;
 
 	/**
-	 * 首先是读取 键盘类型(InputType).
-	 * 
-	 * 类型分别为 全英文，T9，五笔 键盘.
+	 * 首先是读取 键盘类型(InputType).<br>
+	 * 类型分别为 全英文，数字，符号 键盘.
 	 */
 	public XmlKeyboardLoader(final Context context) {
 		this.mContext = context;
@@ -45,46 +45,56 @@ public class XmlKeyboardLoader {
 	private static final String XMLATTR_START_POS_Y = "start_pos_y";
 
 	/**
-	 * 键值的间距.
-	 */
-	private static final String XMLATTR_LEFT_PADDING = "left_padding";
-	private static final String XMLATTR_TOP_PADDING = "top_padding";
-	private static final String XMLATTR_BOTTOM_PADDING = "bottom_padding";
-	private static final String XMLATTR_RIGHT_PADDING = "right_padding";
-
-	/**
 	 * XML键值.
 	 */
 	private static final String XMLTAG_KEYBOARD = "keyboard";
 	private static final String XMLTAG_ROW = "row";
 	private static final String XMLTAG_KEYS = "keys";
 	private static final String XMLTAG_KEY = "key";
-	private static final String XMLTAG_INCKEY = "inckey";
+	private static final String XMLTAG_TOGGLE_KEY = "toggle_key";
+	private static final String XMLTAG_STATE = "state";
+
+	// keyboard
+	private static final String XMLATTR_KEYBOARD_BG = "bg_res"; // 键盘界面.
+	private static final String XMLATTR_KEYBOARD_HEIGHT = "height"; // 键盘界面.
+	private static final String XMLATTR_QWERTY_UPPERCASE = "qwerty_uppercase"; // 大小写默认
+	private static final String XMLATTR_QWERTY = "qwerty"; // 字母键盘.
+	private static final String XMLATTR_LEFT_RIGHT_MOVE = "left_right_move"; // 左右按键移动.(最后一个，第一个)
+	private static final String XMLATTR_TOP_BOTTOM_MOVE = "top_bottom_move"; // 上下按键移动.(最后一个，第一个)
 
 	// Kyes.
 	private static final String XMLATTR_KEY_LABELS = "labels";
 	private static final String XMLATTR_KEY_CODES = "codes";
 	private static final String XMLATTR_KEY_SPLITTER = "splitter";
+
 	// key.
 	private static final String XMLATTR_KEY_LABEL = "key_label";
 	private static final String XMLATTR_KEY_ICON = "key_icon";
 	private static final String XMLATTR_KEY_CODE = "key_code";
 
-	private static final String XMLATTR_TEXT_SIZE = "text_size";
-	private static final String XMLATTR_TEXT_COLOR = "text_color"; // 文本颜色.
-	private static final String XMLATTR_KEY_WIDTH = "width";
-	private static final String XMLATTR_KEY_HEIGHT = "height";
+	private static final String XMLATTR_TEXT_SIZE = "key_text_size";
+	private static final String XMLATTR_TEXT_COLOR = "key_text_color"; // 文本颜色.
+	private static final String XMLATTR_KEY_WIDTH = "key_width";
+	private static final String XMLATTR_KEY_HEIGHT = "key_height";
 
-	private static final String XMLATTR_KEYBOARD_BG = "bg_res"; // 键盘界面.
 	private static final String XMLATTR_KEY_BG = "key_bg_res"; // 键盘按键背景图片.
 	private static final String XMLATTR_KEY_SELECT_RES = "key_select_res"; // 键盘按键选中状态图片.
 	private static final String XMLATTR_KEY_PRESS_RES = "key_press_res"; // 键盘按键按下.
 
-	float mSaveKeyXPos; // 保存键值的位置.
-	float mSaveKeyYPos;
-	boolean isStartPosY = true;
+	/**
+	 * 键值的间距.
+	 */
+	private static final String XMLATTR_KEY_LEFT_PADDING = "key_left_padding";
+	private static final String XMLATTR_KEY_TOP_PADDING = "key_top_padding";
+	private static final String XMLATTR_KEY_BOTTOM_PADDING = "key_bottom_padding";
+	private static final String XMLATTR_KEY_RIGHT_PADDING = "key_right_padding";
 
-	Drawable d;
+	// toggle_key.
+	private static final String XMLATTR_TOGGLE_KEY_STATE_ID = "state_id"; // 状态ID.
+
+	float mSaveKeyXPos; // 保存键值的X位置.
+	float mSaveKeyYPos; // 保存键值的Y位置.
+	boolean isStartPosY = true; // 用于自动排列.
 
 	/**
 	 * 解析XML键盘文件.
@@ -92,8 +102,11 @@ public class XmlKeyboardLoader {
 	 * 保存数据到 SoftKeyboard 中去.
 	 */
 	public SoftKeyboard loadKeyboard(int resourceId) {
+		OPENLOG.D(TAG, "loadKeyboard loading ... ...");
 		SoftKeyboard softKeyboard = null;
 		SoftKey softKey = null;
+		ToggleSoftKey toggleSoftKey = null;
+		int skbHeight = -1;
 		//
 		XmlResourceParser xrp = mResources.getXml(resourceId);
 		//
@@ -102,6 +115,9 @@ public class XmlKeyboardLoader {
 		KeyCommonAttributes attrRow = new KeyCommonAttributes(xrp);
 		KeyCommonAttributes attrKeys = new KeyCommonAttributes(xrp);
 		KeyCommonAttributes attrKey = new KeyCommonAttributes(xrp);
+		KeyCommonAttributes attrToggleKey = new KeyCommonAttributes(xrp);
+		KeyCommonAttributes attrStateKey = new KeyCommonAttributes(xrp);
+
 		//
 		try {
 			mXmlEventType = xrp.next();
@@ -116,18 +132,28 @@ public class XmlKeyboardLoader {
 						if (!attrSkb.getAttributes(attrDef))
 							return null;
 						Drawable bg = getDrawable(xrp, XMLATTR_KEYBOARD_BG, null); // 获取键盘背景.
+						boolean isQwertyUpperCase = getBoolean(xrp, XMLATTR_QWERTY_UPPERCASE, false); // 大小写初始化值.
+						boolean isQwerty = getBoolean(xrp, XMLATTR_QWERTY, false); // 英文键盘
+						boolean isLRMove = getBoolean(xrp, XMLATTR_LEFT_RIGHT_MOVE, true); // 左右移动
+						boolean isTBMove = getBoolean(xrp, XMLATTR_TOP_BOTTOM_MOVE, true); // 上下移动
+						skbHeight = (int) getFloat(xrp, XMLATTR_KEYBOARD_HEIGHT, -1f);
 						softKeyboard = new SoftKeyboard();
 						softKeyboard.setKeyboardBg(bg);
-						mSaveKeyYPos = attrSkb.mKeyYPos;
+						softKeyboard.setHeight(skbHeight); // 键盘高度.
+						softKeyboard.setFlags(isQwerty, isQwertyUpperCase, isLRMove, isTBMove);
+						mSaveKeyYPos = 0;
 					} else if (XMLTAG_ROW.compareTo(attr) == 0) { // row 列.
+						if (softKeyboard == null) {
+							OPENLOG.E(TAG, "XMLTAG_ROW softKeyboard null");
+							return null;
+						}
 						if (!attrRow.getAttributes(attrSkb)) {
 							return null;
 						}
-						if (softKeyboard != null) {
-							KeyRow keyRow = new KeyRow();
-							softKeyboard.addKeyRow(keyRow);
-						}
+						//
+						KeyRow keyRow = new KeyRow();
 						isStartPosY = getFloat(xrp, XMLATTR_START_POS_Y, -1.0f) != -1.0f ? true : false;
+						softKeyboard.addKeyRow(keyRow);
 						mSaveKeyXPos = 0;
 					} else if (XMLTAG_KEYS.compareTo(attr) == 0) { // keys.
 						if (!attrKeys.getAttributes(attrRow)) {
@@ -139,18 +165,32 @@ public class XmlKeyboardLoader {
 						String labels = xrp.getAttributeValue(null, XMLATTR_KEY_LABELS);
 						String codes = xrp.getAttributeValue(null, XMLATTR_KEY_CODES); // 后续加入.
 						if (null == splitter || null == labels) {
+							OPENLOG.E(TAG, "XMLTAG_KEYS splitter or labels null");
 							return null;
 						}
 						String labelArr[] = labels.split(splitter);
+						String codeArr[] = null;
+						if (null != codes) {
+							codeArr = codes.split(splitter);
+							if (labelArr.length != codeArr.length) {
+								return null;
+							}
+						}
 						// 添加KEYS中的键值.
 						for (int i = 0; i < labelArr.length; i++) {
+							int keyCode = 0;
+							if (null != codeArr) {
+								keyCode = Integer.valueOf(codeArr[i]);
+							}
 							softKey = getSoftKey(xrp, attrKeys);
 							softKey.setKeyLabel(labelArr[i]); // 设置 label.
+							softKey.setKeyCode(keyCode);
 							softKeyboard.addSoftKey(softKey);
 							mSaveKeyXPos += softKey.getWidth() + attrKeys.mKeyLeftPadding;
 						}
 					} else if (XMLTAG_KEY.compareTo(attr) == 0) { // key
 						if (null == softKeyboard) {
+							OPENLOG.E(TAG, "XMLTAG_KEY softKeyboard null");
 							return null;
 						}
 						if (!attrKey.getAttributes(attrRow)) {
@@ -159,17 +199,53 @@ public class XmlKeyboardLoader {
 						softKey = getSoftKey(xrp, attrKey);
 						softKeyboard.addSoftKey(softKey);
 						mSaveKeyXPos += softKey.getWidth() + attrKey.mKeyLeftPadding;
+					} else if (XMLTAG_TOGGLE_KEY.compareTo(attr) == 0) { // toggle_key
+						if (null == softKeyboard) {
+							OPENLOG.E(TAG, "XMLTAG_TOGGLE_KEY softKeyboard null");
+							return null;
+						}
+						if (!attrToggleKey.getAttributes(attrRow)) {
+							return null;
+						}
+						toggleSoftKey = getStateKey(xrp, attrToggleKey); // 状态切换按键.
+						mSaveKeyXPos += toggleSoftKey.getWidth() + attrToggleKey.mKeyLeftPadding;
+					} else if (XMLTAG_STATE.compareTo(attr) == 0) { // state 状态.
+						if (null == softKeyboard || toggleSoftKey == null) {
+							OPENLOG.E(TAG, "XMLTAG_STATE softKeyboard or toggleSoftKey null");
+							return null;
+						}
+						if (!attrStateKey.getAttributes(attrToggleKey)) {
+							return null;
+						}
+						//
+						ToggleSoftKey stateKey = getStateKey(xrp, attrStateKey);
+						// 添加状态到状态按键.
+						toggleSoftKey.addStateKey(stateKey);
 					}
 				} else if (mXmlEventType == XmlResourceParser.END_TAG) {
 					// 判断是否为 </row>
 					String attr = xrp.getName();
 					if (XMLTAG_ROW.compareTo(attr) == 0) {
-						mSaveKeyYPos += attrRow.keyHeight + attrRow.mKeyTopPadding;
+						mSaveKeyYPos += attrRow.keyHeight + attrRow.mKeyTopPadding + attrRow.mkeyBottomPadding;
+					}
+					// </toggle_key>
+					if (XMLTAG_TOGGLE_KEY.compareTo(attr) == 0) {
+						softKeyboard.addSoftKey(toggleSoftKey);
+						toggleSoftKey = null;
+//						toggleSoftKey.showStateListTest();
 					}
 				}
 				mXmlEventType = xrp.next();
 			}
 			xrp.close();
+			/*
+			 * 如果没有设置软键盘的高度,<br> 默认根据键值的所有高度来设置.<br> 建议在XML布局中自定义高度.
+			 */
+			if (skbHeight == -1) {
+				int height = (int) ((mSaveKeyYPos)); // + (2 * attrSkb.mKeyTopPadding));
+				softKeyboard.setHeight(height);
+			}
+			OPENLOG.D(TAG, "loadKeyboard load over");
 			return softKeyboard;
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
@@ -185,6 +261,48 @@ public class XmlKeyboardLoader {
 	}
 
 	/**
+	 * 获取按键中的状态.
+	 */
+	private ToggleSoftKey getStateKey(XmlResourceParser xrp, KeyCommonAttributes attrKey) {
+		ToggleSoftKey stateKey = getToggleSoftKey(xrp, attrKey);
+		int stateId = getInteger(xrp, XMLATTR_TOGGLE_KEY_STATE_ID, 0);
+		stateKey.setStateId(stateId);
+		return stateKey;
+	}
+
+	private ToggleSoftKey getToggleSoftKey(XmlResourceParser xrp, KeyCommonAttributes attrKey) {
+		int keyCode = getInteger(xrp, XMLATTR_KEY_CODE, 0); // key_code
+		Drawable keyIcon = getDrawable(xrp, XMLATTR_KEY_ICON, null); // key_icon
+		String keyLabel = getString(xrp, XMLATTR_KEY_LABEL, null); // key_label
+		float textSize = getFloat(xrp, XMLATTR_TEXT_SIZE, attrKey.mTextSize); // 按键文本字体大小
+		int textColor = getColor(xrp, XMLATTR_TEXT_COLOR, attrKey.mTextColor); // 按键文本颜色.
+		//
+		float left, right, top = 0, bottom;
+		left = mSaveKeyXPos + attrKey.mKeyXPos + attrKey.mKeyLeftPadding;
+		right = left + attrKey.keyWidth;
+		// 判断是否<key 或者 <row 或 <keys 没有设置 start_pos_y
+		if (isStartPosY) {
+			top = attrKey.mKeyYPos + attrKey.mKeyTopPadding;
+			mSaveKeyYPos = attrKey.mKeyYPos - attrKey.keyHeight;
+		} else {
+			top = mSaveKeyYPos + attrKey.mKeyYPos + attrKey.mKeyTopPadding;
+		}
+		bottom = top + attrKey.keyHeight;
+		// 按键.
+		ToggleSoftKey softKey = new ToggleSoftKey();
+		softKey.setTextSize(textSize);
+		softKey.setKeyLabel(keyLabel);
+		softKey.setKeyIcon(keyIcon);
+		softKey.setTextColor(textColor);
+		softKey.setKeyCode(keyCode); // 自定义的一些值,比如删除,回车.
+		softKey.setKeySelectDrawable(attrKey.mKeySelectDrawable); // 设置选中的图片.
+		softKey.setKeyPressDrawable(attrKey.mKeyPressDrawable); // 按下的图片.
+		softKey.setKeyBgDrawable(attrKey.mKeyBgDrawable); // 按键背景.
+		softKey.setKeyDimensions(left, top, right, bottom);
+		return softKey;
+	}
+
+	/**
 	 * 获取按键.
 	 */
 	private SoftKey getSoftKey(XmlResourceParser xrp, KeyCommonAttributes attrKey) {
@@ -197,12 +315,12 @@ public class XmlKeyboardLoader {
 		float left, right, top = 0, bottom;
 		left = mSaveKeyXPos + attrKey.mKeyXPos + attrKey.mKeyLeftPadding;
 		right = left + attrKey.keyWidth;
-		// 判断是否<key 没有设置 start_pos_y
+		// 判断是否<key 或者 <row 或 <keys 没有设置 start_pos_y
 		if (isStartPosY) {
 			top = attrKey.mKeyYPos + attrKey.mKeyTopPadding;
-			mSaveKeyYPos = attrKey.mKeyYPos ; // 保存 top属性.
+			mSaveKeyYPos = attrKey.mKeyYPos - attrKey.keyHeight;
 		} else {
-			top = mSaveKeyYPos + attrKey.mKeyTopPadding;
+			top = mSaveKeyYPos + attrKey.mKeyYPos + attrKey.mKeyTopPadding;
 		}
 		bottom = top + attrKey.keyHeight;
 		// 按键.
@@ -232,6 +350,7 @@ public class XmlKeyboardLoader {
 		float mKeyYPos;
 		float mKeyLeftPadding;
 		float mKeyTopPadding;
+		float mkeyBottomPadding;
 		float mTextSize = KEY_TEXT_SIZE;
 		int mTextColor = Color.RED; // 按键文本颜色.
 
@@ -247,8 +366,9 @@ public class XmlKeyboardLoader {
 			this.mKeyBgDrawable = getDrawable(mXrp, XMLATTR_KEY_BG, defAttr.mKeyBgDrawable); // 按键背景.
 			this.mKeySelectDrawable = getDrawable(mXrp, XMLATTR_KEY_SELECT_RES, defAttr.mKeySelectDrawable); // 按键选中.
 			this.mKeyPressDrawable = getDrawable(mXrp, XMLATTR_KEY_PRESS_RES, defAttr.mKeyPressDrawable); // 按键按下.
-			this.mKeyLeftPadding = getFloat(mXrp, XMLATTR_LEFT_PADDING, defAttr.mKeyLeftPadding);
-			this.mKeyTopPadding = getFloat(mXrp, XMLATTR_TOP_PADDING, defAttr.mKeyTopPadding);
+			this.mKeyLeftPadding = getFloat(mXrp, XMLATTR_KEY_LEFT_PADDING, defAttr.mKeyLeftPadding);
+			this.mKeyTopPadding = getFloat(mXrp, XMLATTR_KEY_TOP_PADDING, defAttr.mKeyTopPadding);
+			this.mkeyBottomPadding = getFloat(mXrp, XMLATTR_KEY_BOTTOM_PADDING, defAttr.mkeyBottomPadding);
 			this.mKeyXPos = getFloat(mXrp, XMLATTR_START_POS_X, defAttr.mKeyXPos);
 			this.mKeyYPos = getFloat(mXrp, XMLATTR_START_POS_Y, defAttr.mKeyYPos);
 			this.keyWidth = getFloat(mXrp, XMLATTR_KEY_WIDTH, defAttr.keyWidth);

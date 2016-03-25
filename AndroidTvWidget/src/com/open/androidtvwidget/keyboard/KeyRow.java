@@ -12,12 +12,6 @@ import java.util.List;
 public class KeyRow {
 
 	private List<SoftKey> mSoftKeys = new ArrayList<SoftKey>();
-	public int mRowId;
-	//
-	public float mTopF;
-	public float mBottomF;
-	public int mTop;
-	public int mBottom;
 
 	public List<SoftKey> getSoftKeys() {
 		return mSoftKeys;

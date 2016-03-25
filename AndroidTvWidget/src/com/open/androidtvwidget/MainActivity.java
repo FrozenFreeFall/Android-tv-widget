@@ -2,6 +2,7 @@ package com.open.androidtvwidget;
 
 import com.open.androidtvwidget.view.MainLayout;
 import com.open.androidtvwidget.view.MainUpView;
+import com.open.androidtvwidget.view.OpenBaseAnimAdapter;
 import com.open.androidtvwidget.view.ReflectItemView;
 
 import android.animation.Animator;
@@ -21,6 +22,7 @@ public class MainActivity extends Activity {
 
 	MainUpView mainUpView1;
 	View test_top_iv;
+	OpenBaseAnimAdapter mBaseAnimAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class MainActivity extends Activity {
 		test_top_iv = findViewById(R.id.test_top_iv);
 		// MainUpView 设置.
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
+		mBaseAnimAdapter = (OpenBaseAnimAdapter) mainUpView1.getAnimAdapter();
 		// mainUpView1 = new MainUpView(getApplicationContext(), gridview_lay);
 		// mainUpView1.setUpRectResource(R.drawable.item_highlight);
 		// mainUpView1.setUpRectResource(R.drawable.white_light_10);
@@ -45,12 +48,12 @@ public class MainActivity extends Activity {
 			public void onGlobalFocusChanged(final View oldFocus, final View newFocus) {
 				newFocus.bringToFront(); // 防止放大的view被压在下面. (建议使用MainLayout)
 				float scale = 1.2f;
-				if (newFocus instanceof ReflectItemView) {
-					mainUpView1.setVisibleWidget(false);
-				} else {
-					scale = 1.0f;
-					mainUpView1.setVisibleWidget(true);
-				}
+				// if (newFocus instanceof ReflectItemView) {
+				// mBaseAnimAdapter.setVisibleWidget(false);
+				// } else {
+				// scale = 1.0f;
+				// mBaseAnimAdapter.setVisibleWidget(true);
+				// }
 				mainUpView1.setFocusView(newFocus, oldFocus, scale);
 				// 测试是否让边框绘制在下面，还是上面. (建议不要使用此函数)
 				// mainUpView1.setDrawUpRectEnabled(true);
@@ -88,6 +91,13 @@ public class MainActivity extends Activity {
 				startActivity(new Intent(getApplicationContext(), DemoKeyBoardActivity.class));
 			}
 		});
+		findViewById(R.id.top_lay).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getApplicationContext(), "ViewPager demo test", Toast.LENGTH_LONG).show();
+				startActivity(new Intent(getApplicationContext(), DemoViewPagerActivity.class));
+			}
+		});
 	}
 
 	public void testTopDemo(View newView) {
@@ -96,7 +106,7 @@ public class MainActivity extends Activity {
 			test_top_iv.animate().scaleX(2.0f).scaleY(1.5f).setDuration(300).setListener(new AnimatorListener() {
 				@Override
 				public void onAnimationStart(Animator animation) {
-					mainUpView1.setDrawUpRectEnabled(true);
+					mBaseAnimAdapter.setDrawUpRectEnabled(true);
 				}
 
 				@Override
@@ -105,7 +115,7 @@ public class MainActivity extends Activity {
 
 				@Override
 				public void onAnimationEnd(Animator animation) {
-					mainUpView1.setDrawUpRectEnabled(false);
+					mBaseAnimAdapter.setDrawUpRectEnabled(false);
 					mainUpView1.setDrawUpRectPadding(getResources().getDimensionPixelSize(R.dimen.px22)); // 让移动边框显示出来.
 				}
 
@@ -115,11 +125,11 @@ public class MainActivity extends Activity {
 			}).start();
 		} else {
 			mainUpView1.setDrawUpRectPadding(getResources().getDimensionPixelSize(R.dimen.px25));
-			mainUpView1.setDrawUpRectEnabled(true); //
+			mBaseAnimAdapter.setDrawUpRectEnabled(true); //
 			test_top_iv.animate().scaleX(1.0f).scaleY(1.0f).setDuration(200).setListener(new AnimatorListener() {
 				@Override
 				public void onAnimationStart(Animator animation) {
-					mainUpView1.setDrawUpRectEnabled(true);
+					mBaseAnimAdapter.setDrawUpRectEnabled(true);
 				}
 
 				@Override
@@ -128,7 +138,7 @@ public class MainActivity extends Activity {
 
 				@Override
 				public void onAnimationEnd(Animator animation) {
-					mainUpView1.setDrawUpRectEnabled(true);
+					mBaseAnimAdapter.setDrawUpRectEnabled(true);
 				}
 
 				@Override

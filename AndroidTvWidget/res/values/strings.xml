@@ -4,5 +4,40 @@
     <string name="app_name">AndroidTvWidget</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+	
+      <!-- 按键状态 -->
+    <string name="toggle_keycode_case">-1</string> <!-- 大小写切换 -->
+     <string name="toggle_en_lower">2</string> <!-- 小写 -->
+    <string name="toggle_en_upper">3</string> <!-- 大写 -->
+    
+    <string name="toggle_keycode_page">-100</string> <!-- 翻页 -->
+    <string name="toggle_keycode_page_1">101</string> <!-- 翻页1 -->
+    <string name="toggle_keycode_page_2">102</string> <!-- 翻页2 -->
+    
+    <!-- 键盘切换 -->
+    <string name="mode_skb_all_number">-3</string> <!-- 大写 -->
+    <string name="mode_skb_all_en">-4</string> <!-- 大写 -->
+    <string name="mode_skb_all_sym">-5</string> <!-- 大写 -->
+    
+    <string name="keycode_space">62</string> <!-- 空格 -->
+    <string name="keycode_center">66</string> <!-- 回车 -->
+    <string name="keycode_back">4</string> <!-- 返回 -->
+    <string name="keycode_left">21</string> <!-- 左边 -->
+    <string name="keycode_right">22</string> <!-- 右边 -->
+    <string name="keycode_del">67</string> <!-- 删除 -->
+    
+    <!-- 回车状态 -->
+    <string name="toggle_enter_go">7</string>
+    <string name="toggle_enter_search">8</string>
+    <string name="toggle_enter_send">9</string>
+    <string name="toggle_enter_next">10</string>
+    <string name="toggle_enter_done">11</string>
+    <string name="toggle_enter_multi_line_done">12</string>
+    
+     <string name="enter_go">Go</string><!-- 去往 -->
+    <string name="enter_send">Send</string><!-- 发送 -->
+    <string name="enter_next">Next</string><!-- 下一个 -->
+    <string name="enter_text">Enter</string><!-- 完成 -->
+    <string name="enter_mulit_line_text">Enter</string><!-- 完成 -->
+    
 </resources>

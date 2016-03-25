@@ -142,6 +142,16 @@
                     lv:lv_gravity="TOP_RIGHT"
                     lv:lv_text="热门"
                     lv:lv_text_size="18sp" />
+                
+                   <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:background="#FF0000"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="ViewPager 测试"
+                        android:textColor="#ffffff" />
+                   
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
@@ -191,25 +201,6 @@
                     android:scaleType="fitXY"
                     android:src="@drawable/mainview_cloudlist" />
             </com.open.androidtvwidget.view.ReflectItemView>
-
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/gridview_lay"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="28dp"
-                android:text="首页" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/button1"
-                android:layout_alignBottom="@+id/button1"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/button1"
-                android:text="电影" />
 
         </com.open.androidtvwidget.view.MainLayout>
     </com.open.androidtvwidget.view.SmoothHorizontalScrollView>

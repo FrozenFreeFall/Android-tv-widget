@@ -29,12 +29,73 @@ public class SoftKey {
 	private boolean isSelected;
 	private boolean isPressed; // 是否按下.
 
+	/**
+	 * 快速定位按键.
+	 */
+	public class SaveSoftKey {
+		public SoftKey key;
+		public int row;
+		public int index;
+	}
+
+	private SaveSoftKey mNextRightKey = new SaveSoftKey();
+	private SaveSoftKey mNextLeftKey = new SaveSoftKey();
+	private SaveSoftKey mNextTopKey = new SaveSoftKey();
+	private SaveSoftKey mNextBottomKey = new SaveSoftKey();
+
+	public SaveSoftKey getNextRightKey() {
+		return mNextRightKey;
+	}
+
+	public void setNextRightKey(SoftKey nextRightKey, int row, int index) {
+		this.mNextRightKey.key = nextRightKey;
+		this.mNextRightKey.row = row;
+		this.mNextRightKey.index = index;
+	}
+
+	public SaveSoftKey getNextLeftKey() {
+		return mNextLeftKey;
+	}
+
+	public void setNextLeftKey(SoftKey nextLeftKey, int row, int index) {
+		this.mNextLeftKey.key = nextLeftKey;
+		this.mNextLeftKey.row = row;
+		this.mNextLeftKey.index = index;
+	}
+
+	public SaveSoftKey getNextTopKey() {
+		return mNextTopKey;
+	}
+
+	public void setNextTopKey(SoftKey nextTopKey, int row, int index) {
+		this.mNextTopKey.key = nextTopKey;
+		this.mNextTopKey.row = row;
+		this.mNextTopKey.index = index;
+	}
+
+	public SaveSoftKey getNextBottomKey() {
+		return mNextBottomKey;
+	}
+
+	public void setNextBottomKey(SoftKey nextBottomKey, int row, int index) {
+		this.mNextBottomKey.key = nextBottomKey;
+		this.mNextBottomKey.row = row;
+		this.mNextBottomKey.index = index;
+	}
+
 	public Drawable getKeyPressDrawable() {
 		return mKeyPressDrawable;
 	}
 
 	public void setKeyPressDrawable(Drawable keyPressDrawable) {
 		this.mKeyPressDrawable = keyPressDrawable;
+	}
+
+	/**
+	 * 判断是否为自定义按键. 不能大于0的keycode.
+	 */
+	public boolean isUserDefKey() {
+		return (mKeyCode < 0);
 	}
 
 	public boolean isKeyPressed() {
@@ -165,6 +226,19 @@ public class SoftKey {
 
 	public boolean isKeySelected() {
 		return this.isSelected;
+	}
+
+	/**
+	 * 大小写切换.
+	 */
+	public void changeCase(boolean upperCase) {
+		if (null != mKeyLabel) {
+			if (upperCase) { // 判断是否大写字母
+				mKeyLabel = mKeyLabel.toUpperCase();
+			} else { // 小写.
+				mKeyLabel = mKeyLabel.toLowerCase();
+			}
+		}
 	}
 
 	@Override

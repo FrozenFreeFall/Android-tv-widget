@@ -26,6 +26,7 @@
         <activity android:name="com.open.androidtvwidget.DemoGridViewActivity"/>
         <activity android:name="com.open.androidtvwidget.DemoListViewActivity"/>
         <activity android:name="com.open.androidtvwidget.DemoKeyBoardActivity"/>
+        <activity android:name="com.open.androidtvwidget.DemoViewPagerActivity"/>
         
     </application>
 

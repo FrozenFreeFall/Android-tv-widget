@@ -3,7 +3,10 @@ package com.open.androidtvwidget.keyboard;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.open.androidtvwidget.keyboard.InputModeSwitcher.ToggleStates;
+
 import android.graphics.drawable.Drawable;
+import android.view.KeyEvent;
 
 /**
  * 软键盘
@@ -13,18 +16,62 @@ import android.graphics.drawable.Drawable;
  */
 public class SoftKeyboard {
 
+	private static final String TAG = "SoftKeyboard";
+
 	private List<KeyRow> mKeyRows = new ArrayList<KeyRow>();
-	
 	private Drawable mKeyboardBg = null; // 键盘背景.
-	
+	private boolean mIsQwertyUpperCase; // 判断是否大写字母.
+	private boolean mIsQwerty; // 英文键盘.
+	private int mHeight; // 键盘高度.
+	private boolean misLRMove; // 左右移动
+	private boolean misTBMove; // 上下移动
+
+	public void setHeight(int height) {
+		this.mHeight = height;
+	}
+
+	public int getHeight() {
+		return this.mHeight;
+	}
+
+	public boolean isQwertyUpperCase() {
+		return this.mIsQwertyUpperCase;
+	}
+
+	public void setQwertyUpperCase(boolean isCase) {
+		this.mIsQwertyUpperCase = isCase;
+	}
+
+	public boolean isQwerty() {
+		return this.mIsQwerty;
+	}
+
+	public boolean isLRMove() {
+		return this.misLRMove;
+	}
+
+	public boolean isTBMove() {
+		return this.misTBMove;
+	}
+
+	/*
+	 * 设置标志位.
+	 */
+	public void setFlags(boolean isQwerty, boolean isQwertyUpperCase, boolean isLRMove, boolean isTBMove) {
+		this.mIsQwerty = isQwerty;
+		this.mIsQwertyUpperCase = isQwertyUpperCase;
+		this.misLRMove = isLRMove;
+		this.misTBMove = isTBMove;
+	}
+
 	public Drawable getKeyboardBg() {
 		return this.mKeyboardBg;
 	}
-	
+
 	public void setKeyboardBg(Drawable keyboardBg) {
 		this.mKeyboardBg = keyboardBg;
 	}
-	
+
 	public KeyRow getKeyRowForDisplay(int row) {
 		return mKeyRows.get(row);
 	}
@@ -54,6 +101,10 @@ public class SoftKeyboard {
 		}
 	}
 
+	public KeyRow getLastKeyRow() {
+		return mKeyRows.get(mKeyRows.size() - 1);
+	}
+
 	public boolean addSoftKey(SoftKey softKey) {
 		if (mKeyRows.isEmpty())
 			return false;
@@ -66,6 +117,20 @@ public class SoftKeyboard {
 	}
 
 	public SoftKey mapToKey(int x, int y) {
+		int rowNum = getRowNum();
+		for (int row = 0; row < rowNum; row++) {
+			KeyRow keyRow = mKeyRows.get(row);
+			keyRow.getSoftKeys();
+			List<SoftKey> softKeys = keyRow.getSoftKeys();
+			for (int index = 0; index < softKeys.size(); index++) {
+				SoftKey sKey = softKeys.get(index);
+				if (sKey.getRect().contains(x, y)) {
+					mSelectRow = row;
+					mSelectIndex = index;
+					return sKey;
+				}
+			}
+		}
 		return null;
 	}
 
@@ -74,19 +139,18 @@ public class SoftKeyboard {
 	}
 
 	/**
-	 * 设置按键被选中的状态.
-	 * 
+	 * 设置按键被选中的状态.<br>
 	 * onkeyDown, onKeyUp的移动效果.
 	 */
 
 	private SoftKey mSelectSoftKey = null;
 	private int mSelectRow = 0;
 	private int mSelectIndex = 0;
-	
+
 	public SoftKey getSelectSoftKey() {
 		return this.mSelectSoftKey;
 	}
-	
+
 	public int getSelectRow() {
 		return this.mSelectRow;
 	}
@@ -114,6 +178,80 @@ public class SoftKeyboard {
 		return true;
 	}
 
+	public SoftKey getMoveLeftSoftKey(int startRow, int endRow) {
+		SoftKey selectKey = getSelectSoftKey();
+		for (int row = startRow; row >= endRow; row--) {
+			KeyRow keyRow = getKeyRowForDisplay(row);
+			List<SoftKey> softKeys = keyRow.getSoftKeys();
+			for (int index = 0; index < softKeys.size(); index++) {
+				SoftKey key = softKeys.get(index);
+				// 能向右移动的按键，高度都比原来的按键要高.
+				if (key.getHeight() > selectKey.getHeight()) {
+					if (key.getLeft() >= selectKey.getLeft() || key.getRight() >= selectKey.getRight()) {
+						mSelectIndex = index;
+						mSelectRow = row;
+						return key;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public SoftKey getMoveRightSoftKey(int startRow, int endRow) {
+		SoftKey selectKey = getSelectSoftKey();
+		for (int row = startRow; row >= endRow; row--) {
+			KeyRow keyRow = getKeyRowForDisplay(row);
+			List<SoftKey> softKeys = keyRow.getSoftKeys();
+			for (int index = (softKeys.size() - 1); index >= 0; index--) {
+				SoftKey key = softKeys.get(index);
+				// 能向右移动的按键，高度都比原来的按键要高.
+				if (key.getHeight() > selectKey.getHeight()) {
+					if (key.getLeft() >= selectKey.getLeft() || key.getRight() >= selectKey.getRight()) {
+						mSelectIndex = index;
+						mSelectRow = row;
+						return key;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public SoftKey getMoveDownSoftKey(int startRow, int endRow) {
+		SoftKey selectKey = getSelectSoftKey();
+		for (int row = startRow; row < endRow; row++) {
+			KeyRow keyRow = getKeyRowForDisplay(row);
+			List<SoftKey> softKeys = keyRow.getSoftKeys();
+			for (int index = 0; index < softKeys.size(); index++) {
+				SoftKey key = softKeys.get(index);
+				if (key.getLeft() >= selectKey.getLeft() || key.getRight() >= selectKey.getRight()) {
+					mSelectIndex = index;
+					mSelectRow = row;
+					return key;
+				}
+			}
+		}
+		return null;
+	}
+
+	public SoftKey getMoveUpSoftKey(int startRow, int endRow) {
+		SoftKey selectKey = getSelectSoftKey();
+		for (int row = startRow; row >= endRow; row--) {
+			KeyRow keyRow = getKeyRowForDisplay(row);
+			List<SoftKey> softKeys = keyRow.getSoftKeys();
+			for (int index = 0; index < softKeys.size(); index++) {
+				SoftKey key = softKeys.get(index);
+				if (key.getLeft() >= selectKey.getLeft() || key.getRight() >= selectKey.getRight()) {
+					mSelectIndex = index;
+					mSelectRow = row;
+					return key;
+				}
+			}
+		}
+		return null;
+	}
+
 	public boolean setOneKeySelected(int row, int index) {
 		if (mKeyRows == null)
 			return false;
@@ -129,6 +267,43 @@ public class SoftKeyboard {
 			setOneKeySelected(softKey);
 		}
 		return true;
+	}
+
+	/**
+	 * 状态切换.
+	 */
+	public void enableToggleStates(ToggleStates toggleStates, SoftKey key) {
+		boolean isQwertyUpperCase = toggleStates.mQwertyUpperCase; // 获取大写字母标志位.
+		boolean isNendCase = (mIsQwerty && (toggleStates.mQwertyUpperCase != mIsQwertyUpperCase));
+		int rowNum = getRowNum();
+		
+		for (int row = 0; row < rowNum; row++) {
+			KeyRow keyRow = mKeyRows.get(row);
+			List<SoftKey> softKeys = keyRow.getSoftKeys();
+			int keyNum = softKeys.size();
+			for (int keyPos = 0; keyPos < keyNum; keyPos++) {
+				SoftKey sKey = softKeys.get(keyPos); 
+				if (sKey instanceof ToggleSoftKey) {
+					for (int stateId : toggleStates.mKeyStates) {
+						((ToggleSoftKey) sKey).enableToggleState(stateId);
+					}
+				}
+				/*
+				 * 大小写切换.
+				 */
+				if (isNendCase && isLetter(sKey)) {
+					sKey.changeCase(isQwertyUpperCase);
+				}
+			}
+		}
+		mIsQwertyUpperCase = isQwertyUpperCase;
+	}
+
+	/**
+	 * 判断是否为字母
+	 */
+	private boolean isLetter(SoftKey sKey) {
+		return ((sKey.getKeyCode() >= KeyEvent.KEYCODE_A) && (sKey.getKeyCode() <= KeyEvent.KEYCODE_Z));
 	}
 
 }

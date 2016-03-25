@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
     
     <!-- 需要绘制的键盘布局 -->
 	<com.open.androidtvwidget.keyboard.SoftKeyboardView 
@@ -16,4 +13,4 @@
 	    android:visibility="gone"
 	    android:layout_height="match_parent"
 	    android:layout_width="match_parent"/>
-</LinearLayout>
+</merge>
