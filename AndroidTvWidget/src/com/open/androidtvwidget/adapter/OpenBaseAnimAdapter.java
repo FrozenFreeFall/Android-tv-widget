@@ -1,4 +1,7 @@
-package com.open.androidtvwidget.view;
+package com.open.androidtvwidget.adapter;
+
+import com.open.androidtvwidget.adapter.BaseAnimAdapter.ScaleView;
+import com.open.androidtvwidget.view.MainUpView;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -179,7 +182,7 @@ public class OpenBaseAnimAdapter extends BaseAnimAdapter {
 	 * 重寫了繪製的函數.
 	 */
 	@Override
-	public void onDrawMainUpView(Canvas canvas) {
+	public boolean onDrawMainUpView(Canvas canvas) {
 		canvas.save();
 		if (!isDrawUpRect) {
 			// 绘制阴影.
@@ -199,6 +202,7 @@ public class OpenBaseAnimAdapter extends BaseAnimAdapter {
 			onDrawUpRect(canvas);
 		}
 		canvas.restore();
+		return true;
 	}
 
 	public void onDrawFocusView(Canvas canvas) {

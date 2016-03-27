@@ -1,6 +1,8 @@
 package com.open.androidtvwidget.view;
 
 import com.open.androidtvwidget.R;
+import com.open.androidtvwidget.adapter.IAnimAdapter;
+import com.open.androidtvwidget.adapter.OpenBaseAnimAdapter;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,8 +13,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 
-public class MainUpView extends View {
+public class MainUpView extends FrameLayout {
 
 	private static final String TAG = "MainUpView";
 
@@ -53,6 +56,7 @@ public class MainUpView extends View {
 	}
 
 	private void init(Context context, AttributeSet attrs) {
+		setWillNotDraw(false);
 		mContext = context;
 		try {
 			mDrawableUpRect = mContext.getResources().getDrawable(R.drawable.white_light_10); // 移动的边框.
@@ -123,7 +127,9 @@ public class MainUpView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if (this.mAnimAdapter != null)
-			this.mAnimAdapter.onDrawMainUpView(canvas);
+			if (this.mAnimAdapter.onDrawMainUpView(canvas))
+				return;
+		super.onDraw(canvas);
 	}
 
 	private Rect mUpPaddingRect = new Rect(0, 0, 0, 0);
@@ -204,9 +210,11 @@ public class MainUpView extends View {
 
 	public void setAnimAdapter(IAnimAdapter adapter) {
 		this.mAnimAdapter = adapter;
-		if (this.mAnimAdapter != null)
+		if (this.mAnimAdapter != null) {
+			this.mAnimAdapter.onInitAdapter(this);
 			this.mAnimAdapter.setMainUpView(this);
-		invalidate();
+			invalidate();
+		}
 	}
 
 	public IAnimAdapter getAnimAdapter() {

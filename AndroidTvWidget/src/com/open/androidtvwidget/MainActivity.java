@@ -1,8 +1,8 @@
 package com.open.androidtvwidget;
 
+import com.open.androidtvwidget.adapter.OpenBaseAnimAdapter;
 import com.open.androidtvwidget.view.MainLayout;
 import com.open.androidtvwidget.view.MainUpView;
-import com.open.androidtvwidget.view.OpenBaseAnimAdapter;
 import com.open.androidtvwidget.view.ReflectItemView;
 
 import android.animation.Animator;

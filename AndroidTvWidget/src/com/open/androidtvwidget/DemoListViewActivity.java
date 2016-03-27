@@ -3,8 +3,8 @@ package com.open.androidtvwidget;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.open.androidtvwidget.adapter.OpenBaseAnimAdapter;
 import com.open.androidtvwidget.view.MainUpView;
-import com.open.androidtvwidget.view.OpenBaseAnimAdapter;
 
 import android.app.Activity;
 import android.os.Bundle;

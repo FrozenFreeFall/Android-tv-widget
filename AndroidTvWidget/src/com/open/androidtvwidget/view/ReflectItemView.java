@@ -60,6 +60,7 @@ public class ReflectItemView extends FrameLayout {
 		}
 		setClipChildren(false);
 		setClipToPadding(false);
+		setWillNotDraw(false);
 	}
 
 	@Override
