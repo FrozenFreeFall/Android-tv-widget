@@ -23,7 +23,8 @@ public class MainActivity extends Activity {
 	MainUpView mainUpView1;
 	View test_top_iv;
 	OpenBaseAnimAdapter mBaseAnimAdapter;
-
+	View mOldFocus; // 4.3以下版本需要自己保存.
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,7 +55,8 @@ public class MainActivity extends Activity {
 				// scale = 1.0f;
 				// mBaseAnimAdapter.setVisibleWidget(true);
 				// }
-				mainUpView1.setFocusView(newFocus, oldFocus, scale);
+				mainUpView1.setFocusView(newFocus, mOldFocus, scale);
+				mOldFocus = newFocus; // 4.3以下需要自己保存.
 				// 测试是否让边框绘制在下面，还是上面. (建议不要使用此函数)
 				// mainUpView1.setDrawUpRectEnabled(true);
 				// if (newFocus != null) {

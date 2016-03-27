@@ -5,29 +5,38 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
+/**
+ * 自定义Anim Adapter DEMO. <br>
+ * 如果你想实现自己不同风格的东西， <br>
+ * 继承 BaseAnimAdapter 重写几个函数吧. <br>
+ * 后续将推出更多风格的 Anim Adapter. <br>
+ * 
+ * @author hailongqiu 356752238@qq.com
+ *
+ */
 public class OpenBaseAnimAdapter extends BaseAnimAdapter {
 
 	private static final int DEFUALT_TRAN_DUR_ANIM = 300;
 	private int mTranDurAnimTime = DEFUALT_TRAN_DUR_ANIM;
 	private AnimatorSet mCurrentAnimatorSet;
 	private boolean isInDraw = false;
-	private MainUpView mMainUpView;
 	private boolean mIsHide = false;
 	private boolean mAnimEnabled = true;
 	private boolean isDrawUpRect = true;
 	private View mFocusView;
-	private int mNewWidth;
-	private int mNewHeight;
-	private int mOldWidth;
-	private int mOldHeight;
 	private NewAnimatorListener mNewAnimatorListener;
 
+	public OpenBaseAnimAdapter() {
+	}
+	
+	@Override
+	public void onInitAdapter(MainUpView view) {
+		view.setVisibility(View.INVISIBLE); // 防止边框第一次出现问题.
+	}
+	
 	/**
 	 * 设置是否移动边框在最下层. true : 移动边框在最上层. 反之否.
 	 */
@@ -93,44 +102,37 @@ public class OpenBaseAnimAdapter extends BaseAnimAdapter {
 		}
 	}
 
-	public void runTranslateAnimation(View toView, float scaleX, float scaleY) {
-		Rect fromRect = findLocationWithView(mMainUpView);
-		Rect toRect = findLocationWithView(toView);
-		float x = toRect.left - fromRect.left;
-		float y = toRect.top - fromRect.top;
-		flyWhiteBorder(toView, x, y, scaleX, scaleY);
-	}
-
-	public Rect findLocationWithView(View view) {
-		ViewGroup root = (ViewGroup) mMainUpView.getParent();
-		Rect rect = new Rect();
-		root.offsetDescendantRectToMyCoords(view, rect);
-		return rect;
-	}
-
+	/**
+	 * 重寫移動的邊框函數.
+	 */
+	@Override
 	public void flyWhiteBorder(final View focusView, float x, float y, float scaleX, float scaleY) {
+		int newWidth = 0;
+		int newHeight = 0;
+		int oldWidth = 0;
+		int oldHeight = 0;
 		if (focusView != null) {
-			mNewWidth = (int) (focusView.getMeasuredWidth() * scaleX);
-			mNewHeight = (int) (focusView.getMeasuredHeight() * scaleY);
-			x = x + (focusView.getMeasuredWidth() - mNewWidth) / 2;
-			y = y + (focusView.getMeasuredHeight() - mNewHeight) / 2;
+			newWidth = (int) (focusView.getMeasuredWidth() * scaleX);
+			newHeight = (int) (focusView.getMeasuredHeight() * scaleY);
+			x = x + (focusView.getMeasuredWidth() - newWidth) / 2;
+			y = y + (focusView.getMeasuredHeight() - newHeight) / 2;
 		}
 
 		// 取消之前的动画.
 		if (mCurrentAnimatorSet != null)
 			mCurrentAnimatorSet.cancel();
 
-		mOldWidth = getMainUpView().getMeasuredWidth();
-		mOldHeight = getMainUpView().getMeasuredHeight();
+		oldWidth = getMainUpView().getMeasuredWidth();
+		oldHeight = getMainUpView().getMeasuredHeight();
 
 		ObjectAnimator transAnimatorX = ObjectAnimator.ofFloat(getMainUpView(), "translationX", x);
 		ObjectAnimator transAnimatorY = ObjectAnimator.ofFloat(getMainUpView(), "translationY", y);
 		// BUG，因为缩放会造成图片失真(拉伸).
 		// hailong.qiu 2016.02.26 修复 :)
-		ObjectAnimator scaleXAnimator = ObjectAnimator.ofInt(new ScaleView(getMainUpView()), "width", mOldWidth,
-				(int) mNewWidth);
-		ObjectAnimator scaleYAnimator = ObjectAnimator.ofInt(new ScaleView(getMainUpView()), "height", mOldHeight,
-				(int) mNewHeight);
+		ObjectAnimator scaleXAnimator = ObjectAnimator.ofInt(new ScaleView(getMainUpView()), "width", oldWidth,
+				(int) newWidth);
+		ObjectAnimator scaleYAnimator = ObjectAnimator.ofInt(new ScaleView(getMainUpView()), "height", oldHeight,
+				(int) newHeight);
 		//
 		AnimatorSet mAnimatorSet = new AnimatorSet();
 		mAnimatorSet.playTogether(transAnimatorX, transAnimatorY, scaleXAnimator, scaleYAnimator);
@@ -173,16 +175,9 @@ public class OpenBaseAnimAdapter extends BaseAnimAdapter {
 		mCurrentAnimatorSet = mAnimatorSet;
 	}
 
-	@Override
-	public void setMainUpView(MainUpView view) {
-		this.mMainUpView = view;
-	}
-
-	@Override
-	public MainUpView getMainUpView() {
-		return this.mMainUpView;
-	}
-
+	/**
+	 * 重寫了繪製的函數.
+	 */
 	@Override
 	public void onDrawMainUpView(Canvas canvas) {
 		canvas.save();
@@ -214,72 +209,6 @@ public class OpenBaseAnimAdapter extends BaseAnimAdapter {
 		canvas.scale(scaleX, scaleY);
 		view.draw(canvas);
 		canvas.restore();
-	}
-
-	/**
-	 * 绘制外部阴影.
-	 */
-	public void onDrawShadow(Canvas canvas) {
-		Drawable drawableShadow = getMainUpView().getShadowDrawable();
-		if (drawableShadow != null) {
-			Rect shadowPaddingRect = getMainUpView().getDrawShadowRect();
-			int width = getMainUpView().getWidth();
-			int height = getMainUpView().getHeight();
-			Rect padding = new Rect();
-			drawableShadow.getPadding(padding);
-			drawableShadow.setBounds(-padding.left + (shadowPaddingRect.left), -padding.top + (shadowPaddingRect.top),
-					width + padding.right - (shadowPaddingRect.right),
-					height + padding.bottom - (shadowPaddingRect.bottom));
-			drawableShadow.draw(canvas);
-		}
-	}
-
-	/**
-	 * 绘制最上层的移动边框.
-	 */
-	public void onDrawUpRect(Canvas canvas) {
-		Drawable drawableUp = getMainUpView().getUpRectDrawable();
-		if (drawableUp != null) {
-			Rect paddingRect = getMainUpView().getDrawUpRect();
-			int width = getMainUpView().getWidth();
-			int height = getMainUpView().getHeight();
-			Rect padding = new Rect();
-			// 边框的绘制.
-			drawableUp.getPadding(padding);
-			drawableUp.setBounds(-padding.left + (paddingRect.left), -padding.top + (paddingRect.top),
-					width + padding.right - (paddingRect.right), height + padding.bottom - (paddingRect.bottom));
-			drawableUp.draw(canvas);
-		}
-	}
-
-	private class ScaleView {
-		private View view;
-		private int width;
-		private int height;
-
-		public ScaleView(View view) {
-			this.view = view;
-		}
-
-		public int getWidth() {
-			return view.getLayoutParams().width;
-		}
-
-		public void setWidth(int width) {
-			this.width = width;
-			view.getLayoutParams().width = width;
-			view.requestLayout();
-		}
-
-		public int getHeight() {
-			return view.getLayoutParams().height;
-		}
-
-		public void setHeight(int height) {
-			this.height = height;
-			view.getLayoutParams().height = height;
-			view.requestLayout();
-		}
 	}
 
 }

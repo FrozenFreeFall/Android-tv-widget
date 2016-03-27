@@ -53,7 +53,6 @@ public class MainUpView extends View {
 	}
 
 	private void init(Context context, AttributeSet attrs) {
-		setVisibility(View.INVISIBLE);
 		mContext = context;
 		try {
 			mDrawableUpRect = mContext.getResources().getDrawable(R.drawable.white_light_10); // 移动的边框.
@@ -73,6 +72,7 @@ public class MainUpView extends View {
 		}
 		//
 		IAnimAdapter baseAnimAdapter = new OpenBaseAnimAdapter();
+		baseAnimAdapter.onInitAdapter(this);
 		baseAnimAdapter.setMainUpView(this);
 		setAnimAdapter(baseAnimAdapter);
 	}
