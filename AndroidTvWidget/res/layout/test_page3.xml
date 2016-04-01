@@ -4,7 +4,7 @@
     android:id="@+id/content11"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mainbackground"
+    android:background="@color/transparent"
     android:clipChildren="false"
     android:clipToPadding="false" >
 
@@ -21,7 +21,8 @@
             android:paddingRight="80dp" >
 
             <com.open.androidtvwidget.view.ReflectItemView
-                android:id="@+id/gridview_lay"
+                android:id="@+id/page3_gridview_lay"
+                android:nextFocusUp="@+id/title_bar3"
                 android:layout_width="@dimen/px840"
                 android:layout_height="@dimen/px394"
                 android:layout_marginLeft="@dimen/px96"
@@ -48,15 +49,16 @@
                         android:layout_height="@dimen/px350"
                         android:scaleType="fitXY"
                         android:src="@drawable/top_test_bg" />
-
-                    <TextView
+                    
+                      <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_gravity="bottom"
                         android:background="#50000000"
                         android:gravity="center_horizontal|center_vertical"
-                        android:text="GridView测试"
-                        android:textColor="#FFFFFF" />
+                        android:text="页面page3"
+                        android:textColor="#FF0000" />
+                      
                 </FrameLayout>
             </com.open.androidtvwidget.view.ReflectItemView>
 
@@ -81,20 +83,12 @@
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
                         android:src="@drawable/mainview_searchsong" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_gravity="bottom"
-                        android:background="#FF0000"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:text="listview 测试"
-                        android:textColor="#ffffff" />
                 </FrameLayout>
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/hot_lay"
+                android:nextFocusUp="@+id/title_bar3"
                 android:layout_width="@dimen/px412"
                 android:layout_height="@dimen/px672"
                 android:layout_marginLeft="@dimen/px1412"
@@ -102,6 +96,7 @@
                 android:background="@drawable/mainview_huodong"
                 android:clickable="true"
                 android:focusable="true"
+                app:isReflect="true" 
                 android:focusableInTouchMode="true" >
 
                 <ImageView
@@ -113,6 +108,7 @@
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/top_lay"
+                android:nextFocusUp="@+id/title_bar3"
                 android:layout_width="@dimen/px412"
                 android:layout_height="@dimen/px672"
                 android:layout_marginLeft="@dimen/px968"
@@ -120,41 +116,28 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:src="@drawable/mainview_cloudlist"
                 app:isReflect="true" >
 
-                <FrameLayout
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/mainview_cloudlist" />
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clickable="false"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/mainview_cloudlist" />
-
-                    <com.open.androidtvwidget.view.LabelView
-                        xmlns:lv="http://schemas.android.com/apk/res-auto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        lv:lv_background_color="#3F9FE0"
-                        lv:lv_fill_triangle="true"
-                        lv:lv_gravity="TOP_RIGHT"
-                        lv:lv_text="热门"
-                        lv:lv_text_size="18sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_gravity="bottom"
-                        android:background="#FF0000"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:text="ViewPager 测试"
-                        android:textColor="#ffffff" />
-                </FrameLayout>
+                <com.open.androidtvwidget.view.LabelView
+                    xmlns:lv="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    lv:lv_background_color="#3F9FE0"
+                    lv:lv_fill_triangle="true"
+                    lv:lv_gravity="TOP_RIGHT"
+                    lv:lv_text="热门"
+                    lv:lv_text_size="18sp" />
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
@@ -170,34 +153,23 @@
                 android:nextFocusRight="@+id/top_lay"
                 app:isReflect="true" >
 
-                <FrameLayout
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/mainview_type" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_gravity="bottom"
-                        android:background="#FF0000"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:text="键盘 测试"
-                        android:textColor="#ffffff" />
-                </FrameLayout>
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/mainview_type" />
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
+                android:id="@+id/page3_item5"
+                android:nextFocusUp="@+id/title_bar3"
                 android:layout_width="@dimen/px412"
                 android:layout_height="@dimen/px672"
                 android:layout_marginLeft="@dimen/px1858"
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
                 android:focusable="true"
+                app:isReflect="true" 
                 android:focusableInTouchMode="true"
                 android:src="@drawable/mainview_cloudlist" >
 
@@ -215,7 +187,6 @@
 
     <com.open.androidtvwidget.view.MainUpView
         android:id="@+id/mainUpView1"
-        app:upImageRes="@drawable/test_rectangle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

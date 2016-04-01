@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	
+    <declare-styleable name="TextViewWithTTF">
+        <attr name="ttf_name" format="string" />
+    </declare-styleable>
+    
     <!-- 倒影控件属性 -->
     <declare-styleable name="reflectItemView">
         <attr name="isReflect" format="boolean" />

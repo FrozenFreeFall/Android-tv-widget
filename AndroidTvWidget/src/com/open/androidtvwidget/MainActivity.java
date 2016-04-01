@@ -1,6 +1,6 @@
 package com.open.androidtvwidget;
 
-import com.open.androidtvwidget.adapter.OpenBaseAnimAdapter;
+import com.open.androidtvwidget.adapter.OpenBaseAnimBridge;
 import com.open.androidtvwidget.view.MainLayout;
 import com.open.androidtvwidget.view.MainUpView;
 import com.open.androidtvwidget.view.ReflectItemView;
@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
 
 	MainUpView mainUpView1;
 	View test_top_iv;
-	OpenBaseAnimAdapter mBaseAnimAdapter;
+	OpenBaseAnimBridge mBaseAnimAdapter;
 	View mOldFocus; // 4.3以下版本需要自己保存.
 	
 	@Override
@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
 		test_top_iv = findViewById(R.id.test_top_iv);
 		// MainUpView 设置.
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
-		mBaseAnimAdapter = (OpenBaseAnimAdapter) mainUpView1.getAnimAdapter();
+		mBaseAnimAdapter = (OpenBaseAnimBridge) mainUpView1.getAnimBridge();
 		// mainUpView1 = new MainUpView(getApplicationContext(), gridview_lay);
 		// mainUpView1.setUpRectResource(R.drawable.item_highlight);
 		// mainUpView1.setUpRectResource(R.drawable.white_light_10);

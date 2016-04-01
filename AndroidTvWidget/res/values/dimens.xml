@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <!-- 标题栏 -->
+    <dimen name="tab_highlight_height">58dp</dimen>
+    <dimen name="tab_recommend_margin_left">60dp</dimen>
+    <dimen name="nav_tab_text_size">@dimen/text_size_50</dimen>
+    <dimen name="text_size_50">20dp</dimen>
+     <dimen name="tab_left_offset">50dp</dimen>
+     <dimen name="nav_bar_margin_top">13dp</dimen>
+     
+     <!-- 滚动窗口 -->
     <dimen name="fading_edge">80dp</dimen>
+    
     <dimen name="px1">0.6666667px</dimen>
     <dimen name="px2">1.333333px</dimen>
     <dimen name="px3">2px</dimen>

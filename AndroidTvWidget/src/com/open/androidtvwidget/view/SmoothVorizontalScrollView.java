@@ -5,8 +5,6 @@ import com.open.androidtvwidget.R;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.view.FocusFinder;
-import android.view.View;
 import android.widget.ScrollView;
 
 public class SmoothVorizontalScrollView extends ScrollView {
@@ -61,48 +59,49 @@ public class SmoothVorizontalScrollView extends ScrollView {
 		return scrollYDelta;
 	}
 
-	@Override
-	protected boolean onRequestFocusInDescendants(int direction,
-			Rect previouslyFocusedRect) {
-
-		// convert from forward / backward notation to up / down / left / right
-		// (ugh).
-
-		if (previouslyFocusedRect != null) {
-			if (direction == View.FOCUS_FORWARD) {
-				direction = View.FOCUS_RIGHT;
-			} else if (direction == View.FOCUS_BACKWARD) {
-				direction = View.FOCUS_LEFT;
-			}
-			View nextFocus = FocusFinder.getInstance().findNextFocusFromRect(
-					this, previouslyFocusedRect, direction);
-			if (nextFocus == null) {
-				return false;
-			}
-			return nextFocus.requestFocus(direction, previouslyFocusedRect);
-		} else {
-			int index;
-			int increment;
-			int end;
-			int count = this.getChildCount();
-			if ((direction & FOCUS_FORWARD) != 0) {
-				index = 0;
-				increment = 1;
-				end = count;
-			} else {
-				index = count - 1;
-				increment = -1;
-				end = -1;
-			}
-			for (int i = index; i != end; i += increment) {
-				View child = this.getChildAt(i);
-				if (child.getVisibility() == View.VISIBLE) {
-					if (child.requestFocus(direction, previouslyFocusedRect)) {
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-	}
+//	@Override
+//	protected boolean onRequestFocusInDescendants(int direction,
+//			Rect previouslyFocusedRect) {
+//
+//		// convert from forward / backward notation to up / down / left / right
+//		// (ugh).
+//
+//		if (previouslyFocusedRect != null) {
+//			if (direction == View.FOCUS_FORWARD) {
+//				direction = View.FOCUS_RIGHT;
+//			} else if (direction == View.FOCUS_BACKWARD) {
+//				direction = View.FOCUS_LEFT;
+//			}
+//			View nextFocus = FocusFinder.getInstance().findNextFocusFromRect(
+//					this, previouslyFocusedRect, direction);
+//			if (nextFocus == null) {
+//				return false;
+//			}
+//			return nextFocus.requestFocus(direction, previouslyFocusedRect);
+//		} else {
+//			int index;
+//			int increment;
+//			int end;
+//			int count = this.getChildCount();
+//			if ((direction & FOCUS_FORWARD) != 0) {
+//				index = 0;
+//				increment = 1;
+//				end = count;
+//			} else {
+//				index = count - 1;
+//				increment = -1;
+//				end = -1;
+//			}
+//			for (int i = index; i != end; i += increment) {
+//				View child = this.getChildAt(i);
+//				if (child.getVisibility() == View.VISIBLE) {
+//					if (child.requestFocus(direction, previouslyFocusedRect)) {
+//						return true;
+//					}
+//				}
+//			}
+//			return false;
+//		}
+//	}
+	
 }

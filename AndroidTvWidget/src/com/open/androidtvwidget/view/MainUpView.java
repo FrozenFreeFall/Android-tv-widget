@@ -1,8 +1,8 @@
 package com.open.androidtvwidget.view;
 
 import com.open.androidtvwidget.R;
-import com.open.androidtvwidget.adapter.IAnimAdapter;
-import com.open.androidtvwidget.adapter.OpenBaseAnimAdapter;
+import com.open.androidtvwidget.adapter.IAnimBridge;
+import com.open.androidtvwidget.adapter.OpenBaseAnimBridge;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,7 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 
 public class MainUpView extends FrameLayout {
@@ -58,27 +57,18 @@ public class MainUpView extends FrameLayout {
 	private void init(Context context, AttributeSet attrs) {
 		setWillNotDraw(false);
 		mContext = context;
-		try {
-			mDrawableUpRect = mContext.getResources().getDrawable(R.drawable.white_light_10); // 移动的边框.
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		// 初始化.
 		if (attrs != null) {
 			TypedArray tArray = context.obtainStyledAttributes(attrs, R.styleable.mainUpView);// 获取配置属性
-			int upImageRes = tArray.getResourceId(R.styleable.mainUpView_upImageRes, 0); // 顶层图片.
-			if (upImageRes != 0)
-				mDrawableUpRect = context.getResources().getDrawable(upImageRes);
-			int shadowImageRes = tArray.getResourceId(R.styleable.mainUpView_shadowImageRes, 0); // 阴影图片.
-			if (shadowImageRes != 0)
-				mDrawableShadow = context.getResources().getDrawable(shadowImageRes);
+			mDrawableUpRect = tArray.getDrawable(R.styleable.mainUpView_upImageRes); // 顶层图片.
+			mDrawableShadow = tArray.getDrawable(R.styleable.mainUpView_shadowImageRes); // 阴影图片.
 			tArray.recycle();
 		}
 		//
-		IAnimAdapter baseAnimAdapter = new OpenBaseAnimAdapter();
-		baseAnimAdapter.onInitAdapter(this);
-		baseAnimAdapter.setMainUpView(this);
-		setAnimAdapter(baseAnimAdapter);
+		IAnimBridge baseAnimBridge = new OpenBaseAnimBridge();
+		baseAnimBridge.onInitBridge(this);
+		baseAnimBridge.setMainUpView(this);
+		setAnimBridge(baseAnimBridge);
 	}
 
 	public void setUpRectResource(int resId) {
@@ -126,8 +116,8 @@ public class MainUpView extends FrameLayout {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		if (this.mAnimAdapter != null)
-			if (this.mAnimAdapter.onDrawMainUpView(canvas))
+		if (this.mAnimBridge != null)
+			if (this.mAnimBridge.onDrawMainUpView(canvas))
 				return;
 		super.onDraw(canvas);
 	}
@@ -181,12 +171,12 @@ public class MainUpView extends FrameLayout {
 	 * 设置焦点子控件的移动和放大.
 	 */
 	public void setFocusView(View view, float scale) {
-		mAnimAdapter.onFocusView(view, scale, scale);
+		this.mAnimBridge.onFocusView(view, scale, scale);
 	}
 
 	public void setFocusView(View view, float scaleX, float scaleY) {
-		if (this.mAnimAdapter != null)
-			this.mAnimAdapter.onFocusView(view, scaleX, scaleY);
+		if (this.mAnimBridge != null)
+			this.mAnimBridge.onFocusView(view, scaleX, scaleY);
 	}
 
 	public void setFocusView(View newView, View oldView, float scale) {
@@ -195,8 +185,8 @@ public class MainUpView extends FrameLayout {
 	}
 
 	public void setUnFocusView(View view, float scaleX, float scaleY) {
-		if (this.mAnimAdapter != null)
-			this.mAnimAdapter.onOldFocusView(view, scaleX, scaleY);
+		if (this.mAnimBridge != null)
+			this.mAnimBridge.onOldFocusView(view, scaleX, scaleY);
 	}
 
 	/**
@@ -206,19 +196,19 @@ public class MainUpView extends FrameLayout {
 		setUnFocusView(view, DEFUALT_SCALE, DEFUALT_SCALE);
 	}
 
-	IAnimAdapter mAnimAdapter;
+	IAnimBridge mAnimBridge;
 
-	public void setAnimAdapter(IAnimAdapter adapter) {
-		this.mAnimAdapter = adapter;
-		if (this.mAnimAdapter != null) {
-			this.mAnimAdapter.onInitAdapter(this);
-			this.mAnimAdapter.setMainUpView(this);
+	public void setAnimBridge(IAnimBridge adapter) {
+		this.mAnimBridge = adapter;
+		if (this.mAnimBridge != null) {
+			this.mAnimBridge.onInitBridge(this);
+			this.mAnimBridge.setMainUpView(this);
 			invalidate();
 		}
 	}
 
-	public IAnimAdapter getAnimAdapter() {
-		return this.mAnimAdapter;
+	public IAnimBridge getAnimBridge() {
+		return this.mAnimBridge;
 	}
 
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.open.androidtvwidget.view.TextViewWithTTF xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tv_tab_indicator"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/tab_title_background"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:minHeight="@dimen/tab_highlight_height"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:textColor="@color/white_50"
+    android:textSize="@dimen/nav_tab_text_size"
+    app:ttf_name="@string/nav_tab_normal_ttf" />

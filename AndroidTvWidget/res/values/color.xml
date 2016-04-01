@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
+    <color name="white_50">#7fffffff</color>
+    
     <color name="transparent">#00000000</color><!--透明色 -->
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="ivory">#FFFFF0</color><!--象牙色 -->

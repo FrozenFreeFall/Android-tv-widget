@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	
+    <string name="fzlt_zhun_hei">FZLTZHUNHEI_GBK.ttf</string>
+	<string name="fzlt_cu_hei">FZLTHC_GBK.ttf</string>
+	
+	<string name="nav_tab_normal_ttf">@string/fzlt_zhun_hei</string>
+	<string name="nav_tab_focus_ttf">@string/fzlt_cu_hei</string>
+	
     <string name="app_name">AndroidTvWidget</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
