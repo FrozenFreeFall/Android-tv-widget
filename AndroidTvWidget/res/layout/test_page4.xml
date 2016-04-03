@@ -41,12 +41,6 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/mainview_tuijian" />
 
-                    <ImageView
-                        android:id="@+id/test_top_iv"
-                        android:layout_width="@dimen/px220"
-                        android:layout_height="@dimen/px350"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/top_test_bg" />
                       <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
@@ -112,6 +106,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:src="@drawable/mainview_cloudlist"
+                app:isShape="true"
                 app:isReflect="true" >
 
                 <ImageView

@@ -45,6 +45,7 @@
                         android:id="@+id/test_top_iv"
                         android:layout_width="@dimen/px220"
                         android:layout_height="@dimen/px350"
+                        android:layout_gravity="center_horizontal"
                         android:scaleType="fitXY"
                         android:src="@drawable/top_test_bg" />
                     
@@ -115,6 +116,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:src="@drawable/mainview_cloudlist"
+                app:isShape="true"
                 app:isReflect="true" >
 
                 <ImageView

@@ -22,6 +22,7 @@
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/page1_item1"
+                app:isShape="true"
                 android:layout_width="@dimen/px840"
                 android:layout_height="@dimen/px394"
                 android:layout_marginLeft="@dimen/px96"
@@ -69,6 +70,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                app:isShape="true"
                 app:isReflect="true" >
 
                 <FrameLayout
@@ -118,6 +120,7 @@
                 android:focusableInTouchMode="true"
                 android:nextFocusUp="@+id/title_bar1"
                 android:src="@drawable/mainview_cloudlist"
+                app:isShape="true"
                 app:isReflect="true" >
 
                 <FrameLayout
@@ -156,6 +159,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                app:isShape="true"
                 app:isReflect="true" >
 
                 <FrameLayout
