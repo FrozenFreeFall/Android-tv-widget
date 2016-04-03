@@ -28,12 +28,11 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.test_main);
 		//
-		ReflectItemView gridview_lay = (ReflectItemView) findViewById(R.id.gridview_lay);
 		test_top_iv = findViewById(R.id.test_top_iv);
 		/* MainUpView 设置. */
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
+//		mainUpView1 = new MainUpView(this); // 手动添加(test)
 		mOpenEffectBridge = (OpenEffectBridge) mainUpView1.getEffectBridge();
-		// mainUpView1 = new MainUpView(getApplicationContext(), gridview_lay); // 手动添加(test)
 		// mainUpView1.setEffectBridge(new EffectNoDrawBridge()); // 4.3以下版本边框移动.
 		// mainUpView1.setUpRectResource(R.drawable.item_highlight); // 设置移动边框的图片.(test)
 		// mainUpView1.setUpRectResource(R.drawable.white_light_10); // 设置移动边框的图片. (test)

@@ -4,6 +4,7 @@ import com.open.androidtvwidget.R;
 import com.open.androidtvwidget.adapter.BaseEffectBridge;
 import com.open.androidtvwidget.adapter.OpenEffectBridge;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -12,33 +13,34 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 public class MainUpView extends FrameLayout {
 
 	private static final String TAG = "MainUpView";
-
-	private BaseEffectBridge mEffectBridge;
 	private static final float DEFUALT_SCALE = 1.0f;
-	private static final int DEFULAT_SIZE = 500;
+	
+	private BaseEffectBridge mEffectBridge;
 
 	public MainUpView(Context context) {
 		super(context, null, 0);
+		if (context != null && context instanceof Activity) {
+			attach2Window((Activity) context);
+		}
 		init(context, null);
 	}
-
-	public MainUpView(Context context, View view) {
-		super(context, null, 0);
-		// 如果是单独添加，就将view加进来.
-		if (view != null) {
-			ViewGroup viewGroup = (ViewGroup) view.getRootView();
-			if (viewGroup != null && this.getParent() != viewGroup) {
-				LayoutParams layParams = new LayoutParams(DEFULAT_SIZE, DEFULAT_SIZE);
-				viewGroup.addView(this, layParams);
-			}
-		}
-		//
-		init(context, null);
+	
+	/**
+	 * 手动添加，不在XML添加的话.
+	 */
+	private void attach2Window(Activity activity) {
+		ViewGroup rootView = (ViewGroup) activity.findViewById(Window.ID_ANDROID_CONTENT);
+		ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		rootView.addView(this, layoutParams);
+		rootView.setClipChildren(false);
+		rootView.setClipToPadding(false);
 	}
 
 	public MainUpView(Context context, AttributeSet attrs) {
