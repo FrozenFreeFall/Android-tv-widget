@@ -1,13 +1,11 @@
 package com.open.androidtvwidget.view;
 
+import com.open.androidtvwidget.R;
+
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.view.FocusFinder;
-import android.view.View;
 import android.widget.HorizontalScrollView;
-
-import com.open.androidtvwidget.R;
 
 public class SmoothHorizontalScrollView extends HorizontalScrollView {
 	final String TAG = "SmoothHorizontalScrollView";

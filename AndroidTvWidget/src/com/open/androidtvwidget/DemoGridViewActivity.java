@@ -9,7 +9,6 @@ import com.open.androidtvwidget.view.MainUpView;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,7 +24,8 @@ public class DemoGridViewActivity extends Activity {
 
 	private List<Map<String, Object>> data;
 	private MainUpView mainUpView1;
-
+	private View mOldView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,15 +42,16 @@ public class DemoGridViewActivity extends Activity {
 		String[] from = { "text" };
 		int[] to = { R.id.textView };
 
-		SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.item, from, to);
+		SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.item_gridview, from, to);
 		gridView.setAdapter(simpleAdapter);
 		simpleAdapter.notifyDataSetChanged();
 		//
 		gridView.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				Log.d("testtest", "testtest view:" + view);
-				mainUpView1.setFocusView(view, 1.0f);
+				view.bringToFront();
+				mainUpView1.setFocusView(view, mOldView, 1.2f);
+				mOldView = view;
 			}
 
 			@Override

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GridView TV版本:为了看清楚放大的效果，故意加了一个矩形 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:layout_margin="12dp"
+    android:background="#FF0000"
+    android:gravity="center" >
+
+    <FrameLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_margin="2dp"
+        android:background="@drawable/mainview_searchsong" >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="#FF0000"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+</RelativeLayout>

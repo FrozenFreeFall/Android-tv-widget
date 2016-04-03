@@ -6,12 +6,12 @@
     android:clipChildren="false"
     android:orientation="vertical" >
 
-    <GridView
+    <com.open.androidtvwidget.view.GridViewTV
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_margin="30dp"
         android:clipChildren="false"
         android:columnWidth="200dp"
         android:gravity="center_vertical"

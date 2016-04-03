@@ -62,7 +62,7 @@ public class OpenTabTitleAdapter extends BaseTabTitleAdapter {
 			convertView = newTabIndicator(parent.getContext(), title, false);
 			convertView.setId(ids.get(position)); // 设置ID.
 		} else {
-			// ... ..
+			// ... ...
 		}
 		return convertView;
 	}
