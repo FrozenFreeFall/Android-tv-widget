@@ -1,45 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:focusable="false"
-    android:orientation="vertical" >
+    android:focusableInTouchMode="false"
+    android:focusable="false">
 
-    <FrameLayout
-        android:layout_width="match_parent"
+    <com.open.androidtvwidget.view.ListViewTV
+        android:id="@+id/listview"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:focusable="false" >
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipChildren="false"
-            android:focusable="false"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:paddingBottom="78dp"
-            android:paddingTop="67dp" >
-
-            <ListView
-                android:id="@+id/listview"
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:clipChildren="false"
-                android:gravity="center_vertical"
-                android:listSelector="#00000000"
-                android:minHeight="50dp"
-                android:scrollbars="none" />
-        </LinearLayout>
-    </FrameLayout>
+        android:layout_gravity="center"
+        android:listSelector="#00000000"
+        android:minHeight="50dp"
+        android:paddingBottom="78dp"
+        android:paddingTop="67dp"
+        android:scrollbars="none" />
 
     <com.open.androidtvwidget.view.MainUpView
         android:id="@+id/mainUpView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-</LinearLayout>
+</FrameLayout>

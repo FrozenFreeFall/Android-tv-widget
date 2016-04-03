@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.widget.GridView;
 
 /**
- * 
+ * 扩展Gridview.必需嵌套滚动窗口.
  * @author hailongqiu
  *
  */

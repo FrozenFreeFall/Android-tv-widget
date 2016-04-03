@@ -3,26 +3,22 @@ package com.open.androidtvwidget.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.ListView;
 
-/**
- * GridView TV版本.
- * @author hailongqiu 356752238@qq.com
- *
- */
-public class GridViewTV extends GridView {
+public class ListViewTV extends ListView {
 
-	public GridViewTV(Context context) {
+	public ListViewTV(Context context) {
 		super(context);
 		init(context, null);
 	}
 
-	public GridViewTV(Context context, AttributeSet attrs) {
+	public ListViewTV(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context, attrs);
 	}
-	
+
 	/**
 	 * 崩溃了.
 	 */
@@ -36,12 +32,12 @@ public class GridViewTV extends GridView {
 	}
 
 	WidgetTvViewBring mWidgetTvViewBring;
-	
+
 	private void init(Context context, AttributeSet attrs) {
 		this.setClipChildren(false);
 		this.setClipToPadding(false);
 		this.setChildrenDrawingOrderEnabled(true);
-		mWidgetTvViewBring = new WidgetTvViewBring(this); 
+		mWidgetTvViewBring = new WidgetTvViewBring(this);
 	}
 
 	@Override

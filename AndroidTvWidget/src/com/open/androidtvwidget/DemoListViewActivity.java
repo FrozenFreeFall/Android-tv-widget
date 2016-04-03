@@ -26,7 +26,8 @@ public class DemoListViewActivity extends Activity {
 	private List<String> data;
 	private MainUpView mainUpView1;
 	private LayoutInflater mInflater;
-
+	private View mOldView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,7 +39,7 @@ public class DemoListViewActivity extends Activity {
 		mainUpView1.setShadowDrawable(null);
 		mainUpView1.setDrawUpRectPadding(10);
 		OpenEffectBridge openEffectBridge = ((OpenEffectBridge)mainUpView1.getEffectBridge());
-		openEffectBridge.setTranDurAnimTime(200);
+		openEffectBridge.setTranDurAnimTime(280);
 		initData();
 
 		listView.setAdapter(new DemoAdapter());
@@ -47,7 +48,9 @@ public class DemoListViewActivity extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (view != null) {
-					mainUpView1.setFocusView(view, 1.0f);
+					view.bringToFront(); 
+					mainUpView1.setFocusView(view, mOldView, 1.2f);
+					mOldView = view;
 				}
 			}
 			@Override
