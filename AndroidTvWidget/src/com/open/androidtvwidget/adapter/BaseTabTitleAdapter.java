@@ -10,7 +10,11 @@ public abstract class BaseTabTitleAdapter extends BaseAdapter {
 	public int getCount() {
 		return 0;
 	}
-
+	
+	public Integer getTitleWidgetID(int index) {
+		return 0;
+	}
+	
 	@Override
 	public Object getItem(int position) {
 		return null;

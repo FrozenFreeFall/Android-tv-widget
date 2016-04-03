@@ -29,9 +29,7 @@
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:nextFocusDown="@+id/listview_lay"
-                android:nextFocusRight="@+id/top_lay" >
+                android:focusableInTouchMode="true">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -148,7 +146,6 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:nextFocusRight="@+id/top_lay"
                 app:isReflect="true" >
 
                 <ImageView

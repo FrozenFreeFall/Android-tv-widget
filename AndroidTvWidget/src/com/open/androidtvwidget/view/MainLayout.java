@@ -3,7 +3,6 @@ package com.open.androidtvwidget.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
 import android.widget.RelativeLayout;
 
 public class MainLayout extends RelativeLayout {

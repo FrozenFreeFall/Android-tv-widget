@@ -12,12 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
-/**
- * Anim Bridge 抽象类.
- * @author hailongqiu 356752238@qq.com
- *
- */
-public abstract class BaseAnimBridge implements IAnimBridge {
+public class BaseEffectBridgeWrapper extends BaseEffectBridge {
 	private static final int DEFUALT_TRAN_DUR_ANIM = 300;
 	private MainUpView mMainUpView;
 	
@@ -105,7 +100,6 @@ public abstract class BaseAnimBridge implements IAnimBridge {
 	}
 	
 	public Rect findLocationWithView(View view) {
-		Log.d("", "hailongqiu findLocationWithView  view:" + view);
 		ViewGroup root = (ViewGroup) getMainUpView().getParent();
 		Rect rect = new Rect();
 		root.offsetDescendantRectToMyCoords(view, rect);
@@ -191,5 +185,4 @@ public abstract class BaseAnimBridge implements IAnimBridge {
 			view.requestLayout();
 		}
 	}
-
 }

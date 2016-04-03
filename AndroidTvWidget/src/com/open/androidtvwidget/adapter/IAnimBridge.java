@@ -5,6 +5,11 @@ import com.open.androidtvwidget.view.MainUpView;
 import android.graphics.Canvas;
 import android.view.View;
 
+/**
+ * BaseAnimBridge 接口.
+ * @author hailongqiu
+ *
+ */
 public interface IAnimBridge {
 	
 	public void onInitBridge(MainUpView view);

@@ -50,6 +50,11 @@ public class OpenTabTitleAdapter extends BaseTabTitleAdapter {
 	};
 	
 	@Override
+	public Integer getTitleWidgetID(int pos) {
+		return ids.get(pos);
+	}
+	
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		parent.getContext();
 		String title = titleList.get(position);

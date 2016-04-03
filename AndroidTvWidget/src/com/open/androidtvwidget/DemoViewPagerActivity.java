@@ -3,7 +3,8 @@ package com.open.androidtvwidget;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.open.androidtvwidget.adapter.OpenBaseAnimBridge;
+import com.open.androidtvwidget.adapter.OpenEffectBridge;
+import com.open.androidtvwidget.adapter.OpenEffectBridge.NewAnimatorListener;
 import com.open.androidtvwidget.adapter.OpenTabTitleAdapter;
 import com.open.androidtvwidget.view.MainUpView;
 import com.open.androidtvwidget.view.OpenTabHost;
@@ -11,6 +12,7 @@ import com.open.androidtvwidget.view.OpenTabHost.OnTabSelectListener;
 import com.open.androidtvwidget.view.ReflectItemView;
 import com.open.androidtvwidget.view.TextViewWithTTF;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -22,15 +24,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
-import android.widget.TabWidget;
 
 public class DemoViewPagerActivity extends Activity implements OnTabSelectListener {
 
 	private List<View> viewList;// view数组
 	private View view1, view2, view3, view4;
 	ViewPager viewpager;
-	OpenTabHost mOpenTabHost; 
-
+	OpenTabHost mOpenTabHost;
+	OpenTabTitleAdapter mOpenTabTitleAdapter;
+	
+	private OpenEffectBridge mSavebridge;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,9 +49,9 @@ public class DemoViewPagerActivity extends Activity implements OnTabSelectListen
 
 	private void initAllTitleBar() {
 		mOpenTabHost = (OpenTabHost) findViewById(R.id.openTabHost);
-		OpenTabTitleAdapter openTabTitleAdapter = new OpenTabTitleAdapter();
+		mOpenTabTitleAdapter = new OpenTabTitleAdapter();
 		mOpenTabHost.setOnTabSelectListener(this);
-		mOpenTabHost.setAdapter(openTabTitleAdapter);
+		mOpenTabHost.setAdapter(mOpenTabTitleAdapter);
 	}
 
 	private void initAllViewPager() {
@@ -69,14 +73,28 @@ public class DemoViewPagerActivity extends Activity implements OnTabSelectListen
 			@Override
 			public void onGlobalFocusChanged(View oldFocus, View newFocus) {
 				int pos = viewpager.getCurrentItem();
-				MainUpView mainUpView = (MainUpView) viewList.get(pos).findViewById(R.id.mainUpView1);
-				OpenBaseAnimBridge adapter = (OpenBaseAnimBridge) mainUpView.getAnimBridge();
+				final MainUpView mainUpView = (MainUpView) viewList.get(pos).findViewById(R.id.mainUpView1);
+				final OpenEffectBridge bridge = (OpenEffectBridge) mainUpView.getEffectBridge();
 				if (!(newFocus instanceof ReflectItemView)) {
 					mainUpView.setUnFocusView(oldFocus);
-					adapter.setVisibleWidget(true);
+					bridge.setVisibleWidget(true);
+					mSavebridge = null;
 				} else {
 					newFocus.bringToFront();
-					adapter.setVisibleWidget(false);
+					mSavebridge = bridge;
+					// 动画结束才设置边框显示，
+					// 是位了防止翻页从另一边跑出来的问题.
+					bridge.setOnAnimatorListener(new NewAnimatorListener() {
+						@Override
+						public void onAnimationStart(OpenEffectBridge bridge, View view, Animator animation) {
+						}
+						
+						@Override
+						public void onAnimationEnd(OpenEffectBridge bridge1, View view, Animator animation) {
+							if (mSavebridge == bridge1)
+								bridge.setVisibleWidget(false);
+						}
+					});
 					float scale = 1.2f;
 					// test scale.
 					if (pos == 1)
@@ -98,12 +116,12 @@ public class DemoViewPagerActivity extends Activity implements OnTabSelectListen
 				// 从标题栏翻页就能看到上次的边框.
 				if (position > 0) {
 					MainUpView mainUpView = (MainUpView) viewList.get(position - 1).findViewById(R.id.mainUpView1);
-					OpenBaseAnimBridge bridge = (OpenBaseAnimBridge) mainUpView.getAnimBridge();
+					OpenEffectBridge bridge = (OpenEffectBridge) mainUpView.getEffectBridge();
 					bridge.setVisibleWidget(true);
 				}
 				if (position < (viewpager.getChildCount() - 1)) {
 					MainUpView mainUpView = (MainUpView) viewList.get(position + 1).findViewById(R.id.mainUpView1);
-					OpenBaseAnimBridge bridge = (OpenBaseAnimBridge) mainUpView.getAnimBridge();
+					OpenEffectBridge bridge = (OpenEffectBridge) mainUpView.getEffectBridge();
 					bridge.setVisibleWidget(true);
 				}
 			}
@@ -123,6 +141,8 @@ public class DemoViewPagerActivity extends Activity implements OnTabSelectListen
 			MainUpView mainUpView = (MainUpView) view.findViewById(R.id.mainUpView1);
 			mainUpView.setUpRectResource(R.drawable.test_rectangle);
 			mainUpView.setShadowResource(R.drawable.item_shadow);
+			OpenEffectBridge bridget = (OpenEffectBridge) mainUpView.getEffectBridge();
+			bridget.setTranDurAnimTime(250);
 		}
 	}
 
@@ -135,11 +155,12 @@ public class DemoViewPagerActivity extends Activity implements OnTabSelectListen
 	}
 
 	/**
+	 * demo
 	 * 设置标题栏被选中，<br>
 	 * 但是没有焦点的状态.
 	 */
 	public void switchFocusTab(OpenTabHost openTabHost, int postion) {
-		List<View> viewList = mOpenTabHost.getAllTitleView();
+		List<View> viewList = openTabHost.getAllTitleView();
 		if (viewList != null && viewList.size() > 0) {
 			for (int i = 0; i < viewList.size(); i++) {
 				View viewC = viewList.get(i);
@@ -150,17 +171,18 @@ public class DemoViewPagerActivity extends Activity implements OnTabSelectListen
 				}
 			}
 		}
+		switchTab(openTabHost, postion);
 	}
 
 	/**
+	 * demo
 	 * 将标题栏的文字颜色改变. <br>
 	 * 你可以写自己的东西，我这里只是DEMO.
 	 */
 	public void switchTab(OpenTabHost openTabHost, int postion) {
-		TabWidget tw = openTabHost.getTabWidget();
-		for (int i = 0; i < tw.getChildCount(); i++) {
-			View viewC = tw.getChildTabViewAt(i);
-			TextViewWithTTF view = (TextViewWithTTF) viewC.findViewById(R.id.tv_tab_indicator);
+		List<View> viewList = openTabHost.getAllTitleView();
+		for (int i = 0; i < viewList.size(); i++) {
+			TextViewWithTTF view = (TextViewWithTTF) openTabHost.getTitleViewIndexAt(i);
 			if (view != null) {
 				Resources res = view.getResources();
 				if (res != null) {

@@ -28,6 +28,7 @@
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
                 android:focusable="true"
+                app:isShape="true"
                 android:focusableInTouchMode="true"
                 android:nextFocusDown="@+id/listview_lay"
                 android:nextFocusRight="@+id/top_lay" >
@@ -35,20 +36,26 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
-
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
                         android:src="@drawable/mainview_tuijian" />
 
-                    <ImageView
+					<TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="top"
+                        android:background="#FF0000"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="GridView测试"
+                        android:textColor="#FFFFFF" />
+					  <ImageView
                         android:id="@+id/test_top_iv"
                         android:layout_width="@dimen/px220"
                         android:layout_height="@dimen/px350"
                         android:scaleType="fitXY"
                         android:src="@drawable/top_test_bg" />
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
@@ -72,10 +79,6 @@
                 android:focusableInTouchMode="true"
                 app:isReflect="true" >
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -85,12 +88,12 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
+                        android:layout_margin="@dimen/px15"
                         android:layout_gravity="bottom"
                         android:background="#FF0000"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="listview 测试"
                         android:textColor="#ffffff" />
-                </FrameLayout>
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
@@ -113,18 +116,16 @@
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/top_lay"
+                app:isShape="true"
+                app:radius="@dimen/px20"
+                app:isReflect="true"
                 android:layout_width="@dimen/px412"
                 android:layout_height="@dimen/px672"
                 android:layout_marginLeft="@dimen/px968"
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
-                app:isReflect="true" >
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                android:focusableInTouchMode="true" >
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -154,7 +155,6 @@
                         android:gravity="center_vertical|center_horizontal"
                         android:text="ViewPager 测试"
                         android:textColor="#ffffff" />
-                </FrameLayout>
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
@@ -170,10 +170,6 @@
                 android:nextFocusRight="@+id/top_lay"
                 app:isReflect="true" >
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -183,12 +179,12 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:layout_gravity="bottom"
+                        android:layout_gravity="center_vertical"
                         android:background="#FF0000"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="键盘 测试"
                         android:textColor="#ffffff" />
-                </FrameLayout>
+                    
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView

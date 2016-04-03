@@ -7,7 +7,10 @@
     
     <!-- 倒影控件属性 -->
     <declare-styleable name="reflectItemView">
-        <attr name="isReflect" format="boolean" />
+        <attr name="isReflect"  format="boolean" />
+        <attr name="isShape"  format="boolean" />
+        <attr name="reflect_height"  format="dimension" />
+        <attr name="radius"  format="dimension" />
     </declare-styleable>
     
     <!-- 顶层控件属性 -->

@@ -7,30 +7,44 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 /**
- * 为了兼容4.3以下版本的 AnimAdapter.
- * 使用方法：
- * MainUpView.setAnimBridge(new AnimNoDrawBridge());
- * 如果边框带了阴影效果，使用这个函数自行调整:
- * MainUpView.setDrawUpRectPadding(12);
- * @author hailongqiu
+ * 自定义Anim Bridge DEMO. <br>
+ * 如果你想实现自己不同风格的东西， <br>
+ * 继承 BaseAnimBridge 重写几个函数吧. <br>
+ * 后续将推出更多风格的 Anim Bridge. <br>
+ * 
+ * @author hailongqiu 356752238@qq.com
  *
  */
-public class AnimNoDrawBridge extends BaseEffectBridgeWrapper {
+public class OpenEffectBridge extends BaseEffectBridgeWrapper {
+
 	private static final int DEFUALT_TRAN_DUR_ANIM = 300;
 	private int mTranDurAnimTime = DEFUALT_TRAN_DUR_ANIM;
 	private AnimatorSet mCurrentAnimatorSet;
+	private boolean isInDraw = false;
 	private boolean mIsHide = false;
 	private boolean mAnimEnabled = true;
+	private boolean isDrawUpRect = true;
+	private View mFocusView;
+	private NewAnimatorListener mNewAnimatorListener;
 
+	public OpenEffectBridge() {
+	}
+	
 	@Override
 	public void onInitBridge(MainUpView view) {
 		view.setVisibility(View.INVISIBLE); // 防止边框第一次出现问题.
-		view.setBackgroundDrawable(view.getUpRectDrawable());
+	}
+	
+	/**
+	 * 设置是否移动边框在最下层. true : 移动边框在最上层. 反之否.
+	 */
+	public void setDrawUpRectEnabled(boolean isDrawUpRect) {
+		this.isDrawUpRect = isDrawUpRect;
+		getMainUpView().invalidate();
 	}
 
 	/**
@@ -53,6 +67,20 @@ public class AnimNoDrawBridge extends BaseEffectBridgeWrapper {
 	 */
 	public void setVisibleWidget(boolean isHide) {
 		this.mIsHide = isHide;
+		getMainUpView().setVisibility(mIsHide ? View.INVISIBLE : View.VISIBLE);
+	}
+
+	public interface NewAnimatorListener {
+		public void onAnimationStart(OpenEffectBridge bridge, View view, Animator animation);
+
+		public void onAnimationEnd(OpenEffectBridge bridge, View view, Animator animation);
+	}
+
+	/**
+	 * 监听动画的回调.
+	 */
+	public void setOnAnimatorListener(NewAnimatorListener newAnimatorListener) {
+		mNewAnimatorListener = newAnimatorListener;
 	}
 
 	@Override
@@ -66,12 +94,13 @@ public class AnimNoDrawBridge extends BaseEffectBridgeWrapper {
 
 	@Override
 	public void onFocusView(View focusView, float scaleX, float scaleY) {
+		mFocusView = focusView;
 		if (!mAnimEnabled)
 			return;
 		if (focusView != null) {
-			if (!mIsHide) {
+//			if (!mIsHide) {
 				focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(mTranDurAnimTime).start();
-			}
+//			}
 			runTranslateAnimation(focusView, scaleX, scaleY);
 		}
 	}
@@ -81,16 +110,15 @@ public class AnimNoDrawBridge extends BaseEffectBridgeWrapper {
 	 */
 	@Override
 	public void flyWhiteBorder(final View focusView, float x, float y, float scaleX, float scaleY) {
-		Rect paddingRect = getMainUpView().getDrawUpRect();
 		int newWidth = 0;
 		int newHeight = 0;
 		int oldWidth = 0;
 		int oldHeight = 0;
 		if (focusView != null) {
-			newWidth = (int) (focusView.getMeasuredWidth() * scaleX) + (paddingRect.left + paddingRect.right);
-			newHeight = (int) (focusView.getMeasuredHeight() * scaleY) + (paddingRect.top + paddingRect.bottom);
-			x = x + ((focusView.getMeasuredWidth() - newWidth) / 2); 
-			y = y + ((focusView.getMeasuredHeight() - newHeight) / 2);
+			newWidth = (int) (focusView.getMeasuredWidth() * scaleX);
+			newHeight = (int) (focusView.getMeasuredHeight() * scaleY);
+			x = x + (focusView.getMeasuredWidth() - newWidth) / 2;
+			y = y + (focusView.getMeasuredHeight() - newHeight) / 2;
 		}
 
 		// 取消之前的动画.
@@ -116,22 +144,34 @@ public class AnimNoDrawBridge extends BaseEffectBridgeWrapper {
 		mAnimatorSet.addListener(new AnimatorListener() {
 			@Override
 			public void onAnimationStart(Animator animation) {
+				if (!isDrawUpRect)
+					isInDraw = false;
 				if (mIsHide) {
-					getMainUpView().setVisibility(View.GONE);
+					getMainUpView().setVisibility(View.INVISIBLE);
 				}
+				if (mNewAnimatorListener != null)
+					mNewAnimatorListener.onAnimationStart(OpenEffectBridge.this, focusView, animation);
 			}
 
 			@Override
 			public void onAnimationRepeat(Animator animation) {
+				if (!isDrawUpRect)
+					isInDraw = false;
 			}
 
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				getMainUpView().setVisibility(mIsHide ? View.GONE : View.VISIBLE);
+				if (!isDrawUpRect)
+					isInDraw = true;
+				getMainUpView().setVisibility(mIsHide ? View.INVISIBLE : View.VISIBLE);
+				if (mNewAnimatorListener != null)
+					mNewAnimatorListener.onAnimationEnd(OpenEffectBridge.this, focusView, animation);
 			}
 
 			@Override
 			public void onAnimationCancel(Animator animation) {
+				if (!isDrawUpRect)
+					isInDraw = false;
 			}
 		});
 		mAnimatorSet.start();
@@ -143,6 +183,36 @@ public class AnimNoDrawBridge extends BaseEffectBridgeWrapper {
 	 */
 	@Override
 	public boolean onDrawMainUpView(Canvas canvas) {
-		return false;
+		canvas.save();
+		if (!isDrawUpRect) {
+			// 绘制阴影.
+			onDrawShadow(canvas);
+			// 绘制最上层的边框.
+			onDrawUpRect(canvas);
+		}
+		// 绘制焦点子控件.
+		if (mFocusView != null && (!isDrawUpRect && isInDraw)) {
+			onDrawFocusView(canvas);
+		}
+		//
+		if (isDrawUpRect) {
+			// 绘制阴影.
+			onDrawShadow(canvas);
+			// 绘制最上层的边框.
+			onDrawUpRect(canvas);
+		}
+		canvas.restore();
+		return true;
 	}
+
+	public void onDrawFocusView(Canvas canvas) {
+		View view = mFocusView;
+		canvas.save();
+		float scaleX = (float) (getMainUpView().getWidth()) / (float) view.getWidth();
+		float scaleY = (float) (getMainUpView().getHeight()) / (float) view.getHeight();
+		canvas.scale(scaleX, scaleY);
+		view.draw(canvas);
+		canvas.restore();
+	}
+
 }

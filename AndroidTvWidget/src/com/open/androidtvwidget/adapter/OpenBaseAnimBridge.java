@@ -1,6 +1,5 @@
 package com.open.androidtvwidget.adapter;
 
-import com.open.androidtvwidget.adapter.BaseAnimBridge.ScaleView;
 import com.open.androidtvwidget.view.MainUpView;
 
 import android.animation.Animator;
@@ -12,15 +11,15 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 /**
- * 自定义Anim Adapter DEMO. <br>
+ * 自定义Anim Bridge DEMO. <br>
  * 如果你想实现自己不同风格的东西， <br>
- * 继承 BaseAnimAdapter 重写几个函数吧. <br>
- * 后续将推出更多风格的 Anim Adapter. <br>
+ * 继承 BaseAnimBridge 重写几个函数吧. <br>
+ * 后续将推出更多风格的 Anim Bridge. <br>
  * 
  * @author hailongqiu 356752238@qq.com
  *
  */
-public class OpenBaseAnimBridge extends BaseAnimBridge {
+public class OpenBaseAnimBridge extends BaseEffectBridgeWrapper {
 
 	private static final int DEFUALT_TRAN_DUR_ANIM = 300;
 	private int mTranDurAnimTime = DEFUALT_TRAN_DUR_ANIM;

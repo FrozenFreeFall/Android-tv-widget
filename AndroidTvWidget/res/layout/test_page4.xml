@@ -21,7 +21,7 @@
             android:paddingRight="80dp" >
 
             <com.open.androidtvwidget.view.ReflectItemView
-                android:id="@+id/page4_gridview_lay"
+                android:id="@+id/page4_item1"
                 android:nextFocusUp="@+id/title_bar4"
                 android:layout_width="@dimen/px840"
                 android:layout_height="@dimen/px394"
@@ -29,9 +29,7 @@
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:nextFocusDown="@+id/listview_lay"
-                android:nextFocusRight="@+id/top_lay" >
+                android:focusableInTouchMode="true">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -61,7 +59,7 @@
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
-                android:id="@+id/listview_lay"
+                android:id="@+id/page4_item2"
                 android:layout_width="@dimen/px404"
                 android:layout_height="@dimen/px246"
                 android:layout_marginLeft="@dimen/px96"
@@ -85,7 +83,7 @@
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
-                android:id="@+id/hot_lay"
+                android:id="@+id/page4_item5"
                  android:nextFocusUp="@+id/title_bar4"
                 android:layout_width="@dimen/px412"
                 android:layout_height="@dimen/px672"
@@ -104,7 +102,7 @@
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
-                android:id="@+id/top_lay"
+                android:id="@+id/page4_item4"
                  android:nextFocusUp="@+id/title_bar4"
                 android:layout_width="@dimen/px412"
                 android:layout_height="@dimen/px672"
@@ -138,7 +136,7 @@
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
-                android:id="@+id/class_lay"
+                android:id="@+id/page4_item3"
                 android:layout_width="@dimen/px404"
                 android:layout_height="@dimen/px246"
                 android:layout_marginLeft="@dimen/px532"
@@ -147,7 +145,6 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:nextFocusRight="@+id/top_lay"
                 app:isReflect="true" >
 
                 <ImageView
@@ -158,7 +155,7 @@
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
-                android:nextFocusUp="@+id/title_bar4"
+                android:nextFocusUp="@+id/page4_item6"
                 android:layout_width="@dimen/px412"
                 android:layout_height="@dimen/px672"
                 android:layout_marginLeft="@dimen/px1858"

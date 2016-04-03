@@ -114,11 +114,19 @@ public class OpenTabHost extends TabHost {
 			}
 		}
 	}
-
+	
 	public List<View> getAllTitleView() {
 		return this.mCacheView;
 	}
-
+	
+	public View getTitleViewIndexAt(int index) {
+		return this.mCacheView.get(index);
+	}
+	
+	public View getTitleViewIdAt(int index) {
+		return this.mCacheView.get(index).findViewById(this.mAdapter.getTitleWidgetID(index));
+	}
+	
 	public interface OnTabSelectListener {
 		public void onTabSelect(OpenTabHost openTabHost, View titleWidget, int postion);
 	}

@@ -1,8 +1,8 @@
 package com.open.androidtvwidget.view;
 
 import com.open.androidtvwidget.R;
-import com.open.androidtvwidget.adapter.IAnimBridge;
-import com.open.androidtvwidget.adapter.OpenBaseAnimBridge;
+import com.open.androidtvwidget.adapter.BaseEffectBridge;
+import com.open.androidtvwidget.adapter.OpenEffectBridge;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -65,10 +65,10 @@ public class MainUpView extends FrameLayout {
 			tArray.recycle();
 		}
 		//
-		IAnimBridge baseAnimBridge = new OpenBaseAnimBridge();
-		baseAnimBridge.onInitBridge(this);
-		baseAnimBridge.setMainUpView(this);
-		setAnimBridge(baseAnimBridge);
+		BaseEffectBridge baseEffectBridge = new OpenEffectBridge();
+		baseEffectBridge.onInitBridge(this);
+		baseEffectBridge.setMainUpView(this);
+		setEffectBridge(baseEffectBridge);
 	}
 
 	public void setUpRectResource(int resId) {
@@ -116,8 +116,8 @@ public class MainUpView extends FrameLayout {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		if (this.mAnimBridge != null)
-			if (this.mAnimBridge.onDrawMainUpView(canvas))
+		if (this.mEffectBridge != null)
+			if (this.mEffectBridge.onDrawMainUpView(canvas))
 				return;
 		super.onDraw(canvas);
 	}
@@ -171,12 +171,12 @@ public class MainUpView extends FrameLayout {
 	 * 设置焦点子控件的移动和放大.
 	 */
 	public void setFocusView(View view, float scale) {
-		this.mAnimBridge.onFocusView(view, scale, scale);
+		this.mEffectBridge.onFocusView(view, scale, scale);
 	}
 
 	public void setFocusView(View view, float scaleX, float scaleY) {
-		if (this.mAnimBridge != null)
-			this.mAnimBridge.onFocusView(view, scaleX, scaleY);
+		if (this.mEffectBridge != null)
+			this.mEffectBridge.onFocusView(view, scaleX, scaleY);
 	}
 
 	public void setFocusView(View newView, View oldView, float scale) {
@@ -185,8 +185,8 @@ public class MainUpView extends FrameLayout {
 	}
 
 	public void setUnFocusView(View view, float scaleX, float scaleY) {
-		if (this.mAnimBridge != null)
-			this.mAnimBridge.onOldFocusView(view, scaleX, scaleY);
+		if (this.mEffectBridge != null)
+			this.mEffectBridge.onOldFocusView(view, scaleX, scaleY);
 	}
 
 	/**
@@ -196,19 +196,19 @@ public class MainUpView extends FrameLayout {
 		setUnFocusView(view, DEFUALT_SCALE, DEFUALT_SCALE);
 	}
 
-	IAnimBridge mAnimBridge;
+	BaseEffectBridge mEffectBridge;
 
-	public void setAnimBridge(IAnimBridge adapter) {
-		this.mAnimBridge = adapter;
-		if (this.mAnimBridge != null) {
-			this.mAnimBridge.onInitBridge(this);
-			this.mAnimBridge.setMainUpView(this);
+	public void setEffectBridge(BaseEffectBridge adapter) {
+		this.mEffectBridge = adapter;
+		if (this.mEffectBridge != null) {
+			this.mEffectBridge.onInitBridge(this);
+			this.mEffectBridge.setMainUpView(this);
 			invalidate();
 		}
 	}
 
-	public IAnimBridge getAnimBridge() {
-		return this.mAnimBridge;
+	public BaseEffectBridge getEffectBridge() {
+		return this.mEffectBridge;
 	}
 
 }
