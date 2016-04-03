@@ -18,12 +18,9 @@ public class MainUpView extends FrameLayout {
 
 	private static final String TAG = "MainUpView";
 
+	private BaseEffectBridge mEffectBridge;
 	private static final float DEFUALT_SCALE = 1.0f;
 	private static final int DEFULAT_SIZE = 500;
-
-	private Drawable mDrawableShadow;
-	private Drawable mDrawableUpRect;
-	private Context mContext;
 
 	public MainUpView(Context context) {
 		super(context, null, 0);
@@ -56,15 +53,19 @@ public class MainUpView extends FrameLayout {
 
 	private void init(Context context, AttributeSet attrs) {
 		setWillNotDraw(false);
-		mContext = context;
+		initEffectBridge();
 		// 初始化.
 		if (attrs != null) {
 			TypedArray tArray = context.obtainStyledAttributes(attrs, R.styleable.mainUpView);// 获取配置属性
-			mDrawableUpRect = tArray.getDrawable(R.styleable.mainUpView_upImageRes); // 顶层图片.
-			mDrawableShadow = tArray.getDrawable(R.styleable.mainUpView_shadowImageRes); // 阴影图片.
+			Drawable drawableUpRect = tArray.getDrawable(R.styleable.mainUpView_upImageRes); // 顶层图片.
+			Drawable drawableShadow = tArray.getDrawable(R.styleable.mainUpView_shadowImageRes); // 阴影图片.
+			setUpRectDrawable(drawableUpRect);
+			setShadowDrawable(drawableShadow);
 			tArray.recycle();
 		}
-		//
+	}
+
+	private void initEffectBridge() {
 		BaseEffectBridge baseEffectBridge = new OpenEffectBridge();
 		baseEffectBridge.onInitBridge(this);
 		baseEffectBridge.setMainUpView(this);
@@ -72,58 +73,77 @@ public class MainUpView extends FrameLayout {
 	}
 
 	public void setUpRectResource(int resId) {
-		try {
-			this.mDrawableUpRect = mContext.getResources().getDrawable(resId); // 移动的边框.
-			invalidate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		if (mEffectBridge != null)
+			mEffectBridge.setUpRectResource(resId);
 	}
 
 	/**
 	 * 设置最上层的边框.
 	 */
 	public void setUpRectDrawable(Drawable upRectDrawable) {
-		this.mDrawableUpRect = upRectDrawable;
-		invalidate();
+		if (mEffectBridge != null)
+			mEffectBridge.setUpRectDrawable(upRectDrawable);
 	}
 
 	public Drawable getUpRectDrawable() {
-		return this.mDrawableUpRect;
+		if (mEffectBridge != null) {
+			return mEffectBridge.getUpRectDrawable();
+		}
+		return null;
 	}
 
-	public void setShadowResource(int resId) {
-		try {
-			this.mDrawableShadow = mContext.getResources().getDrawable(resId); // 移动的边框.
+	/**
+	 * 根据图片边框 自行 填写 相差的边距. <br>
+	 * 比如 res/drawble/white_light_10.9.png的图片，边距就差很多.
+	 * 
+	 * @param size
+	 *            负数边框减小，正数反之(阴影边框一样的).
+	 */
+	public void setDrawUpRectPadding(int size) {
+		setDrawUpRectPadding(new Rect(size, size, size, size));
+	}
+
+	/**
+	 * 根据图片边框 自行 填写 相差的边距. <br>
+	 * 比如 res/drawble/white_light_10.9.png的图片，边距就差很多.
+	 */
+	public void setDrawUpRectPadding(Rect rect) {
+		if (mEffectBridge != null) {
+			mEffectBridge.setDrawUpRectPadding(rect);
 			invalidate();
-		} catch (Exception e) {
-			this.mDrawableShadow = null;
-			e.printStackTrace();
 		}
 	}
 
-	public Drawable getShadowDrawable() {
-		return this.mDrawableShadow;
+	public Rect getDrawUpRect() {
+		if (mEffectBridge != null) {
+			return mEffectBridge.getDrawUpRect();
+		}
+		return null;
+	}
+
+	public void setShadowResource(int resId) {
+		if (mEffectBridge != null) {
+			this.mEffectBridge.setShadowResource(resId);
+			invalidate();
+		}
 	}
 
 	/**
 	 * 当图片边框不自带阴影的话，可以自行设置阴影图片. 设置阴影.
 	 */
 	public void setShadowDrawable(Drawable shadowDrawable) {
-		this.mDrawableShadow = shadowDrawable;
-		invalidate();
+		if (mEffectBridge != null) {
+			this.mEffectBridge.setShadowDrawable(shadowDrawable);
+			invalidate();
+		}
 	}
 
-	@Override
-	protected void onDraw(Canvas canvas) {
-		if (this.mEffectBridge != null)
-			if (this.mEffectBridge.onDrawMainUpView(canvas))
-				return;
-		super.onDraw(canvas);
+	public Drawable getShadowDrawable() {
+		if (mEffectBridge != null) {
+			return this.mEffectBridge.getShadowDrawable();
+		}
+		return null;
 	}
-
-	private Rect mUpPaddingRect = new Rect(0, 0, 0, 0);
-	private Rect mShadowPaddingRect = new Rect(0, 0, 0, 0);
 
 	/**
 	 * 根据阴影图片边框 自行 填写 相差的边距. <br>
@@ -138,55 +158,37 @@ public class MainUpView extends FrameLayout {
 	 * 比如 res/drawble/white_shadow.9.png的图片，边距就差很多.
 	 */
 	public void setDrawShadowRectPadding(Rect rect) {
-		mShadowPaddingRect.set(rect);
-		invalidate();
+		if (mEffectBridge != null) {
+			mEffectBridge.setDrawShadowRectPadding(rect);
+			invalidate();
+		}
 	}
 
 	public Rect getDrawShadowRect() {
-		return this.mShadowPaddingRect;
+		if (mEffectBridge != null) {
+			return mEffectBridge.getDrawShadowRect();
+		}
+		return null;
 	}
 
 	/**
-	 * 根据图片边框 自行 填写 相差的边距. <br>
-	 * 比如 res/drawble/white_light_10.9.png的图片，边距就差很多.
+	 * 焦点控件处理.
 	 */
-	public void setDrawUpRectPadding(int size) {
-		setDrawUpRectPadding(new Rect(size, size, size, size));
-	}
-
-	/**
-	 * 根据图片边框 自行 填写 相差的边距. <br>
-	 * 比如 res/drawble/white_light_10.9.png的图片，边距就差很多.
-	 */
-	public void setDrawUpRectPadding(Rect rect) {
-		mUpPaddingRect.set(rect);
-		invalidate();
-	}
-
-	public Rect getDrawUpRect() {
-		return this.mUpPaddingRect;
+	public void setFocusView(View newView, View oldView, float scale) {
+		setFocusView(newView, scale);
+		setUnFocusView(oldView);
 	}
 
 	/**
 	 * 设置焦点子控件的移动和放大.
 	 */
 	public void setFocusView(View view, float scale) {
-		this.mEffectBridge.onFocusView(view, scale, scale);
+		setFocusView(view, scale, scale);
 	}
 
 	public void setFocusView(View view, float scaleX, float scaleY) {
 		if (this.mEffectBridge != null)
 			this.mEffectBridge.onFocusView(view, scaleX, scaleY);
-	}
-
-	public void setFocusView(View newView, View oldView, float scale) {
-		setFocusView(newView, scale);
-		setUnFocusView(oldView);
-	}
-
-	public void setUnFocusView(View view, float scaleX, float scaleY) {
-		if (this.mEffectBridge != null)
-			this.mEffectBridge.onOldFocusView(view, scaleX, scaleY);
 	}
 
 	/**
@@ -196,10 +198,16 @@ public class MainUpView extends FrameLayout {
 		setUnFocusView(view, DEFUALT_SCALE, DEFUALT_SCALE);
 	}
 
-	BaseEffectBridge mEffectBridge;
+	public void setUnFocusView(View view, float scaleX, float scaleY) {
+		if (this.mEffectBridge != null)
+			this.mEffectBridge.onOldFocusView(view, scaleX, scaleY);
+	}
 
-	public void setEffectBridge(BaseEffectBridge adapter) {
-		this.mEffectBridge = adapter;
+	/**
+	 * 设置EffectBridge.
+	 */
+	public void setEffectBridge(BaseEffectBridge effectBridge) {
+		this.mEffectBridge = effectBridge;
 		if (this.mEffectBridge != null) {
 			this.mEffectBridge.onInitBridge(this);
 			this.mEffectBridge.setMainUpView(this);
@@ -209,6 +217,16 @@ public class MainUpView extends FrameLayout {
 
 	public BaseEffectBridge getEffectBridge() {
 		return this.mEffectBridge;
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		if (this.mEffectBridge != null) {
+			if (this.mEffectBridge.onDrawMainUpView(canvas)) {
+				return;
+			}
+		}
+		super.onDraw(canvas);
 	}
 
 }

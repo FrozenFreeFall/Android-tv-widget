@@ -33,14 +33,20 @@ public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 
 	public OpenEffectBridge() {
 	}
-	
+
 	@Override
 	public void onInitBridge(MainUpView view) {
-		view.setVisibility(View.INVISIBLE); // 防止边框第一次出现问题.
+		super.onInitBridge(view);
+		/**
+		 * 防止边框第一次出现,<br>
+		 * 从另一个地方飘过来的问题.<br>
+		 */
+		view.setVisibility(View.INVISIBLE);
 	}
-	
+
 	/**
-	 * 设置是否移动边框在最下层. true : 移动边框在最上层. 反之否.
+	 * 设置是否移动边框在最下层(绘制的层次). <br>
+	 * true : 移动边框在最上层. 反之否. <br>
 	 */
 	public void setDrawUpRectEnabled(boolean isDrawUpRect) {
 		this.isDrawUpRect = isDrawUpRect;
@@ -52,7 +58,6 @@ public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 	 */
 	public void setTranDurAnimTime(int time) {
 		mTranDurAnimTime = time;
-		getMainUpView().invalidate();
 	}
 
 	/**
@@ -72,7 +77,6 @@ public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 
 	public interface NewAnimatorListener {
 		public void onAnimationStart(OpenEffectBridge bridge, View view, Animator animation);
-
 		public void onAnimationEnd(OpenEffectBridge bridge, View view, Animator animation);
 	}
 
@@ -98,9 +102,7 @@ public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 		if (!mAnimEnabled)
 			return;
 		if (focusView != null) {
-//			if (!mIsHide) {
-				focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(mTranDurAnimTime).start();
-//			}
+			focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(mTranDurAnimTime).start();
 			runTranslateAnimation(focusView, scaleX, scaleY);
 		}
 	}

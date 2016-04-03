@@ -27,7 +27,7 @@ public class DemoListViewActivity extends Activity {
 	private MainUpView mainUpView1;
 	private LayoutInflater mInflater;
 	private View mOldView;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,8 +37,8 @@ public class DemoListViewActivity extends Activity {
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
 		mainUpView1.setUpRectResource(R.drawable.white_light_10);
 		mainUpView1.setShadowDrawable(null);
-		mainUpView1.setDrawUpRectPadding(10);
-		OpenEffectBridge openEffectBridge = ((OpenEffectBridge)mainUpView1.getEffectBridge());
+		mainUpView1.setDrawUpRectPadding(-15); // 设置边框间距.
+		OpenEffectBridge openEffectBridge = ((OpenEffectBridge) mainUpView1.getEffectBridge());
 		openEffectBridge.setTranDurAnimTime(280);
 		initData();
 
@@ -48,11 +48,15 @@ public class DemoListViewActivity extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (view != null) {
-					view.bringToFront(); 
+					// 子控件置顶，必需使用ListViewTV才行，
+					// 不然焦点会错乱.
+					// 不要忘记这句关键的话哦.
+					view.bringToFront();
 					mainUpView1.setFocusView(view, mOldView, 1.2f);
 					mOldView = view;
 				}
 			}
+
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
@@ -64,7 +68,7 @@ public class DemoListViewActivity extends Activity {
 			}
 		});
 		// 要与不要都没有什么鸟用.
-//		listView.setSelection(0);
+		// listView.setSelection(0);
 	}
 
 	public void initData() {

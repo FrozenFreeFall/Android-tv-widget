@@ -8,19 +8,19 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 /**
- * 为了兼容4.3以下版本的 AnimAdapter.
- * 使用方法：
- * MainUpView.setAnimBridge(new AnimNoDrawBridge());
- * 如果边框带了阴影效果，使用这个函数自行调整:
- * MainUpView.setDrawUpRectPadding(12);
+ * 为了兼容4.3以下版本的 AnimAdapter. 使用方法： MainUpView.setAnimBridge(new
+ * AnimNoDrawBridge()); 如果边框带了阴影效果，使用这个函数自行调整:
+ * MainUpView.setDrawUpRectPadding(-12);
+ * 
  * @author hailongqiu
  *
  */
-public class AnimNoDrawBridge extends BaseEffectBridgeWrapper {
+public class EffectNoDrawBridge extends BaseEffectBridgeWrapper {
 	private static final int DEFUALT_TRAN_DUR_ANIM = 300;
 	private int mTranDurAnimTime = DEFUALT_TRAN_DUR_ANIM;
 	private AnimatorSet mCurrentAnimatorSet;
@@ -29,10 +29,27 @@ public class AnimNoDrawBridge extends BaseEffectBridgeWrapper {
 
 	@Override
 	public void onInitBridge(MainUpView view) {
-		view.setVisibility(View.INVISIBLE); // 防止边框第一次出现问题.
-		view.setBackgroundDrawable(view.getUpRectDrawable());
+		super.onInitBridge(view);
+		/**
+		 * 防止边框第一次出现,<br>
+		 * 从另一个地方飘过来的问题.<br>
+		 */
+		view.setVisibility(View.INVISIBLE);
 	}
-
+	
+	/**
+	 * 设置背景，边框不使用绘制.
+	 */
+	@Override
+	public void setUpRectResource(int resId) {
+		getMainUpView().setBackgroundResource(resId);
+	}
+	
+	@Override
+	public void setUpRectDrawable(Drawable upRectDrawable) {
+		getMainUpView().setBackgroundDrawable(upRectDrawable);
+	}
+	
 	/**
 	 * 控件动画时间.
 	 */
@@ -77,11 +94,11 @@ public class AnimNoDrawBridge extends BaseEffectBridgeWrapper {
 	}
 
 	/**
-	 * 重寫移動的邊框函數.
+	 * 重写边框移动函数.
 	 */
 	@Override
 	public void flyWhiteBorder(final View focusView, float x, float y, float scaleX, float scaleY) {
-		Rect paddingRect = getMainUpView().getDrawUpRect();
+		Rect paddingRect = getDrawUpRect();
 		int newWidth = 0;
 		int newHeight = 0;
 		int oldWidth = 0;
@@ -89,7 +106,7 @@ public class AnimNoDrawBridge extends BaseEffectBridgeWrapper {
 		if (focusView != null) {
 			newWidth = (int) (focusView.getMeasuredWidth() * scaleX) + (paddingRect.left + paddingRect.right);
 			newHeight = (int) (focusView.getMeasuredHeight() * scaleY) + (paddingRect.top + paddingRect.bottom);
-			x = x + ((focusView.getMeasuredWidth() - newWidth) / 2); 
+			x = x + ((focusView.getMeasuredWidth() - newWidth) / 2);
 			y = y + ((focusView.getMeasuredHeight() - newHeight) / 2);
 		}
 
@@ -139,10 +156,12 @@ public class AnimNoDrawBridge extends BaseEffectBridgeWrapper {
 	}
 
 	/**
-	 * 重寫了繪製的函數.
+	 * 重写该函数，<br>
+	 * 不进行绘制 边框和阴影.
 	 */
 	@Override
 	public boolean onDrawMainUpView(Canvas canvas) {
 		return false;
 	}
+	
 }
