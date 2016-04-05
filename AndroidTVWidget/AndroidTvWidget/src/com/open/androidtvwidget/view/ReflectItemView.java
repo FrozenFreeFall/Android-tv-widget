@@ -29,7 +29,6 @@ public class ReflectItemView extends FrameLayout {
 	private static final int DEFUALT_REFHEIGHT = 80;
 	private static final int DEFUALT_RADIUS = 12;
 
-	private Paint mClearPaint = null;
 	private Paint mShapePaint = null;
 	private Paint mRefPaint = null;
 	private int mRefHeight = DEFUALT_REFHEIGHT;
@@ -89,10 +88,6 @@ public class ReflectItemView extends FrameLayout {
 					new LinearGradient(0, 0, 0, mRefHeight, new int[] { 0x77000000, 0x66AAAAAA, 0x0500000, 0x00000000 },
 							new float[] { 0.0f, 0.1f, 0.9f, 1.0f }, Shader.TileMode.CLAMP));
 			mRefPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY));
-		}
-		if (mClearPaint == null) {
-			mClearPaint = new Paint();
-			mClearPaint.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
 		}
 	}
 

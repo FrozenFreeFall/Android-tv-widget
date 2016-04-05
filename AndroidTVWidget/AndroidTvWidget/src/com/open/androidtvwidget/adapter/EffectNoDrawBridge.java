@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 /**
- * 为了兼容4.3以下版本的 AnimAdapter. <br>
+ * 为了兼容4.3以下版本的 AnimBridge. <br>
  * 使用方法： MainUpView.setAnimBridge(newAnimNoDrawBridge()); <br>
  * 如果边框带了阴影效果，使用这个函数自行调整:
  * MainUpView.setDrawUpRectPadding(-12);
