@@ -5,8 +5,8 @@ import android.view.ViewGroup;
 
 /**
  * 让ViewGroup中的控件在最上层 <br>
- * ListView, GridView, ViewGroup中使用.
- * 想要置顶的子控件，不要忘记调用 bringToFront() 噢.
+ * ListView, GridView, ViewGroup中使用. 想要置顶的子控件，不要忘记调用 bringToFront() 噢.
+ * 
  * @author hailongqiu
  *
  */
@@ -18,8 +18,8 @@ public class WidgetTvViewBring {
 	}
 
 	public WidgetTvViewBring(ViewGroup vg) {
-		// vg.setClipChildren(false);
-		// vg.setClipToPadding(false);
+		vg.setClipChildren(false);
+		vg.setClipToPadding(false);
 		// vg.setChildrenDrawingOrderEnabled(true);
 	}
 

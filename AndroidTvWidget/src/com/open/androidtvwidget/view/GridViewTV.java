@@ -38,8 +38,6 @@ public class GridViewTV extends GridView {
 	WidgetTvViewBring mWidgetTvViewBring;
 	
 	private void init(Context context, AttributeSet attrs) {
-		this.setClipChildren(false);
-		this.setClipToPadding(false);
 		this.setChildrenDrawingOrderEnabled(true);
 		mWidgetTvViewBring = new WidgetTvViewBring(this); 
 	}

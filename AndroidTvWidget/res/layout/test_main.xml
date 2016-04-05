@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
-    	android:clipToPadding="false" 
+        android:clipToPadding="false"
         android:fillViewport="true"
         android:scrollbars="none" >
 
@@ -76,7 +76,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                app:isReflect="true" >
+                app:isReflect="true"
+                app:isShape="true" >
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -104,7 +105,9 @@
                 android:background="@drawable/mainview_huodong"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true" >
+                android:focusableInTouchMode="true"
+                app:isReflect="true"
+                app:isShape="true" >
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -166,7 +169,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                app:isReflect="true" >
+                app:isReflect="true"
+                app:isShape="true" >
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -192,7 +196,9 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:src="@drawable/mainview_cloudlist" >
+                android:src="@drawable/mainview_cloudlist"
+                app:isReflect="true"
+                app:isShape="true" >
 
                 <ImageView
                     android:layout_width="match_parent"

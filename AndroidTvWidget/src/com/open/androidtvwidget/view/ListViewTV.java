@@ -3,7 +3,6 @@ package com.open.androidtvwidget.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -34,8 +33,6 @@ public class ListViewTV extends ListView {
 	WidgetTvViewBring mWidgetTvViewBring;
 
 	private void init(Context context, AttributeSet attrs) {
-		this.setClipChildren(false);
-		this.setClipToPadding(false);
 		this.setChildrenDrawingOrderEnabled(true);
 		mWidgetTvViewBring = new WidgetTvViewBring(this);
 	}

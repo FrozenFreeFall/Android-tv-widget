@@ -17,8 +17,9 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 
 /**
- * 设置默认APP.
- * 
+ * 设置默认APP(类似小米的). <br>
+ * 比如有很多浏览器，你可以设置默认的. <br>
+ * 如何使用，查看DEMO，http://git.oschina.net/hailongqiu/demo-test <br>
  * @author hailong.qiu 356752238@qq.com
  *
  */
