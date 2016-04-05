@@ -1,12 +1,14 @@
 package com.open.androidtvwidget;
 
+import com.open.androidtvwidget.adapter.EffectNoDrawBridge;
 import com.open.androidtvwidget.adapter.OpenEffectBridge;
+import com.open.androidtvwidget.utils.Utils;
 import com.open.androidtvwidget.view.MainLayout;
 import com.open.androidtvwidget.view.MainUpView;
-import com.open.androidtvwidget.view.ReflectItemView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,14 +33,22 @@ public class MainActivity extends Activity implements OnClickListener {
 		test_top_iv = findViewById(R.id.test_top_iv);
 		/* MainUpView 设置. */
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
-//		mainUpView1 = new MainUpView(this); // 手动添加(test)
+		// mainUpView1 = new MainUpView(this); // 手动添加(test)
 		mOpenEffectBridge = (OpenEffectBridge) mainUpView1.getEffectBridge();
-		// mainUpView1.setEffectBridge(new EffectNoDrawBridge()); // 4.3以下版本边框移动.
-		// mainUpView1.setUpRectResource(R.drawable.item_highlight); // 设置移动边框的图片.(test)
-		// mainUpView1.setUpRectResource(R.drawable.white_light_10); // 设置移动边框的图片. (test)
-		mainUpView1.setUpRectResource(R.drawable.test_rectangle); // 设置移动边框的图片.
-		mainUpView1.setShadowResource(R.drawable.item_shadow); // 设置移动边框的阴影.
-		// mainUpView1.setDrawUpRectPadding(-25); // 边框图片设置间距.
+		// 4.2 绘制有问题，所以不使用绘制边框.
+		// 也不支持倒影效果，绘制有问题.
+		if (Utils.getSDKVersion() == 17) { // 测试 android 4.2版本.
+			EffectNoDrawBridge effectNoDrawBridge = new EffectNoDrawBridge();
+			effectNoDrawBridge.setTranDurAnimTime(200);
+			mainUpView1.setEffectBridge(effectNoDrawBridge); // 4.3以下版本边框移动.
+			mainUpView1.setUpRectResource(R.drawable.white_light_10); // 设置移动边框的图片.
+			mainUpView1.setDrawUpRectPadding(new Rect(25, 25, 23, 23)); // 边框图片设置间距.
+		} else { // 其它版本（android 4.3以上）.
+			mainUpView1.setUpRectResource(R.drawable.test_rectangle); // 设置移动边框的图片.
+			mainUpView1.setShadowResource(R.drawable.item_shadow); // 设置移动边框的阴影.
+		}
+		// mainUpView1.setUpRectResource(R.drawable.item_highlight); //
+		// 设置移动边框的图片.(test)
 		// mainUpView1.setDrawShadowPadding(0); // 阴影图片设置距离.
 		// mOpenEffectBridge.setTranDurAnimTime(500); // 动画时间.
 

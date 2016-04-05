@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.open.androidtvwidget.adapter.EffectNoDrawBridge;
+import com.open.androidtvwidget.utils.Utils;
 import com.open.androidtvwidget.view.MainUpView;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,10 +36,20 @@ public class DemoGridViewActivity extends Activity {
 
 		GridView gridView = (GridView) findViewById(R.id.gridView);
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
+		
+		/**
+		 * android 4.2有问题.
+		 * 需要使用EffectNoDrawBridge.
+		 */
+		if (Utils.getSDKVersion() == 17) {
+			mainUpView1.setEffectBridge(new EffectNoDrawBridge()); // 4.3以下版本边框移动.
+			EffectNoDrawBridge bridget = (EffectNoDrawBridge) mainUpView1.getEffectBridge();
+			bridget.setTranDurAnimTime(200);
+		} 
+		
 		mainUpView1.setUpRectResource(R.drawable.white_light_10);
-		mainUpView1.setShadowDrawable(null);
-		mainUpView1.setDrawUpRectPadding(-10);
-
+		mainUpView1.setDrawUpRectPadding(12);
+		
 		getData();
 
 		String[] from = { "text" };

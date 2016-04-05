@@ -59,14 +59,22 @@ public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 	public void setTranDurAnimTime(int time) {
 		mTranDurAnimTime = time;
 	}
-
+	
+	public int getTranDurAnimTime() {
+		return this.mTranDurAnimTime;
+	}
+	
 	/**
 	 * 让动画失效.
 	 */
 	public void setAnimEnabled(boolean animEnabled) {
 		this.mAnimEnabled = animEnabled;
 	}
-
+	
+	public boolean isAnimEnabled() {
+		return this.mAnimEnabled;
+	}
+	
 	/**
 	 * 隐藏移动的边框.
 	 */
@@ -74,7 +82,11 @@ public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 		this.mIsHide = isHide;
 		getMainUpView().setVisibility(mIsHide ? View.INVISIBLE : View.VISIBLE);
 	}
-
+	
+	public boolean isVisibleWidget() {
+		return this.mIsHide;
+	}
+	
 	public interface NewAnimatorListener {
 		public void onAnimationStart(OpenEffectBridge bridge, View view, Animator animation);
 		public void onAnimationEnd(OpenEffectBridge bridge, View view, Animator animation);
@@ -86,7 +98,11 @@ public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 	public void setOnAnimatorListener(NewAnimatorListener newAnimatorListener) {
 		mNewAnimatorListener = newAnimatorListener;
 	}
-
+	
+	public NewAnimatorListener getNewAnimatorListener() {
+		return mNewAnimatorListener;
+	}
+	
 	@Override
 	public void onOldFocusView(View oldFocusView, float scaleX, float scaleY) {
 		if (!mAnimEnabled)

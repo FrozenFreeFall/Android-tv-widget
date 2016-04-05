@@ -3,9 +3,11 @@ package com.open.androidtvwidget;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.open.androidtvwidget.adapter.EffectNoDrawBridge;
 import com.open.androidtvwidget.adapter.OpenEffectBridge;
 import com.open.androidtvwidget.adapter.OpenEffectBridge.NewAnimatorListener;
 import com.open.androidtvwidget.adapter.OpenTabTitleAdapter;
+import com.open.androidtvwidget.utils.Utils;
 import com.open.androidtvwidget.view.MainUpView;
 import com.open.androidtvwidget.view.OpenTabHost;
 import com.open.androidtvwidget.view.OpenTabHost.OnTabSelectListener;
@@ -15,6 +17,7 @@ import com.open.androidtvwidget.view.TextViewWithTTF;
 import android.animation.Animator;
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -34,6 +37,7 @@ public class DemoViewPagerActivity extends Activity implements OnTabSelectListen
 	OpenTabTitleAdapter mOpenTabTitleAdapter;
 	
 	private OpenEffectBridge mSavebridge;
+	private View mOldFocus;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +80,7 @@ public class DemoViewPagerActivity extends Activity implements OnTabSelectListen
 				final MainUpView mainUpView = (MainUpView) viewList.get(pos).findViewById(R.id.mainUpView1);
 				final OpenEffectBridge bridge = (OpenEffectBridge) mainUpView.getEffectBridge();
 				if (!(newFocus instanceof ReflectItemView)) {
-					mainUpView.setUnFocusView(oldFocus);
+					mainUpView.setUnFocusView(mOldFocus);
 					bridge.setVisibleWidget(true);
 					mSavebridge = null;
 				} else {
@@ -103,8 +107,9 @@ public class DemoViewPagerActivity extends Activity implements OnTabSelectListen
 						scale = 1.0f;
 					else if (pos == 3)
 						scale = 1.1f;
-					mainUpView.setFocusView(newFocus, oldFocus, scale);
+					mainUpView.setFocusView(newFocus, mOldFocus, scale);
 				}
+				mOldFocus = newFocus;
 			}
 		});
 		viewpager.setOffscreenPageLimit(4);
@@ -139,10 +144,19 @@ public class DemoViewPagerActivity extends Activity implements OnTabSelectListen
 	public void initViewMove() {
 		for (View view : viewList) {
 			MainUpView mainUpView = (MainUpView) view.findViewById(R.id.mainUpView1);
-			mainUpView.setUpRectResource(R.drawable.test_rectangle);
-			mainUpView.setShadowResource(R.drawable.item_shadow);
-			OpenEffectBridge bridget = (OpenEffectBridge) mainUpView.getEffectBridge();
-			bridget.setTranDurAnimTime(250);
+			//
+			if (Utils.getSDKVersion() == 17) {
+				mainUpView.setEffectBridge(new EffectNoDrawBridge()); // 4.3以下版本边框移动.
+				mainUpView.setUpRectResource(R.drawable.white_light_10); // 设置移动边框的图片.
+				mainUpView.setDrawUpRectPadding(new Rect(25, 25, 23, 23)); // 边框图片设置间距.
+				EffectNoDrawBridge bridget = (EffectNoDrawBridge) mainUpView.getEffectBridge();
+				bridget.setTranDurAnimTime(200);
+			} else {
+				mainUpView.setUpRectResource(R.drawable.test_rectangle); // 设置移动边框的图片.
+				mainUpView.setShadowResource(R.drawable.item_shadow); // 设置移动边框的阴影.
+				OpenEffectBridge bridget = (OpenEffectBridge) mainUpView.getEffectBridge();
+				bridget.setTranDurAnimTime(250);
+			}
 		}
 	}
 

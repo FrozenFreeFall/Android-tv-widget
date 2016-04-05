@@ -15,18 +15,13 @@ import android.view.animation.DecelerateInterpolator;
 /**
  * 为了兼容4.3以下版本的 AnimBridge. <br>
  * 使用方法： MainUpView.setAnimBridge(newAnimNoDrawBridge()); <br>
- * 如果边框带了阴影效果，使用这个函数自行调整:
- * MainUpView.setDrawUpRectPadding(-12);
+ * 如果边框带了阴影效果，使用这个函数自行调整: MainUpView.setDrawUpRectPadding(-12);
  * 
  * @author hailongqiu
  *
  */
-public class EffectNoDrawBridge extends BaseEffectBridgeWrapper {
-	private static final int DEFUALT_TRAN_DUR_ANIM = 300;
-	private int mTranDurAnimTime = DEFUALT_TRAN_DUR_ANIM;
+public class EffectNoDrawBridge extends OpenEffectBridge {
 	private AnimatorSet mCurrentAnimatorSet;
-	private boolean mIsHide = false;
-	private boolean mAnimEnabled = true;
 
 	@Override
 	public void onInitBridge(MainUpView view) {
@@ -37,7 +32,7 @@ public class EffectNoDrawBridge extends BaseEffectBridgeWrapper {
 		 */
 		view.setVisibility(View.INVISIBLE);
 	}
-	
+
 	/**
 	 * 设置背景，边框不使用绘制.
 	 */
@@ -45,52 +40,33 @@ public class EffectNoDrawBridge extends BaseEffectBridgeWrapper {
 	public void setUpRectResource(int resId) {
 		getMainUpView().setBackgroundResource(resId);
 	}
-	
+
 	@Override
 	public void setUpRectDrawable(Drawable upRectDrawable) {
 		getMainUpView().setBackgroundDrawable(upRectDrawable);
 	}
-	
-	/**
-	 * 控件动画时间.
-	 */
-	public void setTranDurAnimTime(int time) {
-		mTranDurAnimTime = time;
-		getMainUpView().invalidate();
-	}
-
-	/**
-	 * 让动画失效.
-	 */
-	public void setAnimEnabled(boolean animEnabled) {
-		this.mAnimEnabled = animEnabled;
-	}
-
-	/**
-	 * 隐藏移动的边框.
-	 */
-	public void setVisibleWidget(boolean isHide) {
-		this.mIsHide = isHide;
-	}
 
 	@Override
 	public void onOldFocusView(View oldFocusView, float scaleX, float scaleY) {
-		if (!mAnimEnabled)
+		if (!isAnimEnabled())
 			return;
 		if (oldFocusView != null) {
-			oldFocusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(mTranDurAnimTime).start();
+			oldFocusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(getTranDurAnimTime()).start();
 		}
 	}
 
 	@Override
 	public void onFocusView(View focusView, float scaleX, float scaleY) {
-		if (!mAnimEnabled)
+		if (!isAnimEnabled())
 			return;
 		if (focusView != null) {
-			if (!mIsHide) {
-				focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(mTranDurAnimTime).start();
-			}
+			/**
+			 * 我这里重写了onFocusView. <br>
+			 * 并且交换了位置. <br>
+			 * 你可以写自己的动画效果. <br>
+			 */
 			runTranslateAnimation(focusView, scaleX, scaleY);
+			focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(getTranDurAnimTime()).start();
 		}
 	}
 
@@ -130,13 +106,15 @@ public class EffectNoDrawBridge extends BaseEffectBridgeWrapper {
 		AnimatorSet mAnimatorSet = new AnimatorSet();
 		mAnimatorSet.playTogether(transAnimatorX, transAnimatorY, scaleXAnimator, scaleYAnimator);
 		mAnimatorSet.setInterpolator(new DecelerateInterpolator(1));
-		mAnimatorSet.setDuration(mTranDurAnimTime);
+		mAnimatorSet.setDuration(getTranDurAnimTime());
 		mAnimatorSet.addListener(new AnimatorListener() {
 			@Override
 			public void onAnimationStart(Animator animation) {
-				if (mIsHide) {
+				if (isVisibleWidget()) {
 					getMainUpView().setVisibility(View.GONE);
 				}
+				if (getNewAnimatorListener() != null)
+					getNewAnimatorListener().onAnimationStart(EffectNoDrawBridge.this, focusView, animation);
 			}
 
 			@Override
@@ -145,7 +123,9 @@ public class EffectNoDrawBridge extends BaseEffectBridgeWrapper {
 
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				getMainUpView().setVisibility(mIsHide ? View.GONE : View.VISIBLE);
+				getMainUpView().setVisibility(isVisibleWidget() ? View.GONE : View.VISIBLE);
+				if (getNewAnimatorListener() != null)
+					getNewAnimatorListener().onAnimationEnd(EffectNoDrawBridge.this, focusView, animation);
 			}
 
 			@Override
@@ -164,5 +144,5 @@ public class EffectNoDrawBridge extends BaseEffectBridgeWrapper {
 	public boolean onDrawMainUpView(Canvas canvas) {
 		return false;
 	}
-	
+
 }

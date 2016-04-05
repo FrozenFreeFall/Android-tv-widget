@@ -3,10 +3,13 @@ package com.open.androidtvwidget;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.open.androidtvwidget.adapter.EffectNoDrawBridge;
 import com.open.androidtvwidget.adapter.OpenEffectBridge;
+import com.open.androidtvwidget.utils.Utils;
 import com.open.androidtvwidget.view.MainUpView;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +38,20 @@ public class DemoListViewActivity extends Activity {
 		this.mInflater = LayoutInflater.from(getApplicationContext());
 		ListView listView = (ListView) findViewById(R.id.listview);
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
-		mainUpView1.setUpRectResource(R.drawable.white_light_10);
-		mainUpView1.setShadowDrawable(null);
-		mainUpView1.setDrawUpRectPadding(-15); // 设置边框间距.
-		OpenEffectBridge openEffectBridge = ((OpenEffectBridge) mainUpView1.getEffectBridge());
-		openEffectBridge.setTranDurAnimTime(280);
+		
+		/**
+		 * android 4.2有问题.
+		 * 需要使用EffectNoDrawBridge.
+		 */
+		if (Utils.getSDKVersion() == 17) {
+			mainUpView1.setEffectBridge(new EffectNoDrawBridge()); // 4.3以下版本边框移动.
+			EffectNoDrawBridge bridget = (EffectNoDrawBridge) mainUpView1.getEffectBridge();
+			bridget.setTranDurAnimTime(200);
+		} 
+		
+		mainUpView1.setUpRectResource(R.drawable.white_light_10); // 设置移动边框的图片.
+		mainUpView1.setDrawUpRectPadding(new Rect(25, 25, 23, 23)); // 边框图片设置间距.
+		
 		initData();
 
 		listView.setAdapter(new DemoAdapter());
