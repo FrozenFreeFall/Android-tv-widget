@@ -14,9 +14,7 @@
     </declare-styleable>
     
     <!-- 顶层控件属性 -->
-    <declare-styleable name="mainUpView">
-        <attr name="isTvScreen"  format="boolean" />
-        <attr name="isDrawUpRect"  format="boolean" />
+    <declare-styleable name="MainUpView">
         <attr name="upImageRes"  format="reference" />
         <attr name="shadowImageRes"  format="reference" />
     </declare-styleable>

@@ -1,3 +1,21 @@
+/*
+Copyright 2016 The Open Source Project
+
+Author: hailongqiu <356752238@qq.com>
+Maintainer: hailongqiu <356752238@qq.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+ */
 package com.open.androidtvwidget.view;
 
 import com.open.androidtvwidget.R;
@@ -16,11 +34,64 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 
+/**
+ * MainUpView是一个在最上层的移动边框，你可以使用它的API来完成你想要的效果.
+ * <p>
+ * <ul>
+ * <p>
+ * 边框图片相关API:
+ * <li>{@link #setUpRectResource}
+ * <li>{@link #setUpRectDrawable}
+ * <li>{@link #getUpRectDrawable}
+ * <li>{@link #setDrawUpRectPadding(int)} 用于调整边框图片边距.
+ * <li>{@link #setDrawUpRectPadding(Rect)} 用于调整边框图片边距.
+ * <p>
+ * 阴影图片相关API:
+ * <li>{@link #setShadowResource}
+ * <li>{@link #setShadowDrawable}
+ * <li>{@link #getShadowDrawable}
+ * <li>{@link #setDrawShadowPadding(int)} 用于调整阴影图片边距.
+ * <li>{@link #setDrawShadowPadding(Rect)} 用于调整阴影图片边距.
+ * <p>
+ * Effcet相关API:
+ * <li>{@link #setEffectBridge} 你可以设置自己的放大，边框移动的动画效果.
+ * <li>{@link #getEffectBridge}
+ * <p>
+ * 焦点View相关API:
+ * <li>{@link #setFocusView(View, float, float)}
+ * <li>{@link #setFocusView(View, float)}
+ * <li>{@link #setUnFocusView}
+ * </ul>
+ * <p>
+ * 
+ * <pre class="prettyprint">
+ * public class CalendarActivity extends Activity {
+ *     ... ...
+ *     protected void onCreate(Bundle savedInstanceState) {
+ *         super.onCreate(savedInstanceState);
+ *         // 第一种调用方式(XML布局中加载，注意，必须将控件放在最上面的一层，参考DEMO的XML布局).
+ *			mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
+ *         // 第二种调用方式(不放在XML布局中).
+ *         mainUpView1 = new MainUpView(this);
+ *     }
+ *		... ...
+ * </pre>
+ * 
+ * <p>
+ * XML自定义属性:
+ * <p>
+ * xmlns:app="http://schemas.android.com/apk/res-auto"(XML布局加入这句)
+ * <p>
+ * <ul>
+ * <li>attr ref #MainUpView_upImageRes : app:MainUpView_upImageRes="@drawble..."
+ * <li>attr ref #MainUpView_shadowImageRes
+ * </ul>
+ */
 public class MainUpView extends FrameLayout {
 
 	private static final String TAG = "MainUpView";
 	private static final float DEFUALT_SCALE = 1.0f;
-	
+
 	private BaseEffectBridge mEffectBridge;
 
 	public MainUpView(Context context) {
@@ -30,7 +101,7 @@ public class MainUpView extends FrameLayout {
 		}
 		init(context, null);
 	}
-	
+
 	/**
 	 * 手动添加，不在XML添加的话.
 	 */
@@ -58,9 +129,9 @@ public class MainUpView extends FrameLayout {
 		initEffectBridge();
 		// 初始化.
 		if (attrs != null) {
-			TypedArray tArray = context.obtainStyledAttributes(attrs, R.styleable.mainUpView);// 获取配置属性
-			Drawable drawableUpRect = tArray.getDrawable(R.styleable.mainUpView_upImageRes); // 顶层图片.
-			Drawable drawableShadow = tArray.getDrawable(R.styleable.mainUpView_shadowImageRes); // 阴影图片.
+			TypedArray tArray = context.obtainStyledAttributes(attrs, R.styleable.MainUpView);// 获取配置属性
+			Drawable drawableUpRect = tArray.getDrawable(R.styleable.MainUpView_upImageRes); // 顶层图片.
+			Drawable drawableShadow = tArray.getDrawable(R.styleable.MainUpView_shadowImageRes); // 阴影图片.
 			setUpRectDrawable(drawableUpRect);
 			setShadowDrawable(drawableShadow);
 			tArray.recycle();
@@ -74,6 +145,9 @@ public class MainUpView extends FrameLayout {
 		setEffectBridge(baseEffectBridge);
 	}
 
+	/**
+	 * 设置最上层的图片资源ID.
+	 */
 	public void setUpRectResource(int resId) {
 		if (mEffectBridge != null)
 			mEffectBridge.setUpRectResource(resId);
@@ -87,6 +161,9 @@ public class MainUpView extends FrameLayout {
 			mEffectBridge.setUpRectDrawable(upRectDrawable);
 	}
 
+	/**
+	 * 获取最上层图片.
+	 */
 	public Drawable getUpRectDrawable() {
 		if (mEffectBridge != null) {
 			return mEffectBridge.getUpRectDrawable();
@@ -116,6 +193,9 @@ public class MainUpView extends FrameLayout {
 		}
 	}
 
+	/**
+	 * 获取最上层图片 间距矩形(Rect).
+	 */
 	public Rect getDrawUpRect() {
 		if (mEffectBridge != null) {
 			return mEffectBridge.getDrawUpRect();
@@ -123,6 +203,9 @@ public class MainUpView extends FrameLayout {
 		return null;
 	}
 
+	/**
+	 * 设置阴影图片资源ID.
+	 */
 	public void setShadowResource(int resId) {
 		if (mEffectBridge != null) {
 			this.mEffectBridge.setShadowResource(resId);
@@ -140,6 +223,9 @@ public class MainUpView extends FrameLayout {
 		}
 	}
 
+	/**
+	 * 获取阴影图片.
+	 */
 	public Drawable getShadowDrawable() {
 		if (mEffectBridge != null) {
 			return this.mEffectBridge.getShadowDrawable();
@@ -166,6 +252,9 @@ public class MainUpView extends FrameLayout {
 		}
 	}
 
+	/**
+	 * 获取阴影图片边距.
+	 */
 	public Rect getDrawShadowRect() {
 		if (mEffectBridge != null) {
 			return mEffectBridge.getDrawShadowRect();
@@ -175,6 +264,13 @@ public class MainUpView extends FrameLayout {
 
 	/**
 	 * 焦点控件处理.
+	 * 
+	 * @param newView
+	 *            新焦点View
+	 * @param oldView
+	 *            老焦点View
+	 * @param scale
+	 *            放大的比例, 可以设置为1.2f, 1.1f或者其它
 	 */
 	public void setFocusView(View newView, View oldView, float scale) {
 		setFocusView(newView, scale);
@@ -182,24 +278,48 @@ public class MainUpView extends FrameLayout {
 	}
 
 	/**
-	 * 设置焦点子控件的移动和放大.
+	 * FocusView处理.
+	 * 
+	 * @param view
+	 * @param scale
+	 *            放大比例
 	 */
 	public void setFocusView(View view, float scale) {
 		setFocusView(view, scale, scale);
 	}
 
+	/**
+	 * 
+	 * @param view
+	 * @param scaleX
+	 *            X放大比例
+	 * @param scaleY
+	 *            Y放大比例
+	 */
 	public void setFocusView(View view, float scaleX, float scaleY) {
 		if (this.mEffectBridge != null)
 			this.mEffectBridge.onFocusView(view, scaleX, scaleY);
 	}
 
 	/**
-	 * 设置无焦点子控件还原.
+	 * 设置无焦点子控件还原.(默认为1.0F)
+	 * 
+	 * @param view
+	 *            老焦点View.
 	 */
 	public void setUnFocusView(View view) {
 		setUnFocusView(view, DEFUALT_SCALE, DEFUALT_SCALE);
 	}
 
+	/**
+	 * 老焦点VIEW处理.
+	 * 
+	 * @param view
+	 * @param scaleX
+	 *            X缩放比例
+	 * @param scaleY
+	 *            Y缩放比例
+	 */
 	public void setUnFocusView(View view, float scaleX, float scaleY) {
 		if (this.mEffectBridge != null)
 			this.mEffectBridge.onOldFocusView(view, scaleX, scaleY);

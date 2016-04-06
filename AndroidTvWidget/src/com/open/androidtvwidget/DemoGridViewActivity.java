@@ -10,7 +10,6 @@ import com.open.androidtvwidget.utils.Utils;
 import com.open.androidtvwidget.view.MainUpView;
 
 import android.app.Activity;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
