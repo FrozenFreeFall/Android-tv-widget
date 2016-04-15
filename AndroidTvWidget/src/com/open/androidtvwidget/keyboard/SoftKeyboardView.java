@@ -286,6 +286,9 @@ public class SoftKeyboardView extends View {
 				currentIndex--;
 				if (currentIndex < 0) {
 					// 判断是否可以左右移动(第一个向左移动到最后一个)
+					if (!mSoftKeyboard.isLRMove()) {
+						return false;
+					}
 					if (mSoftKeyboard.isLRMove()) {
 						softKey = mSoftKeyboard.getMoveLeftSoftKey(mSoftKeyboard.getSelectRow() - 1, 0);
 						currentIndex = mSoftKeyboard.getSelectIndex();
@@ -317,6 +320,9 @@ public class SoftKeyboardView extends View {
 			} else {
 				currentIndex++;
 				if (currentIndex > (softKeys.size() - 1)) {
+					if (!mSoftKeyboard.isLRMove()) {
+						return false;
+					}
 					if (mSoftKeyboard.isLRMove()) {
 						softKey = mSoftKeyboard.getMoveRightSoftKey(mSoftKeyboard.getSelectRow() - 1, 0);
 						currentIndex = mSoftKeyboard.getSelectIndex();
@@ -362,6 +368,9 @@ public class SoftKeyboardView extends View {
 				if (softKey == null) {
 					currentRow++;
 					if (currentRow > (mSoftKeyboard.getRowNum() - 1)) {
+						if (!mSoftKeyboard.isTBMove()) {
+							return false;
+						}
 						// 判断是否可以上下(最后一个是否可以向下移动到第一个).
 						if (mSoftKeyboard.isTBMove()) {
 							currentRow = 0;
@@ -406,6 +415,9 @@ public class SoftKeyboardView extends View {
 					if (softKey == null) {
 						currentRow--;
 						if (currentRow < 0) {
+							if (!mSoftKeyboard.isTBMove()) {
+								return false;
+							}
 							if (mSoftKeyboard.isTBMove()) {
 								currentRow = (mSoftKeyboard.getRowNum() - 1);
 							} else {

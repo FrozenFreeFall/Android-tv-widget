@@ -19,8 +19,8 @@ limitations under the License.
 package com.open.androidtvwidget.view;
 
 import com.open.androidtvwidget.R;
-import com.open.androidtvwidget.adapter.BaseEffectBridge;
-import com.open.androidtvwidget.adapter.OpenEffectBridge;
+import com.open.androidtvwidget.bridge.BaseEffectBridge;
+import com.open.androidtvwidget.bridge.OpenEffectBridge;
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 标题栏id -->
+    <item type="id"  name="title_bar1" />
+    <item type="id"  name="title_bar2" />
+    <item type="id"  name="title_bar3" />
+    <item type="id"  name="title_bar4" />
+</resources>

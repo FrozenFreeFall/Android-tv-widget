@@ -3,7 +3,6 @@ package com.open.androidtvwidget.view;
 import com.open.androidtvwidget.R;
 import com.open.androidtvwidget.cache.BitmapMemoryCache;
 import com.open.androidtvwidget.utils.DrawUtils;
-import com.open.androidtvwidget.utils.OPENLOG;
 import com.open.androidtvwidget.utils.Utils;
 
 import android.content.Context;
@@ -174,25 +173,31 @@ public class ReflectItemView extends FrameLayout {
 	public Path getShapePath(int width, int height, float radius) {
 		return DrawUtils.addRoundPath3(getWidth(), getHeight(), radius);
 	}
-	
+
 	@Override
 	public void draw(Canvas canvas) {
-		if (mIsDrawShape && isDrawShapeRadiusRect(mRadiusRect)) {
-			drawShapePathCanvas(canvas);
-		} else {
-			super.draw(canvas);
-		}
-		/**
-		 * 绘制倒影. 4.3 SDK-18,有问题，<br>
-		 * 在使用Canvas.translate(dx, dy)会出现BUG. <br>
-		 */
-		if (Utils.getSDKVersion() == 18) {
-			drawRefleCanvas4_3_18(canvas);
-		} else if (Utils.getSDKVersion() == 17) {
-			// 4.2 不需要倒影，绘制有问题，暂时屏蔽.
-			drawRefleCanvas(canvas);
-		} else { // 性能高速-倒影(4.3有问题).
-			drawRefleCanvas(canvas);
+		try {
+			if (canvas != null) {
+				if (mIsDrawShape && isDrawShapeRadiusRect(mRadiusRect)) {
+					drawShapePathCanvas(canvas);
+				} else {
+					super.draw(canvas);
+				}
+				/**
+				 * 绘制倒影. 4.3 SDK-18,有问题，<br>
+				 * 在使用Canvas.translate(dx, dy)会出现BUG. <br>
+				 */
+				if (Utils.getSDKVersion() == 18) {
+					drawRefleCanvas4_3_18(canvas);
+				} else if (Utils.getSDKVersion() == 17) {
+					// 4.2 不需要倒影，绘制有问题，暂时屏蔽.
+					drawRefleCanvas(canvas);
+				} else { // 性能高速-倒影(4.3有问题).
+					drawRefleCanvas(canvas);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -200,17 +205,19 @@ public class ReflectItemView extends FrameLayout {
 	 * 绘制圆角控件. 修复使用clipPath有锯齿问题.
 	 */
 	private void drawShapePathCanvas(Canvas shapeCanvas) {
-		int width = getWidth();
-		int height = getHeight();
-		int count = shapeCanvas.save();
-		int count2 = shapeCanvas.saveLayer(0, 0, width, height, null, Canvas.ALL_SAVE_FLAG);
-		//
-		Path path = getShapePath(width, height, mRadius);
-		super.draw(shapeCanvas);
-		shapeCanvas.drawPath(path, mShapePaint);
-		//
-		shapeCanvas.restoreToCount(count2);
-		shapeCanvas.restoreToCount(count);
+		if (shapeCanvas != null) {
+			int width = getWidth();
+			int height = getHeight();
+			int count = shapeCanvas.save();
+			int count2 = shapeCanvas.saveLayer(0, 0, width, height, null, Canvas.ALL_SAVE_FLAG);
+			//
+			Path path = getShapePath(width, height, mRadius);
+			super.draw(shapeCanvas);
+			shapeCanvas.drawPath(path, mShapePaint);
+			//
+			shapeCanvas.restoreToCount(count2);
+			shapeCanvas.restoreToCount(count);
+		}
 	}
 
 	/**
@@ -238,7 +245,7 @@ public class ReflectItemView extends FrameLayout {
 				mBitmapMemoryCache.addBitmapToMemoryCache(cacheID, reflectBitmap);
 			}
 			Canvas reflectCanvas = new Canvas(reflectBitmap);
-			// reflectCanvas.drawPaint(mClearPaint); // 清空画布.
+			reflectCanvas.drawPaint(mClearPaint); // 清空画布.
 			/**
 			 * 如果设置了圆角，倒影也需要圆角.
 			 */
@@ -273,7 +280,7 @@ public class ReflectItemView extends FrameLayout {
 		canvas.drawRect(0, 0, getWidth(), mRefHeight, mRefPaint);
 		canvas.restore();
 	}
-	
+
 	/**
 	 * 绘制倒影.
 	 */

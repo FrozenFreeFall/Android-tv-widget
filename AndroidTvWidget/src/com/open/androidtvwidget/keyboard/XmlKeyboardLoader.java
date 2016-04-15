@@ -105,7 +105,6 @@ public class XmlKeyboardLoader {
 		OPENLOG.D(TAG, "loadKeyboard loading ... ...");
 		SoftKeyboard softKeyboard = null;
 		SoftKey softKey = null;
-		ToggleSoftKey toggleSoftKey = null;
 		int skbHeight = -1;
 		//
 		XmlResourceParser xrp = mResources.getXml(resourceId);
@@ -199,40 +198,12 @@ public class XmlKeyboardLoader {
 						softKey = getSoftKey(xrp, attrKey);
 						softKeyboard.addSoftKey(softKey);
 						mSaveKeyXPos += softKey.getWidth() + attrKey.mKeyLeftPadding;
-					} else if (XMLTAG_TOGGLE_KEY.compareTo(attr) == 0) { // toggle_key
-						if (null == softKeyboard) {
-							OPENLOG.E(TAG, "XMLTAG_TOGGLE_KEY softKeyboard null");
-							return null;
-						}
-						if (!attrToggleKey.getAttributes(attrRow)) {
-							return null;
-						}
-						toggleSoftKey = getStateKey(xrp, attrToggleKey); // 状态切换按键.
-						mSaveKeyXPos += toggleSoftKey.getWidth() + attrToggleKey.mKeyLeftPadding;
-					} else if (XMLTAG_STATE.compareTo(attr) == 0) { // state 状态.
-						if (null == softKeyboard || toggleSoftKey == null) {
-							OPENLOG.E(TAG, "XMLTAG_STATE softKeyboard or toggleSoftKey null");
-							return null;
-						}
-						if (!attrStateKey.getAttributes(attrToggleKey)) {
-							return null;
-						}
-						//
-						ToggleSoftKey stateKey = getStateKey(xrp, attrStateKey);
-						// 添加状态到状态按键.
-						toggleSoftKey.addStateKey(stateKey);
 					}
 				} else if (mXmlEventType == XmlResourceParser.END_TAG) {
 					// 判断是否为 </row>
 					String attr = xrp.getName();
 					if (XMLTAG_ROW.compareTo(attr) == 0) {
 						mSaveKeyYPos += attrRow.keyHeight + attrRow.mKeyTopPadding + attrRow.mkeyBottomPadding;
-					}
-					// </toggle_key>
-					if (XMLTAG_TOGGLE_KEY.compareTo(attr) == 0) {
-						softKeyboard.addSoftKey(toggleSoftKey);
-						toggleSoftKey = null;
-//						toggleSoftKey.showStateListTest();
 					}
 				}
 				mXmlEventType = xrp.next();
@@ -259,49 +230,7 @@ public class XmlKeyboardLoader {
 		}
 		return null;
 	}
-
-	/**
-	 * 获取按键中的状态.
-	 */
-	private ToggleSoftKey getStateKey(XmlResourceParser xrp, KeyCommonAttributes attrKey) {
-		ToggleSoftKey stateKey = getToggleSoftKey(xrp, attrKey);
-		int stateId = getInteger(xrp, XMLATTR_TOGGLE_KEY_STATE_ID, 0);
-		stateKey.setStateId(stateId);
-		return stateKey;
-	}
-
-	private ToggleSoftKey getToggleSoftKey(XmlResourceParser xrp, KeyCommonAttributes attrKey) {
-		int keyCode = getInteger(xrp, XMLATTR_KEY_CODE, 0); // key_code
-		Drawable keyIcon = getDrawable(xrp, XMLATTR_KEY_ICON, null); // key_icon
-		String keyLabel = getString(xrp, XMLATTR_KEY_LABEL, null); // key_label
-		float textSize = getFloat(xrp, XMLATTR_TEXT_SIZE, attrKey.mTextSize); // 按键文本字体大小
-		int textColor = getColor(xrp, XMLATTR_TEXT_COLOR, attrKey.mTextColor); // 按键文本颜色.
-		//
-		float left, right, top = 0, bottom;
-		left = mSaveKeyXPos + attrKey.mKeyXPos + attrKey.mKeyLeftPadding;
-		right = left + attrKey.keyWidth;
-		// 判断是否<key 或者 <row 或 <keys 没有设置 start_pos_y
-		if (isStartPosY) {
-			top = attrKey.mKeyYPos + attrKey.mKeyTopPadding;
-			mSaveKeyYPos = attrKey.mKeyYPos - attrKey.keyHeight;
-		} else {
-			top = mSaveKeyYPos + attrKey.mKeyYPos + attrKey.mKeyTopPadding;
-		}
-		bottom = top + attrKey.keyHeight;
-		// 按键.
-		ToggleSoftKey softKey = new ToggleSoftKey();
-		softKey.setTextSize(textSize);
-		softKey.setKeyLabel(keyLabel);
-		softKey.setKeyIcon(keyIcon);
-		softKey.setTextColor(textColor);
-		softKey.setKeyCode(keyCode); // 自定义的一些值,比如删除,回车.
-		softKey.setKeySelectDrawable(attrKey.mKeySelectDrawable); // 设置选中的图片.
-		softKey.setKeyPressDrawable(attrKey.mKeyPressDrawable); // 按下的图片.
-		softKey.setKeyBgDrawable(attrKey.mKeyBgDrawable); // 按键背景.
-		softKey.setKeyDimensions(left, top, right, bottom);
-		return softKey;
-	}
-
+	
 	/**
 	 * 获取按键.
 	 */

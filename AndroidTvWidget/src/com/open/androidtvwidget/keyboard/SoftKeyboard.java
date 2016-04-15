@@ -3,8 +3,6 @@ package com.open.androidtvwidget.keyboard;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.open.androidtvwidget.keyboard.InputModeSwitcher.ToggleStates;
-
 import android.graphics.drawable.Drawable;
 import android.view.KeyEvent;
 
@@ -267,36 +265,6 @@ public class SoftKeyboard {
 			setOneKeySelected(softKey);
 		}
 		return true;
-	}
-
-	/**
-	 * 状态切换.
-	 */
-	public void enableToggleStates(ToggleStates toggleStates, SoftKey key) {
-		boolean isQwertyUpperCase = toggleStates.mQwertyUpperCase; // 获取大写字母标志位.
-		boolean isNendCase = (mIsQwerty && (toggleStates.mQwertyUpperCase != mIsQwertyUpperCase));
-		int rowNum = getRowNum();
-		
-		for (int row = 0; row < rowNum; row++) {
-			KeyRow keyRow = mKeyRows.get(row);
-			List<SoftKey> softKeys = keyRow.getSoftKeys();
-			int keyNum = softKeys.size();
-			for (int keyPos = 0; keyPos < keyNum; keyPos++) {
-				SoftKey sKey = softKeys.get(keyPos); 
-				if (sKey instanceof ToggleSoftKey) {
-					for (int stateId : toggleStates.mKeyStates) {
-						((ToggleSoftKey) sKey).enableToggleState(stateId);
-					}
-				}
-				/*
-				 * 大小写切换.
-				 */
-				if (isNendCase && isLetter(sKey)) {
-					sKey.changeCase(isQwertyUpperCase);
-				}
-			}
-		}
-		mIsQwertyUpperCase = isQwertyUpperCase;
 	}
 
 	/**
