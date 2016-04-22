@@ -49,6 +49,7 @@ API文档：
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/0406/111129_38af8a29_111902.png "在这里输入图片标题")
 
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0422/204409_fc65ce11_111902.png "在这里输入图片标题")
 
 ## 后期加入
    
