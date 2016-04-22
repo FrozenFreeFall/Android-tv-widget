@@ -15,6 +15,8 @@ public interface OpenMenuItem {
 	public OpenMenuItem setIcon(int iconResId);
 	public OpenMenuItem setTitle(CharSequence title);
 	public OpenMenuItem setTitle(int title);
+	public OpenMenuItem setTextSize(int size);
+	public int getTextSize();
 	/**
 	 * 获取菜单文字内容.
 	 */

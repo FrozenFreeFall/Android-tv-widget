@@ -18,9 +18,12 @@ public class OpenTabTitleAdapter extends BaseTabTitleAdapter {
 	private List<String> titleList = new ArrayList<String>();
 
 	public OpenTabTitleAdapter() {
-		for (int i = 0; i < 4; i++) {
-			titleList.add("标题栏" + i);
-		}
+//		for (int i = 0; i < 4; i++) {
+			titleList.add("推荐");
+			titleList.add("电影");
+			titleList.add("电视剧");
+			titleList.add("设置");
+//		}
 	}
 
 	@Override

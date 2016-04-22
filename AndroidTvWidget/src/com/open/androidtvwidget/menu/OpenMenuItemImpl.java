@@ -5,11 +5,12 @@ import android.graphics.drawable.Drawable;
 public class OpenMenuItemImpl implements OpenMenuItem {
 
 	static final int NO_ICON = 0;
-
+	static final int DEFAULT_TEXT_SIZE = 24;
 	private final int mId;
 	// private final int mGroup;
 	// private final int mCategoryOrder;
 	// private final int mOrdering;
+	private int mTextSize = DEFAULT_TEXT_SIZE;
 	private CharSequence mTitle;
 	private OpenMenuBuilder mMenu;
 	private OpenSubMenu mSubMenu;
@@ -90,6 +91,17 @@ public class OpenMenuItemImpl implements OpenMenuItem {
 	@Override
 	public boolean hasSubMenu() {
 		return (mSubMenu != null);
+	}
+
+	@Override
+	public OpenMenuItem setTextSize(int size) {
+		mTextSize = size;
+		return this;
+	}
+
+	@Override
+	public int getTextSize() {
+		return mTextSize;
 	}
 	
 }

@@ -50,6 +50,7 @@ public class OpenListMenuItemView extends LinearLayout implements OpenMenuView.I
 		//
 		setTitle(itemData.getTitle());
 		setIcon(itemData.getIcon());
+		setTextSize(itemData.getTextSize());
 	}
 
 	public void setTitle(CharSequence title) {
@@ -80,7 +81,16 @@ public class OpenListMenuItemView extends LinearLayout implements OpenMenuView.I
 			mIconView.setVisibility(GONE);
 		}
 	}
-
+	
+	/**
+	 * 设置字体.
+	 */
+	public void setTextSize(int size) {
+		if (size > 0) {
+			mTitleView.setTextSize(size);
+		}
+	}
+	
 	private void insertIconView() {
 		LayoutInflater inflater = getInflater();
 		mIconView = (ImageView) inflater.inflate(R.layout.list_menu_item_icon, this, false);

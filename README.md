@@ -1,5 +1,7 @@
 # Android TV 开发框架
 
+官方论坛：http://www.srxitstudio.com/ androidtvdev 正在备案中... ...
+
 API文档：
 
     https://git.oschina.net/hailongqiu/AndroidTVWidget/attach_files
@@ -24,7 +26,7 @@ API文档：
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/0223/094451_e49419a7_111902.png "在这里输入图片标题")
  
 
-天天加班加点，欢迎支持
+天天加班加点，欢迎支持(用于网站论坛维护)
 
 ![天天加班加点，欢迎支持](http://git.oschina.net/uploads/images/2016/0310/133650_1cc016cc_111902.png "天天加班加点，欢迎支持")
 

@@ -35,7 +35,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="数字键盘" />
-
+		
+        <Button
+            android:id="@+id/all_key_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全键盘" />
+        
     </LinearLayout>
 
 </LinearLayout>

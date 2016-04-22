@@ -158,10 +158,10 @@ public class SoftKeyboardView extends View {
 	 * 绘制按键的图片.
 	 */
 	private void drawSoftKeyIcon(Canvas canvas, SoftKey softKey, Drawable keyIcon) {
-		int marginLeft = (int) ((softKey.getWidth() - keyIcon.getIntrinsicWidth()) / 2);
-		int marginRight = (int) (softKey.getWidth() - keyIcon.getIntrinsicWidth() - marginLeft);
-		int marginTop = (int) ((softKey.getHeight() - keyIcon.getIntrinsicHeight()) / 2);
-		int marginBottom = (int) (softKey.getHeight() - keyIcon.getIntrinsicHeight() - marginTop);
+		int marginLeft = Math.abs((int) ((softKey.getWidth() - keyIcon.getIntrinsicWidth()) / 2)) + 2;
+		int marginRight = Math.abs((int) (softKey.getWidth() - keyIcon.getIntrinsicWidth() - marginLeft)) + 4;
+		int marginTop = Math.abs((int) ((softKey.getHeight() - keyIcon.getIntrinsicHeight()) / 2)) + 2;
+		int marginBottom = Math.abs((int) (softKey.getHeight() - keyIcon.getIntrinsicHeight() - marginTop)) + 4;
 		keyIcon.setBounds(softKey.getLeft() + marginLeft, softKey.getTop() + marginTop,
 				softKey.getRight() - marginRight, softKey.getBottom() - marginBottom);
 		keyIcon.draw(canvas);

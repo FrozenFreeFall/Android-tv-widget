@@ -18,9 +18,16 @@ import android.widget.RelativeLayout;
  * @author hailong.qiu 356752238@qq.com
  *
  */
-public class SkbContainer extends RelativeLayout {
+public class SkbContainer extends RelativeLayout implements SoftKeyBoardable {
 
 	private static final String TAG = "SkbContainer";
+
+	private static final int LOG_PRESS_DELAYMILLIS = 200;
+
+	private SoftKeyboardView mSoftKeyboardView; // 主要的子软键盘.
+	private int mSkbLayout;
+	private Context mContext;
+	private SoftKeyBoardListener mSoftKeyListener;
 
 	public SkbContainer(Context context) {
 		super(context);
@@ -37,10 +44,6 @@ public class SkbContainer extends RelativeLayout {
 		init(context, attrs);
 	}
 
-	private SoftKeyboardView mSoftKeyboardView; // 主要的子软键盘.
-	private int mSkbLayout;
-	private Context mContext;
-
 	/**
 	 * 初始化.
 	 */
@@ -49,6 +52,7 @@ public class SkbContainer extends RelativeLayout {
 		View.inflate(context, R.layout.softkey_layout_view, this);
 	}
 
+	@Override
 	public void setSkbLayout(int layoutID) {
 		if (layoutID != mSkbLayout) {
 			mSkbLayout = layoutID;
@@ -68,6 +72,12 @@ public class SkbContainer extends RelativeLayout {
 		}
 	}
 
+	@Override
+	public void setSoftKeyboard(SoftKeyboard softSkb) {
+		mSoftKeyboardView = (SoftKeyboardView) findViewById(R.id.softKeyboardView);
+		mSoftKeyboardView.setSoftKeyboard(softSkb);
+	}
+
 	private void updateSkbLayout() {
 		SkbPool skbPool = SkbPool.getInstance();
 		SoftKeyboard softKeyboard = skbPool.getSoftKeyboard(mContext, mSkbLayout);
@@ -78,18 +88,28 @@ public class SkbContainer extends RelativeLayout {
 		}
 	}
 
-	SoftKeyBoardListener mSoftKeyListener;
-
+	@Override
 	public void setOnSoftKeyBoardListener(SoftKeyBoardListener cb) {
 		mSoftKeyListener = cb;
 	}
 
+	@Override
 	public void setDefualtSelectKey(int row, int index) {
 		if (mSoftKeyboardView != null) {
 			SoftKeyboard softKeyboard = mSoftKeyboardView.getSoftKeyboard();
 			if (softKeyboard != null)
 				softKeyboard.setOneKeySelected(row, index);
 		}
+	}
+
+	@Override
+	public boolean setKeySelected(SoftKey softKey) {
+		if (mSoftKeyboardView != null) {
+			SoftKeyboard softKeyboard = mSoftKeyboardView.getSoftKeyboard();
+			if (softKeyboard != null)
+				return softKeyboard.setOneKeySelected(softKey);
+		}
+		return false;
 	}
 
 	/**
@@ -104,19 +124,19 @@ public class SkbContainer extends RelativeLayout {
 		return true;
 	}
 
-	public void onCommitText(SoftKey key) {
+	private void onCommitText(SoftKey key) {
 		if (mSoftKeyListener != null) {
 			mSoftKeyListener.onCommitText(key);
 		}
 	}
 
-	public void onDelete(SoftKey key) {
+	private void onDelete(SoftKey key) {
 		if (mSoftKeyListener != null) {
 			mSoftKeyListener.onDelete(key);
 		}
 	}
 
-	public void onBack(SoftKey key) {
+	private void onBack(SoftKey key) {
 		if (mSoftKeyListener != null) {
 			mSoftKeyListener.onBack(key);
 		}
@@ -125,6 +145,7 @@ public class SkbContainer extends RelativeLayout {
 	/**
 	 * 处理DOWN事件.
 	 */
+	@Override
 	public boolean onSoftKeyDown(int keyCode, KeyEvent event) {
 		if (!isFocused()) {
 			return false;
@@ -167,6 +188,7 @@ public class SkbContainer extends RelativeLayout {
 	/**
 	 * 处理UP的事件.
 	 */
+	@Override
 	public boolean onSoftKeyUp(int keyCode, KeyEvent event) {
 		if (!isFocused()) {
 			return false;
@@ -192,14 +214,12 @@ public class SkbContainer extends RelativeLayout {
 	/**
 	 * 根据 上，下，左，右 来绘制按键位置.
 	 */
-	public boolean actionForKeyEvent(int direction) {
+	private boolean actionForKeyEvent(int direction) {
 		if (mSoftKeyboardView != null) {
 			return mSoftKeyboardView.moveToNextKey(direction);
 		}
 		return true;
 	}
-
-	private static final int LOG_PRESS_DELAYMILLIS = 200;
 
 	Handler longPressHandler = new Handler() {
 		public void handleMessage(Message msg) {

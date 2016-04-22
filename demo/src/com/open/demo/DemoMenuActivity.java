@@ -39,6 +39,7 @@ public class DemoMenuActivity extends Activity {
 	private void initAllMenu() {
 		// 主菜单.
 		OpenMenuBuilder openMenu = new OpenMenuBuilder(mContext);
+		openMenu.setBackgroundResource(R.drawable.ic_bg_setting); // 设置背景.
 		openMenu.add("菜单1").setIcon(R.drawable.ic_launcher);
 		openMenu.add("菜单2").setIcon(R.drawable.ic_launcher);
 		openMenu.add("菜单3").setIcon(R.drawable.ic_launcher);

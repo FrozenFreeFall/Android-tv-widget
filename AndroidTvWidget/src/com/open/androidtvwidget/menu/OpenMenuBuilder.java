@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.ListView;
 import android.widget.Toast;
 
 /**
@@ -59,14 +61,23 @@ public class OpenMenuBuilder implements OpenMenu {
 	LayoutAnimationController mLayoutAnimationController;
 	MenuAdapter mAdapter;
 	LayoutInflater mInflater;
-
+	
+	//
+	private int mTextSize = OpenMenuItemImpl.DEFAULT_TEXT_SIZE;
+	
 	public OpenMenuBuilder(Context context) {
 		init(context);
-		//
+		// 将菜单添加到root布局上.
+		attach2Window(context);
+	}
+	
+	public void attach2Window(Context context) {
 		ViewGroup rootView = (ViewGroup) ((Activity)context).findViewById(Window.ID_ANDROID_CONTENT);
-		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(300,
-				ViewGroup.LayoutParams.MATCH_PARENT);
 		View view = (View) getMenuView();
+		int width = view.getMeasuredWidth();
+		width = ViewGroup.LayoutParams.WRAP_CONTENT;
+		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width,
+				ViewGroup.LayoutParams.MATCH_PARENT);
 		view.setVisibility(View.GONE);
 		rootView.addView(view, layoutParams);
 	}
@@ -74,6 +85,23 @@ public class OpenMenuBuilder implements OpenMenu {
 	public void showMenu() {
 		View view = (View) getMenuView();
 		view.setVisibility(View.VISIBLE);
+	}
+	
+	/**
+	 * 设置显示菜单动画.
+	 */
+	public void setShowMenuAnim() {
+	}
+	
+	/**
+	 * 设置隐藏菜单动画.
+	 */
+	public void setHideMenuAnim() {
+	}
+	
+	public void hideMenu() {
+		View view = (View) getMenuView();
+		view.setVisibility(View.GONE);
 	}
 	
 	private void init(Context context) {
@@ -95,11 +123,18 @@ public class OpenMenuBuilder implements OpenMenu {
 	}
 
 	private int mDefaultShowAsAction = 0;
-
+	
+	@Override
+	public OpenMenuBuilder setTextSize(int size) {
+		this.mTextSize = size;
+		return this;
+	}
+	
 	public OpenMenuItem addInternal(int groupId, int itemId, int order, CharSequence title) {
 		final int ordering = order;
 		final OpenMenuItemImpl item = new OpenMenuItemImpl(this, groupId, itemId, order, ordering, title,
 				mDefaultShowAsAction);
+		item.setTextSize(mTextSize);
 		mItems.add(item);
 		return item;
 	}
@@ -129,53 +164,85 @@ public class OpenMenuBuilder implements OpenMenu {
 	}
 
 	/**
-	 * 菜单动画.
+	 * 菜单展开动画.
 	 */
 	@Override
 	public OpenMenu setLayoutAnimation(LayoutAnimationController layoutAnimationController) {
 		this.mLayoutAnimationController = layoutAnimationController;
 		if (mMenuView != null && mLayoutAnimationController != null) {
-			mMenuView.setLayoutAnimation(layoutAnimationController);
+			ListView listview = mMenuView.getMenuListView();
+			if (listview != null)
+				listview.setLayoutAnimation(layoutAnimationController);
 		}
 		return this;
 	}
-
+	
+	private int mGravity = Gravity.CENTER_VERTICAL;
+	private int mLeftPadding = 0;
+	
+	@Override
+	public OpenMenuBuilder setGravity(int gravity) {
+		mGravity = gravity;
+		return this;
+	}
+	
+	@Override
+	public int getGravity() {
+		return this.mGravity;
+	}
+	
+	@Override
+	public OpenMenuBuilder setLeftPadding(int leftPadding) {
+		this.mLeftPadding = leftPadding;
+		return this;
+	}
+	
+	@Override
+	public int getLeftPadding() {
+		return this.mLeftPadding;
+	}
+	
+	public void setMenuWidth(int width) {
+	}
+	
 	// 菜单视图(暂时测试放这里)
-
+	
+	public void setBackgroundResource(int resID) {
+		mMenuView.setBackgroundResource(resID);
+	}
+	
 	public OpenMenuView getMenuView() {
 		// 多个listview---主菜单--子菜单（无限个)
 		if (mMenuView == null) {
 			mMenuView = new OpenListMenuView(mContext);
-			mMenuView.setOnItemClickListener(new OnItemClickListener() {
+			mMenuView.getMenuListView().setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					if (mItems.get(position).hasSubMenu()) {
 						// test.
 						FrameLayout.LayoutParams mainLayoutParams = (LayoutParams) mMenuView.getLayoutParams();
-						
 						OpenMenuBuilder subMenu = (OpenMenuBuilder) mItems.get(position).getSubMenu();
 						OpenListMenuView menuView = (OpenListMenuView) subMenu.getMenuView();
 						FrameLayout.LayoutParams layPar = (LayoutParams) menuView.getLayoutParams();
-						layPar.leftMargin = mainLayoutParams.leftMargin + mMenuView.getMeasuredWidth();
+						layPar.leftMargin = mainLayoutParams.leftMargin + mMenuView.getMeasuredWidth() + getLeftPadding();
 						subMenu.showMenu();
 						//
 						Toast.makeText(mContext, "子菜单" + menuView, Toast.LENGTH_LONG).show();
 					}
 				}
 			});
-			mMenuView.setBackgroundColor(Color.parseColor("#50000000"));
 			if (mLayoutAnimationController != null) {
 				mMenuView.setLayoutAnimation(mLayoutAnimationController);
 			}
 			if (mAdapter == null) {
 				mAdapter = new MenuAdapter();
 			}
-			mMenuView.setAdapter(mAdapter);
+			mMenuView.getMenuListView().setAdapter(mAdapter);
 			// mMenuView.setOnItemClickListener(this);
 		}
 		return mMenuView;
 	}
-
+	
 	private class MenuAdapter extends BaseAdapter {
 
 		@Override
