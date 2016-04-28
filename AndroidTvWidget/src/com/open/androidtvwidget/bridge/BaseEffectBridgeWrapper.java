@@ -180,8 +180,8 @@ public class BaseEffectBridgeWrapper extends BaseEffectBridge {
 	@Override
 	public void onFocusView(View focusView, float scaleX, float scaleY) {
 		if (focusView != null) {
-			focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(DEFUALT_TRAN_DUR_ANIM).start();
-			runTranslateAnimation(focusView, scaleX, scaleY);
+			focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(DEFUALT_TRAN_DUR_ANIM).start(); // 放大焦点VIEW的动画.
+			runTranslateAnimation(focusView, scaleX, scaleY); // 移动边框的动画。
 		}
 	}
 
@@ -241,11 +241,7 @@ public class BaseEffectBridgeWrapper extends BaseEffectBridge {
 
 	public void runTranslateAnimation(View toView, float scaleX, float scaleY) {
 		try {
-			Rect fromRect = findLocationWithView(getMainUpView());
-			Rect toRect = findLocationWithView(toView);
-			float x = toRect.left - fromRect.left;
-			float y = toRect.top - fromRect.top;
-			flyWhiteBorder(toView, x, y, scaleX, scaleY);
+			flyWhiteBorder(toView, getMainUpView(), scaleX, scaleY);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -257,29 +253,42 @@ public class BaseEffectBridgeWrapper extends BaseEffectBridge {
 		root.offsetDescendantRectToMyCoords(view, rect);
 		return rect;
 	}
+	
+	public int[] getViewLocationScreen(View v) {
+		int[] location = new int[2];
+        v.getLocationOnScreen(location);
+        return location;
+	}
 
-	public void flyWhiteBorder(final View focusView, float x, float y, float scaleX, float scaleY) {
+	public void flyWhiteBorder(final View focusView,  View moveView, float scaleX, float scaleY) {
 		int newWidth = 0;
 		int newHeight = 0;
 		int oldWidth = 0;
 		int oldHeight = 0;
+		
+		int newX = 0;
+		int newY = 0;
+		
 		if (focusView != null) {
 			newWidth = (int) (focusView.getMeasuredWidth() * scaleX);
 			newHeight = (int) (focusView.getMeasuredHeight() * scaleY);
-			x = x + (focusView.getMeasuredWidth() - newWidth) / 2;
-			y = y + (focusView.getMeasuredHeight() - newHeight) / 2;
+			oldWidth = moveView.getMeasuredWidth();
+			oldHeight = moveView.getMeasuredHeight();
+			Rect fromRect = findLocationWithView(moveView);
+			Rect toRect = findLocationWithView(focusView);
+			int x = toRect.left - fromRect.left;
+			int y = toRect.top - fromRect.top;
+			newX = x - Math.abs(focusView.getMeasuredWidth() - newWidth) / 2;
+			newY = y - Math.abs(focusView.getMeasuredHeight() - newHeight) / 2;
 		}
-
-		oldWidth = getMainUpView().getMeasuredWidth();
-		oldHeight = getMainUpView().getMeasuredHeight();
-
-		ObjectAnimator transAnimatorX = ObjectAnimator.ofFloat(getMainUpView(), "translationX", x);
-		ObjectAnimator transAnimatorY = ObjectAnimator.ofFloat(getMainUpView(), "translationY", y);
+		
+		ObjectAnimator transAnimatorX = ObjectAnimator.ofFloat(moveView, "translationX", newX);
+		ObjectAnimator transAnimatorY = ObjectAnimator.ofFloat(moveView, "translationY", newY);
 		// BUG，因为缩放会造成图片失真(拉伸).
 		// hailong.qiu 2016.02.26 修复 :)
-		ObjectAnimator scaleXAnimator = ObjectAnimator.ofInt(new ScaleView(getMainUpView()), "width", oldWidth,
+		ObjectAnimator scaleXAnimator = ObjectAnimator.ofInt(new ScaleView(moveView), "width", oldWidth,
 				(int) newWidth);
-		ObjectAnimator scaleYAnimator = ObjectAnimator.ofInt(new ScaleView(getMainUpView()), "height", oldHeight,
+		ObjectAnimator scaleYAnimator = ObjectAnimator.ofInt(new ScaleView(moveView), "height", oldHeight,
 				(int) newHeight);
 		//
 		AnimatorSet mAnimatorSet = new AnimatorSet();

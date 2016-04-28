@@ -47,13 +47,18 @@ public class DemoGridViewActivity extends Activity {
 	private List<Map<String, Object>> data;
 	private MainUpView mainUpView1;
 	private View mOldView;
+	private GridView gridView;
+	
+	SimpleAdapter simpleAdapter;
+	String[] from = { "text" };
+	int[] to = { R.id.textView };
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.demo_grid_view);
 
-		final GridView gridView = (GridView) findViewById(R.id.gridView);
+		gridView = (GridView) findViewById(R.id.gridView);
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
 		
 		/**
@@ -69,20 +74,21 @@ public class DemoGridViewActivity extends Activity {
 		mainUpView1.setUpRectResource(R.drawable.white_light_10);
 		mainUpView1.setDrawUpRectPadding(12);
 		
-		getData();
-
-		String[] from = { "text" };
-		int[] to = { R.id.textView };
-
-		SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.item_gridview, from, to);
-		gridView.setAdapter(simpleAdapter);
-		simpleAdapter.notifyDataSetChanged();
+		getData(200);
+		updateGridViewAdapter();
+		
 		//
 		gridView.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				view.bringToFront();
-				mainUpView1.setFocusView(view, mOldView, 1.2f);
+				/**
+				 * 这里注意要加判断是否为NULL.
+				 * 因为在重新加载数据以后会出问题.
+				 */
+				if (view != null) {
+					view.bringToFront();
+					mainUpView1.setFocusView(view, mOldView, 1.2f);
+				}
 				mOldView = view;
 			}
 
@@ -93,31 +99,57 @@ public class DemoGridViewActivity extends Activity {
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Toast.makeText(getApplicationContext(), "position : " + position, Toast.LENGTH_LONG).show();
+				String text = "position:" + position;
+				// 测试数据更新.
+				if (position == 0) {
+					getData(3);
+					updateGridViewAdapter();
+					text += "-->更新数据3个";
+				} else if (position == 1){
+					getData(100);
+					updateGridViewAdapter();
+					text += "-->更新数据100个";
+				} else if (position == 2) {
+					getData(2000);
+					updateGridViewAdapter();
+					text += "-->更新数据2000个";
+				} else {
+					// ... ...
+				}
+				Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
 			}
 		});
 		//  pengjunkun <junkun@mgtv.com> 修复.
-		// 在布局加咱完成后，设置选中第一个
+		// 在布局加咱完成后，设置选中第一个 (test)
 		gridView.addOnLayoutChangeListener(new OnLayoutChangeListener() {
 			@Override
 			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
 					int oldRight, int oldBottom) {
 				if (gridView.getChildCount() > 0) {
 					gridView.setSelection(0);
-					mainUpView1.setFocusView(gridView.getChildAt(0), 1.2f);
+					View newView = gridView.getChildAt(0);
+					newView.bringToFront();
+					mainUpView1.setFocusView(newView, 1.2f);
 					mOldView = gridView.getChildAt(0);
 				}
 			}
 		});
 	}
 
-	public List<Map<String, Object>> getData() {
+	public List<Map<String, Object>> getData(int count) {
 		data = new ArrayList<Map<String, Object>>();
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < count; i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("text", "item" + i);
 			data.add(map);
 		}
 		return data;
 	}
+	
+	private void updateGridViewAdapter() {
+		simpleAdapter = new SimpleAdapter(this, data, R.layout.item_gridview, from, to);
+		gridView.setAdapter(simpleAdapter);
+		simpleAdapter.notifyDataSetChanged();
+	}
+	
 }

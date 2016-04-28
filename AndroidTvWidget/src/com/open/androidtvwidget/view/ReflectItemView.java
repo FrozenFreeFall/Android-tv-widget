@@ -43,11 +43,11 @@ public class ReflectItemView extends FrameLayout {
 
 	private float mRadius = DEFUALT_RADIUS;
 	private RadiusRect mRadiusRect = new RadiusRect(mRadius, mRadius, mRadius, mRadius);
-
+	private int mRefleSpacing = 0;
 	private BitmapMemoryCache mBitmapMemoryCache = BitmapMemoryCache.getInstance();
 	private static int sViewIDNum = 0;
 	private int viewIDNum = 0;
-
+	
 	public ReflectItemView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context, attrs);
@@ -103,7 +103,22 @@ public class ReflectItemView extends FrameLayout {
 			mClearPaint.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
 		}
 	}
-
+	
+	/**
+	 * 设置倒影的shader属性.
+	 */
+	public void setReflectionShader(Shader shader) {
+		if (mRefPaint != null) {
+			mRefPaint.setShader(shader);
+			invalidate();
+		}
+	}
+	
+	public void setReflectionSpacing(int spacing) {
+		mRefleSpacing = spacing;
+		invalidate();
+	}
+	
 	/**
 	 * 设置是否倒影.
 	 */
@@ -228,7 +243,7 @@ public class ReflectItemView extends FrameLayout {
 			refleCanvas.save();
 			int dy = getHeight();
 			int dx = 0;
-			refleCanvas.translate(dx, dy);
+			refleCanvas.translate(dx, dy + mRefleSpacing);
 			drawReflection(refleCanvas);
 			refleCanvas.restore();
 		}
@@ -263,7 +278,7 @@ public class ReflectItemView extends FrameLayout {
 			canvas.save();
 			int dy = getHeight();
 			int dx = 0;
-			canvas.translate(dx, dy);
+			canvas.translate(dx, dy + mRefleSpacing);
 			canvas.drawBitmap(reflectBitmap, 0, 0, null);
 			canvas.restore();
 		}

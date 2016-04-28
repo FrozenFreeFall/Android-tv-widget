@@ -7,6 +7,7 @@ import com.open.androidtvwidget.keyboard.SoftKeyBoardListener;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,7 +48,11 @@ public class DemoKeyBoardActivity extends Activity {
 					keyCode = softKey.getKeyCode();
 					if (keyCode == KeyEvent.KEYCODE_DEL) {
 						String text = input_tv.getText().toString();
-						input_tv.setText(text.substring(0, text.length() - 1));
+						if (TextUtils.isEmpty(text)) {
+							Toast.makeText(getApplicationContext(), "文本已空", Toast.LENGTH_LONG).show();
+						} else {
+							input_tv.setText(text.substring(0, text.length() - 1));
+						}
 					} else if (keyCode == KeyEvent.KEYCODE_BACK) {
 						finish();
 					} else if (keyCode == 66) {

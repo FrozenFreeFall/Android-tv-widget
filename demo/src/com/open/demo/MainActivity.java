@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 /**
@@ -28,6 +30,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+//		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+//				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.test_main);
 		//
 		test_top_iv = findViewById(R.id.test_top_iv);
@@ -45,6 +50,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 		// mainUpView1.setUpRectResource(R.drawable.item_highlight); //
 		// 设置移动边框的图片.(test)
+//		mainUpView1.setDrawUpRectPadding(new Rect(0, 0, 0, -26));
 		// mainUpView1.setDrawShadowPadding(0); // 阴影图片设置距离.
 		// mOpenEffectBridge.setTranDurAnimTime(500); // 动画时间.
 
