@@ -15,10 +15,10 @@
         android:clipChildren="false"
         android:columnWidth="200dp"
         android:gravity="center_vertical"
-        android:horizontalSpacing="3dp"
+        android:horizontalSpacing="12dp"
         android:numColumns="auto_fit"
         android:scrollbars="none"
-        android:verticalSpacing="6dp" />
+        android:verticalSpacing="20dp" />
 
     <com.open.androidtvwidget.view.MainUpView
         android:id="@+id/mainUpView1"

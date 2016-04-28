@@ -50,7 +50,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 		// mainUpView1.setUpRectResource(R.drawable.item_highlight); //
 		// 设置移动边框的图片.(test)
-//		mainUpView1.setDrawUpRectPadding(new Rect(0, 0, 0, -26));
+//		mainUpView1.setDrawUpRectPadding(new Rect(0, 0, 0, -26)); 设置移动边框的距离.
 		// mainUpView1.setDrawShadowPadding(0); // 阴影图片设置距离.
 		// mOpenEffectBridge.setTranDurAnimTime(500); // 动画时间.
 

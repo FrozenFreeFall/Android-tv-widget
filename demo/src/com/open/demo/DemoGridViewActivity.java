@@ -29,6 +29,9 @@ import com.open.androidtvwidget.utils.Utils;
 import com.open.androidtvwidget.view.MainUpView;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
@@ -72,11 +75,12 @@ public class DemoGridViewActivity extends Activity {
 		} 
 		
 		mainUpView1.setUpRectResource(R.drawable.white_light_10);
-		mainUpView1.setDrawUpRectPadding(12);
+		// test 移动方框缩小的距离.
+		mainUpView1.setDrawUpRectPadding(new Rect(-12, -12, -12, -65));
 		
 		getData(200);
 		updateGridViewAdapter();
-		
+		gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
 		//
 		gridView.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
@@ -140,7 +144,7 @@ public class DemoGridViewActivity extends Activity {
 		data = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < count; i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("text", "item" + i);
+			map.put("text", "电影" + i);
 			data.add(map);
 		}
 		return data;
