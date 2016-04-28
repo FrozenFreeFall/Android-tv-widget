@@ -39,7 +39,7 @@ API文档：
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/0406/110827_505fcc9c_111902.png "在这里输入图片标题")
 
-![输入图片说明](http://git.oschina.net/uploads/images/2016/0406/110926_f3ad9f19_111902.png "在这里输入图片标题")
+![GridViewTV](http://git.oschina.net/uploads/images/2016/0428/112433_94b26833_111902.png "在这里输入图片标题")
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/0406/110937_f5e73cf4_111902.png "在这里输入图片标题")
 
@@ -65,3 +65,20 @@ API文档：
 <p>
 <a href="https://github.com/lf8289/BorderViewDemo">BorderViewDemo</a>
 </p>
+
+## 版本更新
+
+v1.4.0 
+
+*添加recyclerview的支持
+
+*修复gridviewTv 更新数据崩溃
+
+*修改GridViewTV demo
+
+*修复键盘DEMO 崩溃
+
+*倒影控件添加间距接口
+
+*整理移动动画的函数
+
