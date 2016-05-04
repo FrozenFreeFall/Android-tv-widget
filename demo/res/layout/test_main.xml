@@ -22,6 +22,8 @@
             android:layout_height="match_parent"
             android:paddingRight="80dp" >
 
+            <!-- 鼠标第一次无法点击，可以去掉 android:focusableInTouchMode="true" -->
+
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/gridview_lay"
                 android:layout_width="@dimen/px840"
@@ -30,24 +32,40 @@
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:nextFocusDown="@+id/listview_lay"
-                app:isShape="true" >
+                android:nextFocusDown="@+id/listview_lay">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/mainview_tuijian" />
+                <com.open.androidtvwidget.view.ReflectItemView
+                    android:layout_width="@dimen/px840"
+                    android:layout_height="@dimen/px354"
+                    android:layout_marginTop="@dimen/px40"
+                    app:radius="@dimen/px10" 
+                    app:isShape="true" >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_gravity="top"
-                    android:background="#FF0000"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="GridView测试"
-                    android:textColor="#FFFFFF" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/mainview_tuijian" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="top"
+                        android:background="#FF0000"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="GridView测试"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:background="#50000000"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="GridView测试"
+                        android:textColor="#FFFFFF" />
+                </com.open.androidtvwidget.view.ReflectItemView>
 
                 <ImageView
                     android:id="@+id/test_top_iv"
@@ -55,15 +73,6 @@
                     android:layout_height="@dimen/px350"
                     android:scaleType="fitXY"
                     android:src="@drawable/top_test_bg" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_gravity="bottom"
-                    android:background="#50000000"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="GridView测试"
-                    android:textColor="#FFFFFF" />
             </com.open.androidtvwidget.view.ReflectItemView>
 
             <com.open.androidtvwidget.view.ReflectItemView
@@ -112,6 +121,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
                     android:src="@drawable/mainview_huodong" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
@@ -193,16 +203,47 @@
                     android:textColor="#ffffff" />
             </com.open.androidtvwidget.view.ReflectItemView>
 
+            <!-- 菜单测试DEMO -->
+
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/menu_rlayt"
-                android:layout_width="@dimen/px412"
-                android:layout_height="@dimen/px672"
+                android:layout_width="@dimen/px400"
+                android:layout_height="@dimen/px330"
                 android:layout_marginLeft="@dimen/px1858"
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:src="@drawable/mainview_cloudlist"
+                app:isShape="true" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/grid_view_item_test" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="bottom"
+                    android:background="#FF0000"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="菜单Menu测试"
+                    android:textColor="#ffffff" />
+            </com.open.androidtvwidget.view.ReflectItemView>
+
+            <!-- recyclerview测试DEMO -->
+
+            <com.open.androidtvwidget.view.ReflectItemView
+                android:id="@+id/recyclerview_rlayt"
+                android:layout_width="@dimen/px400"
+                android:layout_height="@dimen/px330"
+                android:layout_marginLeft="@dimen/px1858"
+                android:layout_marginTop="@dimen/px550"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:isReflect="true"
                 app:isShape="true" >
 
@@ -211,14 +252,15 @@
                     android:layout_height="match_parent"
                     android:clickable="false"
                     android:scaleType="fitXY"
-                    android:src="@drawable/mainview_cloudlist" />
+                    android:src="@drawable/grid_view_item_test" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_gravity="bottom"
                     android:background="#FF0000"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="菜单Menu测试"
+                    android:text="RecyclerView测试"
                     android:textColor="#ffffff" />
             </com.open.androidtvwidget.view.ReflectItemView>
         </com.open.androidtvwidget.view.MainLayout>

@@ -11,6 +11,7 @@
         <attr name="isShape"  format="boolean" />
         <attr name="reflect_height"  format="dimension" />
         <attr name="radius"  format="dimension" />
+        <attr name="refle_spacing"  format="dimension" />
     </declare-styleable>
     
     <!-- 顶层控件属性 -->

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.open.demo"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="35"
+    android:versionName="1.4.0" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.open.demo.MainActivity"
+            android:launchMode="singleTask"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +29,9 @@
         <activity android:name="com.open.demo.DemoKeyBoardActivity" />
         <activity android:name="com.open.demo.DemoViewPagerActivity" />
         <activity android:name="com.open.demo.DemoMenuActivity"/>
+        <activity android:name="com.open.demo.DemoRecyclerviewActivity"/>
+        
+        
     </application>
 
 </manifest>

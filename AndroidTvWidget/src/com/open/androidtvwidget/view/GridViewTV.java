@@ -49,6 +49,7 @@ public class GridViewTV extends GridView {
 
 	@Override
 	protected int getChildDrawingOrder(int childCount, int i) {
+		// position = getSelectedItemPosition() - getFirstVisiblePosition();
 		return mWidgetTvViewBring.getChildDrawingOrder(childCount, i);
 	}
 

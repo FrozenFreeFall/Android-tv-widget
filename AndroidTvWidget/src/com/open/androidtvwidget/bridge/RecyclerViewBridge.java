@@ -4,60 +4,25 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
-/**
- * 为了兼容4.3以下版本的 AnimBridge. <br>
- * 使用方法： MainUpView.setAnimBridge(new AnimNoDrawBridge()); <br>
- * 如果边框带了阴影效果，使用这个函数自行调整: MainUpView.setDrawUpRectPadding(-12);
- * 
- * @author hailongqiu
- *
- */
-public class EffectNoDrawBridge extends OpenEffectBridge {
-	protected AnimatorSet mCurrentAnimatorSet;
-
-	/**
-	 * 设置背景，边框不使用绘制.
-	 */
-	@Override
-	public void setUpRectResource(int resId) {
-		getMainUpView().setBackgroundResource(resId);
+public class RecyclerViewBridge extends EffectNoDrawBridge {
+	
+	private AnimatorSet mCurrentAnimatorSet;
+	
+	private int mDx = 0;
+	private int mDy = 0;
+	
+	public void setFocusView(View newView, View oldView, float scale, int dx, int dy) {
+		this.mDx = dx;
+		this.mDy = dy;
+		//
+		setFocusView(newView, scale);
+		setUnFocusView(oldView);
 	}
-
-	@Override
-	public void setUpRectDrawable(Drawable upRectDrawable) {
-		getMainUpView().setBackgroundDrawable(upRectDrawable);
-	}
-
-	@Override
-	public void onOldFocusView(View oldFocusView, float scaleX, float scaleY) {
-		if (!isAnimEnabled())
-			return;
-		if (oldFocusView != null) {
-			oldFocusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(getTranDurAnimTime()).start();
-		}
-	}
-
-	@Override
-	public void onFocusView(View focusView, float scaleX, float scaleY) {
-		if (!isAnimEnabled())
-			return;
-		if (focusView != null) {
-			/**
-			 * 我这里重写了onFocusView. <br>
-			 * 并且交换了位置. <br>
-			 * 你可以写自己的动画效果. <br>
-			 */
-			runTranslateAnimation(focusView, scaleX, scaleY);
-			focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(getTranDurAnimTime()).start();
-		}
-	}
-
+	
 	/**
 	 * 重写边框移动函数.
 	 */
@@ -79,6 +44,12 @@ public class EffectNoDrawBridge extends OpenEffectBridge {
 			oldHeight = moveView.getMeasuredHeight();
 			Rect fromRect = findLocationWithView(moveView);
 			Rect toRect = findLocationWithView(focusView);
+			//
+			if (mDy != 0) {
+				toRect.set(toRect.left, toRect.top - (mDy), toRect.right, toRect.bottom - (mDy));
+				mDy = 0;
+			}
+			//
 			int x = toRect.left - fromRect.left - (paddingRect.left);
 			int y = toRect.top - fromRect.top - (paddingRect.top);
 			newX = x - Math.abs(focusView.getMeasuredWidth() - newWidth) / 2;
@@ -89,8 +60,10 @@ public class EffectNoDrawBridge extends OpenEffectBridge {
 		}
 
 		// 取消之前的动画.
-		if (mCurrentAnimatorSet != null)
+		if (mCurrentAnimatorSet != null) {
 			mCurrentAnimatorSet.cancel();
+			mCurrentAnimatorSet = null;
+		}
 
 		ObjectAnimator transAnimatorX = ObjectAnimator.ofFloat(moveView, "translationX", newX);
 		ObjectAnimator transAnimatorY = ObjectAnimator.ofFloat(moveView, "translationY", newY);
@@ -112,7 +85,7 @@ public class EffectNoDrawBridge extends OpenEffectBridge {
 					getMainUpView().setVisibility(View.GONE);
 				}
 				if (getNewAnimatorListener() != null)
-					getNewAnimatorListener().onAnimationStart(EffectNoDrawBridge.this, focusView, animation);
+					getNewAnimatorListener().onAnimationStart(RecyclerViewBridge.this, focusView, animation);
 			}
 
 			@Override
@@ -123,7 +96,7 @@ public class EffectNoDrawBridge extends OpenEffectBridge {
 			public void onAnimationEnd(Animator animation) {
 				getMainUpView().setVisibility(isVisibleWidget() ? View.GONE : View.VISIBLE);
 				if (getNewAnimatorListener() != null)
-					getNewAnimatorListener().onAnimationEnd(EffectNoDrawBridge.this, focusView, animation);
+					getNewAnimatorListener().onAnimationEnd(RecyclerViewBridge.this, focusView, animation);
 			}
 
 			@Override
@@ -133,14 +106,4 @@ public class EffectNoDrawBridge extends OpenEffectBridge {
 		mAnimatorSet.start();
 		mCurrentAnimatorSet = mAnimatorSet;
 	}
-
-	/**
-	 * 重写该函数，<br>
-	 * 不进行绘制 边框和阴影.
-	 */
-	@Override
-	public boolean onDrawMainUpView(Canvas canvas) {
-		return false;
-	}
-
 }

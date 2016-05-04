@@ -74,6 +74,7 @@ public class ReflectItemView extends FrameLayout {
 			mRefHeight = (int) tArray.getDimension(R.styleable.reflectItemView_reflect_height, DEFUALT_REFHEIGHT);
 			mIsDrawShape = tArray.getBoolean(R.styleable.reflectItemView_isShape, false);
 			mRadius = tArray.getDimension(R.styleable.reflectItemView_radius, DEFUALT_RADIUS);
+			mRefleSpacing = (int) tArray.getDimension(R.styleable.reflectItemView_refle_spacing, 0);
 			setRadius(mRadius);
 		}
 		// 初始化圆角矩形.

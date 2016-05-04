@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    
-    <string name="enter_go">去往</string><!-- 去往 -->
-    <string name="enter_send">发送</string><!-- 发送 -->
-    <string name="enter_next">下一个</string><!-- 下一个 -->
-    <string name="enter_text">完成</string><!-- 完成 -->
-    <string name="enter_mulit_line_text">回车</string><!-- 完成 -->
-</resources>

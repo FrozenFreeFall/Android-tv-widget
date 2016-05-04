@@ -77,6 +77,7 @@ public class DemoGridViewActivity extends Activity {
 		mainUpView1.setUpRectResource(R.drawable.white_light_10);
 		// test 移动方框缩小的距离.
 		mainUpView1.setDrawUpRectPadding(new Rect(-12, -12, -12, -65));
+//		mainUpView1.setDrawUpRectPadding(new Rect(10, 10, 10, -55)); // EffectNoDrawbridge的误差间距设置.
 		
 		getData(200);
 		updateGridViewAdapter();
