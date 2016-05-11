@@ -22,8 +22,8 @@ import android.view.animation.DecelerateInterpolator;
  */
 public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 
-	private static final int DEFUALT_TRAN_DUR_ANIM = 300;
-	private int mTranDurAnimTime = DEFUALT_TRAN_DUR_ANIM;
+	private static final int DEFAULT_TRAN_DUR_ANIM = 300;
+	private int mTranDurAnimTime = DEFAULT_TRAN_DUR_ANIM;
 	private AnimatorSet mCurrentAnimatorSet;
 	private boolean isInDraw = false;
 	private boolean mIsHide = false;
@@ -121,11 +121,18 @@ public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 		}
 	}
 
+	private float mScaleX = 0;
+	private float mScaleY = 0;
+	
 	/**
 	 * 移动边框的动画处理函数.
 	 */
 	@Override
 	public void flyWhiteBorder(final View focusView,  View moveView, float scaleX, float scaleY) {
+		// 用于修复5.0边框错位问题.
+		this.mScaleX = mScaleX;
+		this.mScaleY = mScaleY;
+		
 		int newWidth = 0;
 		int newHeight = 0;
 		int oldWidth = 0;
@@ -189,6 +196,16 @@ public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 				getMainUpView().setVisibility(mIsHide ? View.INVISIBLE : View.VISIBLE);
 				if (mNewAnimatorListener != null)
 					mNewAnimatorListener.onAnimationEnd(OpenEffectBridge.this, focusView, animation);
+				
+				// XF add（先锋TV开发(404780246)修复)
+				// BUG:5.0系统边框错位.
+				// int newWidth = (int) (focusView.getMeasuredWidth() *
+				// mScaleX);
+				// int newHeight = (int) (focusView.getMeasuredHeight() *
+				// mScaleY);
+				// getMainUpView().getLayoutParams().width = newWidth;
+				// getMainUpView().getLayoutParams().height = newHeight;
+				// getMainUpView().requestLayout();
 			}
 
 			@Override

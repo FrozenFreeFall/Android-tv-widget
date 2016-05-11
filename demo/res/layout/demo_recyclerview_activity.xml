@@ -50,8 +50,7 @@
         <com.open.androidtvwidget.recycle.RecyclerViewTV
             android:id="@+id/recyclerView"
             android:paddingBottom="80dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#000000"

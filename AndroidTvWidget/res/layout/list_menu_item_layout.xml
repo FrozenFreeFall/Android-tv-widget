@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.open.androidtvwidget.menu.OpenListMenuItemView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.open.androidtvwidget.menu.OpenMenuViewItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:paddingLeft="10dp"
     android:layout_width="match_parent"
@@ -30,4 +30,4 @@
 
     </RelativeLayout>
 
-</com.open.androidtvwidget.menu.OpenListMenuItemView>
+</com.open.androidtvwidget.menu.OpenMenuViewItem>

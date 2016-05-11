@@ -117,7 +117,7 @@ public class SkbContainer extends RelativeLayout implements SoftKeyBoardable {
 	 */
 	private boolean setKeyCodeEnter(SoftKey softKey) {
 		if (softKey == null) {
-			OPENLOG.E(TAG, "setKeyCodeEnter softKey is null");
+			OPENLOG.E("setKeyCodeEnter softKey is null");
 			return false;
 		}
 		onCommitText(softKey);
@@ -151,14 +151,14 @@ public class SkbContainer extends RelativeLayout implements SoftKeyBoardable {
 			return false;
 		}
 		SoftKey tempSoftKey = new SoftKey();
-		OPENLOG.D(TAG, "onSoftKeyDown keyCode:" + keyCode);
+		OPENLOG.D("onSoftKeyDown keyCode:" + keyCode);
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_ENTER:
 		case KeyEvent.KEYCODE_DPAD_CENTER:
 			SoftKeyboard softKeyboard = mSoftKeyboardView.getSoftKeyboard();
 			SoftKey softKey = softKeyboard.getSelectSoftKey();
 			mSoftKeyboardView.setSoftKeyPress(true);
-			OPENLOG.D(TAG, "onSoftKeyDown softKey:" + softKey);
+			OPENLOG.D("onSoftKeyDown softKey:" + softKey);
 			if (!setKeyCodeEnter(softKey)) {
 				return false;
 			}
@@ -178,10 +178,10 @@ public class SkbContainer extends RelativeLayout implements SoftKeyBoardable {
 			mSoftKeyboardView.setSoftKeyPress(false);
 			return actionForKeyEvent(keyCode); // 按键移动.
 		default:
-			OPENLOG.D(TAG, "onSoftKeyDown false keyCode:" + keyCode);
+			OPENLOG.D("onSoftKeyDown false keyCode:" + keyCode);
 			return false;
 		}
-		OPENLOG.D(TAG, "onSoftKeyDown true keyCode:" + keyCode);
+		OPENLOG.D("onSoftKeyDown true keyCode:" + keyCode);
 		return true;
 	}
 
@@ -193,7 +193,7 @@ public class SkbContainer extends RelativeLayout implements SoftKeyBoardable {
 		if (!isFocused()) {
 			return false;
 		}
-		OPENLOG.D(TAG, "onSoftKeyUp keyCode:" + keyCode);
+		OPENLOG.D("onSoftKeyUp keyCode:" + keyCode);
 		if (mSoftKeyboardView != null)
 			mSoftKeyboardView.setSoftKeyPress(false);
 		switch (keyCode) {
@@ -204,10 +204,10 @@ public class SkbContainer extends RelativeLayout implements SoftKeyBoardable {
 		case KeyEvent.KEYCODE_DPAD_UP: // 上
 		case KeyEvent.KEYCODE_DPAD_DOWN: // 下
 		case KeyEvent.KEYCODE_BACK:
-			OPENLOG.D(TAG, "onSoftKeyUp true keyCode:" + keyCode);
+			OPENLOG.D("onSoftKeyUp true keyCode:" + keyCode);
 			return true;
 		}
-		OPENLOG.D(TAG, "onSoftKeyUp false keyCode:" + keyCode);
+		OPENLOG.D("onSoftKeyUp false keyCode:" + keyCode);
 		return false;
 	}
 

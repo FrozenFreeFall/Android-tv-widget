@@ -130,4 +130,13 @@ public class OpenTabHost extends TabHost {
 	public interface OnTabSelectListener {
 		public void onTabSelect(OpenTabHost openTabHost, View titleWidget, int postion);
 	}
+	
+	/**
+	 * 修复鼠标点击，按数字键会丢失焦点的问题
+	 * 倾听者(344176791) 修复.
+	 */
+	@Override
+	public void onTouchModeChanged(boolean isInTouchMode) {
+	}
+	
 }

@@ -165,11 +165,11 @@ public class ShellUtils {
                 }
             }
         } catch (IOException e) {
-        	Log.e("caca", e.toString());
+        	OPENLOG.E(e.toString());
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("caca", e.toString());
+            OPENLOG.E(e.toString());
         } finally {
             try {
                 if (os != null) {

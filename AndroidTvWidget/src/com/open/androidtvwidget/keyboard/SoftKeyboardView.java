@@ -69,7 +69,7 @@ public class SoftKeyboardView extends View {
 		if (mSoftKeyboard == null)
 			return;
 		if (mCacheBitmap == null) {
-			OPENLOG.D(TAG, "onDraw mCacheBitmap:" + mCacheBitmap);
+			OPENLOG.D("onDraw mCacheBitmap:" + mCacheBitmap);
 			mCacheBitmap = createCacheBitmap();
 			Canvas canvas = new Canvas(mCacheBitmap);
 			// 绘制键盘背景.
@@ -228,7 +228,7 @@ public class SoftKeyboardView extends View {
 
 	public void setSoftKeyPress(boolean isPress) {
 		if (mSoftKeyboard == null) {
-			OPENLOG.E(TAG, "setSoftKeyPress isPress:" + isPress);
+			OPENLOG.E("setSoftKeyPress isPress:" + isPress);
 			return;
 		}
 		SoftKey softKey = mSoftKeyboard.getSelectSoftKey();
@@ -252,7 +252,7 @@ public class SoftKeyboardView extends View {
 	 */
 	public boolean moveToNextKey(int direction) {
 		if (mSoftKeyboard == null) {
-			OPENLOG.E(TAG, "moveToNextKey mSoftKeyboard is null");
+			OPENLOG.E("moveToNextKey mSoftKeyboard is null");
 			return false;
 		}
 
@@ -261,13 +261,13 @@ public class SoftKeyboardView extends View {
 
 		KeyRow keyRow = mSoftKeyboard.getKeyRowForDisplay(currentRow);
 		if (keyRow == null) {
-			OPENLOG.E(TAG, "moveToNextKey keyRow is null");
+			OPENLOG.E("moveToNextKey keyRow is null");
 			return false;
 		}
 
 		List<SoftKey> softKeys = keyRow.getSoftKeys();
 		if (softKeys == null) {
-			OPENLOG.E(TAG, "moveToNextKey keyRow -> softKeys is null");
+			OPENLOG.E("moveToNextKey keyRow -> softKeys is null");
 			return false;
 		}
 		SoftKey softKey = null;

@@ -5,13 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent"
-    android:clipChildren="false"
-    android:clipToPadding="false" >
-
+    android:paddingTop="80dp">
+	
+      <com.open.androidtvwidget.view.GridViewTV
+        android:id="@+id/gridView"
+        android:nextFocusUp="@+id/title_bar2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="30dp"
+        android:paddingTop="80dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:columnWidth="200dp"
+        android:gravity="center_vertical"
+        android:horizontalSpacing="12dp"
+        android:numColumns="auto_fit"
+        android:scrollbars="none"
+        android:verticalSpacing="20dp" />
+      
     <com.open.androidtvwidget.view.SmoothHorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:visibility="gone"
         android:scrollbars="none" >
 
         <com.open.androidtvwidget.view.MainLayout
@@ -28,8 +45,7 @@
                 android:layout_marginLeft="@dimen/px96"
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
+                android:focusable="true">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -61,7 +77,6 @@
                 android:background="@drawable/mainview_searchsong"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 app:isReflect="true" >
 
                 <FrameLayout
@@ -85,8 +100,7 @@
                 android:layout_marginTop="@dimen/px204"
                 android:background="@drawable/mainview_huodong"
                 android:clickable="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true" >
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -104,7 +118,6 @@
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:src="@drawable/mainview_cloudlist"
                 app:isShape="true"
                 app:isReflect="true" >
@@ -139,7 +152,6 @@
                 android:background="@drawable/mainview_type"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 app:isReflect="true" >
 
                 <ImageView
@@ -158,7 +170,6 @@
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:src="@drawable/mainview_cloudlist" >
 
                 <ImageView

@@ -2,10 +2,12 @@ package com.open.demo;
 
 import com.open.androidtvwidget.bridge.RecyclerViewBridge;
 import com.open.androidtvwidget.recycle.GridLayoutManagerTV;
+import com.open.androidtvwidget.recycle.LinearLayoutManagerTV;
 import com.open.androidtvwidget.recycle.OnChildSelectedListener;
 import com.open.androidtvwidget.recycle.RecyclerViewTV;
 import com.open.androidtvwidget.view.MainUpView;
 import com.open.demo.adapter.HeaderGridAdapter;
+import com.open.demo.adapter.RecyclerViewAdapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,7 +16,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.GridLayoutManager.SpanSizeLookup;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -92,20 +93,55 @@ public class DemoRecyclerviewActivity extends Activity implements OnClickListene
 	 * 测试LinerLayout.
 	 */
 	public void testRecyclerViewLinerLayout(int orientation) {
-		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+		LinearLayoutManagerTV layoutManager = new LinearLayoutManagerTV(this);
+		// 保持一个位置（上，下头，尾的差距填补).
+		if (orientation == LinearLayoutManager.HORIZONTAL) {
+			layoutManager.setLeftPadding((int) getResources().getDimension(R.dimen.px250));
+			layoutManager.setRightPadding((int) getResources().getDimension(R.dimen.px150));
+		} else {
+			layoutManager.setBottomPadding((int) getResources().getDimension(R.dimen.px250));
+			layoutManager.setTopPadding((int) getResources().getDimension(R.dimen.px150));
+		}
+		layoutManager.setOnChildSelectedListener(new OnChildSelectedListener() {
+			@Override
+			public void onChildSelected(RecyclerView parent, View focusview, int position, int dy) {
+				focusview.bringToFront();
+				mRecyclerViewBridge.setFocusView(focusview, oldView, 1.2f);
+				oldView = focusview;
+			}
+		});
 		layoutManager.setOrientation(orientation);
 		recyclerView.setLayoutManager(layoutManager);
 		recyclerView.setFocusable(false);
+		final RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(100);
+		recyclerView.setAdapter(recyclerViewAdapter);
 	}
 
 	/**
 	 * 测试GridLayout.
 	 */
 	private void testRecyclerViewGridLayout(int orientation) {
-		GridLayoutManager gridlayoutManager = new GridLayoutManagerTV(this, 4);
+		GridLayoutManagerTV gridlayoutManager = new GridLayoutManagerTV(this, 4);
+		if (orientation == LinearLayoutManager.HORIZONTAL) {
+			gridlayoutManager.setLeftPadding((int) getResources().getDimension(R.dimen.px250));
+			gridlayoutManager.setRightPadding((int) getResources().getDimension(R.dimen.px150));
+		} else {
+			gridlayoutManager.setBottomPadding((int) getResources().getDimension(R.dimen.px250));
+			gridlayoutManager.setTopPadding((int) getResources().getDimension(R.dimen.px150));
+		}
+		gridlayoutManager.setOnChildSelectedListener(new OnChildSelectedListener() {
+			@Override
+			public void onChildSelected(RecyclerView parent, View focusview, int position, int dy) {
+				focusview.bringToFront();
+				mRecyclerViewBridge.setFocusView(focusview, oldView, 1.2f);
+				oldView = focusview;
+			}
+		});
 		gridlayoutManager.setOrientation(orientation);
 		recyclerView.setLayoutManager(gridlayoutManager);
 		recyclerView.setFocusable(false);
+		final RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(100);
+		recyclerView.setAdapter(recyclerViewAdapter);
 	}
 
 	/**
@@ -116,7 +152,6 @@ public class DemoRecyclerviewActivity extends Activity implements OnClickListene
 		gridlayoutManager.setOnChildSelectedListener(new OnChildSelectedListener() {
 			@Override
 			public void onChildSelected(RecyclerView parent, View focusview, int position, int dy) {
-				Log.d("hailongqiu", "hailongqiu onChildSelected focusview");
 				focusview.bringToFront();
 				mRecyclerViewBridge.setFocusView(focusview, oldView, 1.2f);
 				oldView = focusview;

@@ -28,8 +28,7 @@
                 android:layout_marginLeft="@dimen/px96"
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
+                android:focusable="true">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -61,7 +60,6 @@
                 android:background="@drawable/mainview_searchsong"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 app:isReflect="true" >
 
                 <FrameLayout
@@ -85,8 +83,7 @@
                 android:layout_marginTop="@dimen/px204"
                 android:background="@drawable/mainview_huodong"
                 android:clickable="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true" >
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -104,7 +101,6 @@
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:src="@drawable/mainview_cloudlist"
                 app:isShape="true"
                 app:isReflect="true" >
@@ -139,7 +135,6 @@
                 android:background="@drawable/mainview_type"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 app:isReflect="true" >
 
                 <ImageView
@@ -157,7 +152,6 @@
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:src="@drawable/mainview_cloudlist" >
 
                 <ImageView

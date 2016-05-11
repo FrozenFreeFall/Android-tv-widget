@@ -14,8 +14,8 @@ import android.view.animation.DecelerateInterpolator;
 
 public class BaseEffectBridgeWrapper extends BaseEffectBridge {
 
-	private static final float DEFUALT_SCALE = 1.0f;
-	private static final int DEFUALT_TRAN_DUR_ANIM = 300;
+	private static final float DEFAULT_SCALE = 1.0f;
+	private static final int DEFAULT_TRAN_DUR_ANIM = 300;
 
 	private MainUpView mMainUpView;
 	private Drawable mDrawableShadow;
@@ -157,7 +157,7 @@ public class BaseEffectBridgeWrapper extends BaseEffectBridge {
 	 * 设置无焦点子控件还原.
 	 */
 	public void setUnFocusView(View view) {
-		setUnFocusView(view, DEFUALT_SCALE, DEFUALT_SCALE);
+		setUnFocusView(view, DEFAULT_SCALE, DEFAULT_SCALE);
 	}
 
 	public void setUnFocusView(View view, float scaleX, float scaleY) {
@@ -170,7 +170,7 @@ public class BaseEffectBridgeWrapper extends BaseEffectBridge {
 	@Override
 	public void onOldFocusView(View oldFocusView, float scaleX, float scaleY) {
 		if (oldFocusView != null) {
-			oldFocusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(DEFUALT_TRAN_DUR_ANIM).start();
+			oldFocusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(DEFAULT_TRAN_DUR_ANIM).start();
 		}
 	}
 
@@ -180,7 +180,7 @@ public class BaseEffectBridgeWrapper extends BaseEffectBridge {
 	@Override
 	public void onFocusView(View focusView, float scaleX, float scaleY) {
 		if (focusView != null) {
-			focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(DEFUALT_TRAN_DUR_ANIM).start(); // 放大焦点VIEW的动画.
+			focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(DEFAULT_TRAN_DUR_ANIM).start(); // 放大焦点VIEW的动画.
 			runTranslateAnimation(focusView, scaleX, scaleY); // 移动边框的动画。
 		}
 	}
@@ -294,7 +294,7 @@ public class BaseEffectBridgeWrapper extends BaseEffectBridge {
 		AnimatorSet mAnimatorSet = new AnimatorSet();
 		mAnimatorSet.playTogether(transAnimatorX, transAnimatorY, scaleXAnimator, scaleYAnimator);
 		mAnimatorSet.setInterpolator(new DecelerateInterpolator(1));
-		mAnimatorSet.setDuration(DEFUALT_TRAN_DUR_ANIM);
+		mAnimatorSet.setDuration(DEFAULT_TRAN_DUR_ANIM);
 		mAnimatorSet.start();
 	}
 

@@ -13,7 +13,6 @@ import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-import android.util.Log;
 
 /**
  * XML 键盘 布局加载.
@@ -102,7 +101,7 @@ public class XmlKeyboardLoader {
 	 * 保存数据到 SoftKeyboard 中去.
 	 */
 	public SoftKeyboard loadKeyboard(int resourceId) {
-		OPENLOG.D(TAG, "loadKeyboard loading ... ...");
+		OPENLOG.D("loadKeyboard loading ... ...");
 		SoftKeyboard softKeyboard = null;
 		SoftKey softKey = null;
 		int skbHeight = -1;
@@ -143,7 +142,7 @@ public class XmlKeyboardLoader {
 						mSaveKeyYPos = 0;
 					} else if (XMLTAG_ROW.compareTo(attr) == 0) { // row 列.
 						if (softKeyboard == null) {
-							OPENLOG.E(TAG, "XMLTAG_ROW softKeyboard null");
+							OPENLOG.E("XMLTAG_ROW softKeyboard null");
 							return null;
 						}
 						if (!attrRow.getAttributes(attrSkb)) {
@@ -164,7 +163,7 @@ public class XmlKeyboardLoader {
 						String labels = xrp.getAttributeValue(null, XMLATTR_KEY_LABELS);
 						String codes = xrp.getAttributeValue(null, XMLATTR_KEY_CODES); // 后续加入.
 						if (null == splitter || null == labels) {
-							OPENLOG.E(TAG, "XMLTAG_KEYS splitter or labels null");
+							OPENLOG.E("XMLTAG_KEYS splitter or labels null");
 							return null;
 						}
 						String labelArr[] = labels.split(splitter);
@@ -189,7 +188,7 @@ public class XmlKeyboardLoader {
 						}
 					} else if (XMLTAG_KEY.compareTo(attr) == 0) { // key
 						if (null == softKeyboard) {
-							OPENLOG.E(TAG, "XMLTAG_KEY softKeyboard null");
+							OPENLOG.E("XMLTAG_KEY softKeyboard null");
 							return null;
 						}
 						if (!attrKey.getAttributes(attrRow)) {
@@ -216,14 +215,14 @@ public class XmlKeyboardLoader {
 				int height = (int) ((mSaveKeyYPos)); // + (2 * attrSkb.mKeyTopPadding));
 				softKeyboard.setHeight(height);
 			}
-			OPENLOG.D(TAG, "loadKeyboard load over");
+			OPENLOG.D("loadKeyboard load over");
 			return softKeyboard;
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
-			Log.e(TAG, "loadKeyboard XmlPullParserException " + e.getMessage());
+			OPENLOG.E("loadKeyboard XmlPullParserException " + e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
-			Log.e(TAG, "loadKeyboard IOException " + e.getMessage());
+			OPENLOG.E("loadKeyboard IOException " + e.getMessage());
 		} finally {
 			if (xrp != null)
 				xrp.close();

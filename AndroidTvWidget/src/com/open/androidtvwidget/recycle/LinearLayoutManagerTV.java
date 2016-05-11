@@ -5,26 +5,22 @@ import com.open.androidtvwidget.utils.OPENLOG;
 import android.content.Context;
 import android.graphics.Rect;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 
-/**
- * 修复 GridLayoutManager 焦点错乱问题.
- */
-public class GridLayoutManagerTV extends GridLayoutManager {
-
-	public GridLayoutManagerTV(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+public class LinearLayoutManagerTV extends LinearLayoutManager {
+	
+	public LinearLayoutManagerTV(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		init(context);
 	}
 
-	public GridLayoutManagerTV(Context context, int spanCount) {
-		super(context, spanCount);
+	public LinearLayoutManagerTV(Context context) {
+		super(context);
 		init(context);
 	}
 
@@ -106,9 +102,10 @@ public class GridLayoutManagerTV extends GridLayoutManager {
 						} else if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
 						}
 					}
+
 					@Override
 					public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//						parent.post(mSelectionNotifier);
+						// parent.post(mSelectionNotifier);
 					}
 				});
 				isFirst = false;
@@ -148,15 +145,15 @@ public class GridLayoutManagerTV extends GridLayoutManager {
 	public void setBottomPadding(int bottomPadding) {
 		this.mBottomPadding = bottomPadding;
 	}
-	
+
 	public void setLeftPadding(int leftPadding) {
 		this.mLeftPadding = leftPadding;
 	}
-	
+
 	public void setRightPadding(int rightPadding) {
 		this.mRightPadding = rightPadding;
 	}
-	
+
 	private void fireOnSelected() {
 		if (mChildSelectedListener != null) {
 			int pos = getPosition(getSelectedView());
@@ -168,5 +165,4 @@ public class GridLayoutManagerTV extends GridLayoutManager {
 	public void setOnChildSelectedListener(OnChildSelectedListener listener) {
 		mChildSelectedListener = listener;
 	}
-
 }

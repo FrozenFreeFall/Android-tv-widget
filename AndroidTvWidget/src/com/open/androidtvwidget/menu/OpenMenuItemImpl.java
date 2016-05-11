@@ -12,13 +12,13 @@ public class OpenMenuItemImpl implements OpenMenuItem {
 	// private final int mOrdering;
 	private int mTextSize = DEFAULT_TEXT_SIZE;
 	private CharSequence mTitle;
-	private OpenMenuBuilder mMenu;
+	private OpenMenu mMenu;
 	private OpenSubMenu mSubMenu;
 	private Drawable mIconDrawable;
 	private int mIconResId;
 	// private int mShowAsAction;
 
-	OpenMenuItemImpl(OpenMenuBuilder menu, int group, int id, int categoryOrder, int ordering, CharSequence title,
+	OpenMenuItemImpl(OpenMenu menu, int group, int id, int categoryOrder, int ordering, CharSequence title,
 			int showAsAction) {
 		mMenu = menu;
 		mId = id;

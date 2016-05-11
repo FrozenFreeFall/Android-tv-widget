@@ -9,6 +9,7 @@
     android:clipToPadding="false" >
 
     <com.open.androidtvwidget.view.SmoothHorizontalScrollView
+        android:id="@+id/hscroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
@@ -21,11 +22,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingRight="80dp" >
-
-            <!-- 鼠标第一次无法点击，可以去掉 android:focusableInTouchMode="true" -->
-
-            <com.open.androidtvwidget.view.ReflectItemView
+			
+            <!-- 小人超出测试Item -->
+            <FrameLayout
                 android:id="@+id/gridview_lay"
+                android:focusableInTouchMode="true"
                 android:layout_width="@dimen/px840"
                 android:layout_height="@dimen/px394"
                 android:layout_marginLeft="@dimen/px96"
@@ -73,7 +74,7 @@
                     android:layout_height="@dimen/px350"
                     android:scaleType="fitXY"
                     android:src="@drawable/top_test_bg" />
-            </com.open.androidtvwidget.view.ReflectItemView>
+            </FrameLayout>
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/listview_lay"
@@ -82,8 +83,8 @@
                 android:layout_marginLeft="@dimen/px96"
                 android:layout_marginTop="@dimen/px630"
                 android:clickable="true"
-                android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:focusable="true"
                 app:isReflect="true"
                 app:isShape="true" >
 
@@ -111,8 +112,8 @@
                 android:layout_marginLeft="@dimen/px1412"
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
-                android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:focusable="true"
                 app:isReflect="true"
                 app:isShape="true" >
 
@@ -139,8 +140,8 @@
                 android:layout_marginLeft="@dimen/px968"
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
-                android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:focusable="true"
                 app:isReflect="true"
                 app:isShape="true"
                 app:radius="@dimen/px20" >
@@ -182,8 +183,8 @@
                 android:layout_marginLeft="@dimen/px532"
                 android:layout_marginTop="@dimen/px630"
                 android:clickable="true"
-                android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:focusable="true"
                 app:isReflect="true"
                 app:isShape="true" >
 
@@ -212,8 +213,8 @@
                 android:layout_marginLeft="@dimen/px1858"
                 android:layout_marginTop="@dimen/px204"
                 android:clickable="true"
-                android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:focusable="true"
                 app:isShape="true" >
 
                 <ImageView
@@ -242,8 +243,8 @@
                 android:layout_marginLeft="@dimen/px1858"
                 android:layout_marginTop="@dimen/px550"
                 android:clickable="true"
-                android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:focusable="true"
                 app:isReflect="true"
                 app:isShape="true" >
 

@@ -18,7 +18,7 @@ import android.widget.TextView;
  * 
  * @author hailongqiu 356752238@qq.com
  */
-public class OpenListMenuItemView extends LinearLayout implements OpenMenuView.ItemView {
+public class OpenMenuViewItem extends LinearLayout implements IOpenMenuView.ItemView {
 
 	private OpenMenuItemImpl mItemData;
 	private int mMenuType;
@@ -30,11 +30,11 @@ public class OpenListMenuItemView extends LinearLayout implements OpenMenuView.I
 
 	private LayoutInflater mInflater;
 
-	public OpenListMenuItemView(Context context) {
+	public OpenMenuViewItem(Context context) {
 		super(context);
 	}
 
-	public OpenListMenuItemView(Context context, AttributeSet attrs) {
+	public OpenMenuViewItem(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 

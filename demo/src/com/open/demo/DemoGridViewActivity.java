@@ -63,23 +63,17 @@ public class DemoGridViewActivity extends Activity {
 
 		gridView = (GridView) findViewById(R.id.gridView);
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
-		
-		/**
-		 * android 4.2有问题.
-		 * 需要使用EffectNoDrawBridge.
-		 */
-		if (Utils.getSDKVersion() == 17) {
-			mainUpView1.setEffectBridge(new EffectNoDrawBridge()); // 4.3以下版本边框移动.
-			EffectNoDrawBridge bridget = (EffectNoDrawBridge) mainUpView1.getEffectBridge();
-			bridget.setTranDurAnimTime(200);
-		} 
-		
+		// 建议使用 NoDraw.
+		mainUpView1.setEffectBridge(new EffectNoDrawBridge()); 
+		EffectNoDrawBridge bridget = (EffectNoDrawBridge) mainUpView1.getEffectBridge();
+		bridget.setTranDurAnimTime(200);
+		// 设置移动边框的图片.
 		mainUpView1.setUpRectResource(R.drawable.white_light_10);
-		// test 移动方框缩小的距离.
-		mainUpView1.setDrawUpRectPadding(new Rect(-12, -12, -12, -65));
-//		mainUpView1.setDrawUpRectPadding(new Rect(10, 10, 10, -55)); // EffectNoDrawbridge的误差间距设置.
-		
+		// 移动方框缩小的距离.
+		mainUpView1.setDrawUpRectPadding(new Rect(10, 10, 10, -55)); 
+		// 加载数据.
 		getData(200);
+		//
 		updateGridViewAdapter();
 		gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
 		//
