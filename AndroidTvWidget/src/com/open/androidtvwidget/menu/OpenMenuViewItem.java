@@ -20,7 +20,7 @@ import android.widget.TextView;
  */
 public class OpenMenuViewItem extends LinearLayout implements IOpenMenuView.ItemView {
 
-	private OpenMenuItemImpl mItemData;
+	private IOpenMenuItem mItemData;
 	private int mMenuType;
 
 	private ImageView mIconView;
@@ -45,7 +45,7 @@ public class OpenMenuViewItem extends LinearLayout implements IOpenMenuView.Item
 	}
 
 	@Override
-	public void initialize(OpenMenuItemImpl itemData, int menuType) {
+	public void initialize(IOpenMenuItem itemData, int menuType) {
 		this.mItemData = itemData;
 		//
 		setTitle(itemData.getTitle());

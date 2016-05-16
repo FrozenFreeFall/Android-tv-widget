@@ -4,6 +4,9 @@
 
 QQ群：522186932
 
+![运行DEMO](https://git.oschina.net/hailongqiu/AndroidTVWidget/raw/master/doc/demo.gif?dir=0&filepath=doc%2Fdemo.gif&oid=f30160b097d319e464d106b39c6b5414acc9fdac&sha=9de6aa98d14c3c80d88f4dfb93a5064ba2614a81 "在这里输入图片标题")
+
+
 ## 整体目录结构
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/0505/155301_21a6621f_111902.png "在这里输入图片标题")

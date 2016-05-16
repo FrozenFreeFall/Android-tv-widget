@@ -7,6 +7,16 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 
+/**
+ * 当你使用滚动窗口焦点错乱的时候，就可以使用这个控件.
+ * <p>
+ * 使用方法和滚动窗口是一样的，具体查看DEMO吧.
+ * <p>
+ * 如果想改变滚动的系数，R.dimen.fading_edge
+ * <p>
+ * 
+ * @author hailongqiu
+ */
 public class SmoothVorizontalScrollView extends ScrollView {
 
 	public SmoothVorizontalScrollView(Context context) {
@@ -17,8 +27,7 @@ public class SmoothVorizontalScrollView extends ScrollView {
 		super(context, attrs, 0);
 	}
 
-	public SmoothVorizontalScrollView(Context context, AttributeSet attrs,
-			int defStyle) {
+	public SmoothVorizontalScrollView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
@@ -29,8 +38,7 @@ public class SmoothVorizontalScrollView extends ScrollView {
 		int height = getHeight();
 		int screenTop = getScrollY();
 		int screenBottom = screenTop + height;
-		int fadingEdge = this.getResources().getDimensionPixelSize(
-				R.dimen.fading_edge);
+		int fadingEdge = this.getResources().getDimensionPixelSize(R.dimen.fading_edge);
 		if (rect.top > 0) {
 			screenTop += fadingEdge;
 		}
@@ -58,5 +66,5 @@ public class SmoothVorizontalScrollView extends ScrollView {
 		}
 		return scrollYDelta;
 	}
-	
+
 }

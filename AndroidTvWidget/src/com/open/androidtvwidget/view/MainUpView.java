@@ -263,7 +263,7 @@ public class MainUpView extends FrameLayout {
 	}
 
 	/**
-	 * 焦点控件处理.
+	 * 移动到 view的位置，并且放大 view.
 	 * 
 	 * @param newView
 	 *            新焦点View
@@ -278,7 +278,7 @@ public class MainUpView extends FrameLayout {
 	}
 
 	/**
-	 * FocusView处理.
+	 * 移动到 view的位置，并且放大 view.
 	 * 
 	 * @param view
 	 * @param scale
@@ -289,7 +289,7 @@ public class MainUpView extends FrameLayout {
 	}
 
 	/**
-	 * 
+	 * 移动到 view的位置，并且放大 view.
 	 * @param view
 	 * @param scaleX
 	 *            X放大比例
@@ -327,6 +327,8 @@ public class MainUpView extends FrameLayout {
 
 	/**
 	 * 设置EffectBridge.
+	 * BaseEffectBridge 处理了边框的移动，边框的绘制.
+	 * 具体查看 BaseEffectBridge 类.
 	 */
 	public void setEffectBridge(BaseEffectBridge effectBridge) {
 		this.mEffectBridge = effectBridge;

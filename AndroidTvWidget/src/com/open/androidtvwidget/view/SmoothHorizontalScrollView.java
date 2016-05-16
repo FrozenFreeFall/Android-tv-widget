@@ -5,11 +5,19 @@ import com.open.androidtvwidget.R;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.widget.HorizontalScrollView;
 
+/**
+ * 当你使用滚动窗口焦点错乱的时候，就可以使用这个控件.
+ * <p>
+ * 使用方法和滚动窗口是一样的，具体查看DEMO吧.
+ * <p>
+ * 如果想改变滚动的系数，R.dimen.fading_edge
+ * <p>
+ * 
+ * @author hailongqiu
+ *
+ */
 public class SmoothHorizontalScrollView extends HorizontalScrollView {
 	final String TAG = "SmoothHorizontalScrollView";
 
@@ -21,8 +29,7 @@ public class SmoothHorizontalScrollView extends HorizontalScrollView {
 		this(context, attrs, 0);
 	}
 
-	public SmoothHorizontalScrollView(Context context, AttributeSet attrs,
-			int defStyle) {
+	public SmoothHorizontalScrollView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
@@ -35,8 +42,7 @@ public class SmoothHorizontalScrollView extends HorizontalScrollView {
 		int screenLeft = getScrollX();
 		int screenRight = screenLeft + width;
 
-		int fadingEdge = this.getResources().getDimensionPixelSize(
-				R.dimen.fading_edge);
+		int fadingEdge = this.getResources().getDimensionPixelSize(R.dimen.fading_edge);
 
 		// leave room for left fading edge as long as rect isn't at very left
 		if (rect.left > 0) {
@@ -88,5 +94,5 @@ public class SmoothHorizontalScrollView extends HorizontalScrollView {
 		}
 		return scrollXDelta;
 	}
-	
+
 }

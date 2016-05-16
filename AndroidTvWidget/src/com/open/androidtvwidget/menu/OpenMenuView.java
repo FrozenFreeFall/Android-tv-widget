@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -35,14 +36,22 @@ public class OpenMenuView extends RelativeLayout {
 		mMenuListView = (ListView) findViewById(R.id.menu_listview);
 	}
 
-	public ListView getMenuListView() {
+	public View getMenuView() {
 		return mMenuListView;
 	}
 
-	public void hideListMneuView() {
+	public void hideMneuView() {
 		setVisibility(View.GONE);
 	}
 	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if (isFocused())
+			return true;
+		return super.onTouchEvent(event);
+	}
+	
+	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		int action = event.getAction();
 		if (action == KeyEvent.ACTION_DOWN) {
@@ -51,13 +60,13 @@ public class OpenMenuView extends RelativeLayout {
 			case KeyEvent.KEYCODE_DPAD_RIGHT:
 				return true;
 			case KeyEvent.KEYCODE_DPAD_LEFT:
-				hideListMneuView();
+				hideMneuView();
 				return true;
 			case KeyEvent.KEYCODE_DPAD_UP:
-				getMenuListView().dispatchKeyEvent(event);
+				getMenuView().dispatchKeyEvent(event);
 				return true;
 			case KeyEvent.KEYCODE_DPAD_DOWN:
-				getMenuListView().dispatchKeyEvent(event);
+				getMenuView().dispatchKeyEvent(event);
 				return true;
 			default:
 				break;

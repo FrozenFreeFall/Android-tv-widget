@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 public class RecyclerViewTV extends RecyclerView {
@@ -42,18 +41,18 @@ public class RecyclerViewTV extends RecyclerView {
 		mWidgetTvViewBring.bringChildToFront(this, child);
 	}
 
-	@Override
-	protected int getChildDrawingOrder(int childCount, int i) {
-		return mWidgetTvViewBring.getChildDrawingOrder(childCount, i);
-	}
-
-	@Override
-	protected void dispatchDraw(Canvas canvas) {
-		try {
-			super.dispatchDraw(canvas);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	@Override
+//	protected int getChildDrawingOrder(int childCount, int i) {
+//		return mWidgetTvViewBring.getChildDrawingOrder(childCount, i);
+//	}
+//
+//	@Override
+//	protected void dispatchDraw(Canvas canvas) {
+//		try {
+//			super.dispatchDraw(canvas);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 }

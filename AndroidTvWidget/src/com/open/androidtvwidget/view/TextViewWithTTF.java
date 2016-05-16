@@ -11,6 +11,12 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+/**
+ * 一个自定义的TextView控件.
+ * 加载 /system/font/** 下面的字库.
+ * @author hailongqiu
+ *
+ */
 public class TextViewWithTTF extends TextView {
 
     private static final TypeFaceMgr SFontMgr = new TypeFaceMgr();

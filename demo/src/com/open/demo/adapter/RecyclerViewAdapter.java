@@ -8,6 +8,7 @@ import com.open.demo.R;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<GridViewHolder> {
@@ -32,7 +33,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<GridViewHolder> {
 	@Override
 	public GridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recyclerview_view, parent, false);
+		view.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				mCb.onFocusChange(v, hasFocus);
+			}
+		});
 		return new GridViewHolder(view);
 	}
-
+	
+	OnFocusChangeListener mCb;
+	
+	public void setOnFocusChange(OnFocusChangeListener cb) {
+		this.mCb = cb;
+	}
+	
 }

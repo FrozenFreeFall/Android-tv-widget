@@ -15,7 +15,11 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 
 /**
- * 标题栏控件.
+ * 标题栏控<p>
+ * 你也可以不使用，或者用button，用TextView都可以，<p>
+ * 不过你需要处理下焦点问题. <p>
+ * TextView 可能要设置下 android:focusable="true" <p> 
+ * 可以使用 android:nextFocusRight 来控制焦点.<p>
  * 
  * @author hailongqiu
  *
