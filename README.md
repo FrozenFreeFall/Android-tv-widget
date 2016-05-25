@@ -9,15 +9,15 @@ QQ群：522186932
 
 ## 整体目录结构
 
-![输入图片说明](http://git.oschina.net/uploads/images/2016/0505/155301_21a6621f_111902.png "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0525/144035_11b9989b_111902.png "在这里输入图片标题")
+
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0525/144049_4f5dbe94_111902.png "在这里输入图片标题")
 
 *AndroidTvWidet 目录是TV开发框架的 库文件.
 
 *demo 目录是 例子.
 
 *doc 目录是存放文档的.
-
-*other_libs 目录是 AndroidTvWidget开发框架 依赖的一些库文件.
 
 *Tool 目录 是 屏幕像素转换工具.
 
