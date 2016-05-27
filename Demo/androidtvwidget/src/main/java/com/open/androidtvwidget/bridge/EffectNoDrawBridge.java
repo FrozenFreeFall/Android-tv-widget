@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
+import com.open.androidtvwidget.utils.Utils;
+
 /**
  * 为了兼容4.3以下版本的 AnimBridge. <br>
  * 使用方法： MainUpView.setAnimBridge(new AnimNoDrawBridge()); <br>
@@ -124,6 +126,18 @@ public class EffectNoDrawBridge extends OpenEffectBridge {
 				getMainUpView().setVisibility(isVisibleWidget() ? View.GONE : View.VISIBLE);
 				if (getNewAnimatorListener() != null)
 					getNewAnimatorListener().onAnimationEnd(EffectNoDrawBridge.this, focusView, animation);
+
+				// XF add（先锋TV开发(404780246)修复)
+				// BUG:5.0系统边框错位.
+				if (Utils.getSDKVersion() >= 21) {
+//					int newWidth = (int) (focusView.getMeasuredWidth() *
+//							mScaleX);
+//					int newHeight = (int) (focusView.getMeasuredHeight() *
+//							mScaleY);
+//					getMainUpView().getLayoutParams().width = newWidth;
+//					getMainUpView().getLayoutParams().height = newHeight;
+//					getMainUpView().requestLayout();
+				}
 			}
 
 			@Override

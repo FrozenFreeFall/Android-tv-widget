@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 
 /**
  * 软键盘主容器.
- * 
+ *
  * @author hailong.qiu 356752238@qq.com
  *
  */
@@ -50,6 +50,32 @@ public class SkbContainer extends RelativeLayout implements SoftKeyBoardable {
 	private void init(Context context, AttributeSet attrs) {
 		this.mContext = context;
 		View.inflate(context, R.layout.softkey_layout_view, this);
+		mSoftKeyboardView = (SoftKeyboardView) findViewById(R.id.softKeyboardView);
+	}
+
+	@Override
+	public void setSelectSofkKeyFront(boolean isFront) {
+		mSoftKeyboardView.setSelectSofkKeyFront(isFront);
+	}
+
+	@Override
+	public void setSoftKeySelectPadding(int padding) {
+		mSoftKeyboardView.setSoftKeySelectPadding(padding);
+	}
+
+	@Override
+	public void setMoveDuration(int moveDuration) {
+		mSoftKeyboardView.setMoveDuration(moveDuration);
+	}
+
+	@Override
+	public void setMoveSoftKey(boolean isMoveRect) {
+		mSoftKeyboardView.setMoveSoftKey(isMoveRect);
+	}
+
+	@Override
+	public SoftKeyboardView getSoftKeyboardView() {
+		return this.mSoftKeyboardView;
 	}
 
 	@Override
@@ -103,11 +129,22 @@ public class SkbContainer extends RelativeLayout implements SoftKeyBoardable {
 	}
 
 	@Override
+	public SoftKey getSelectKey() {
+		SoftKeyboard softKeyboard = mSoftKeyboardView.getSoftKeyboard();
+		if (softKeyboard != null)
+			return softKeyboard.getSelectSoftKey();
+		return null;
+	}
+
+	@Override
 	public boolean setKeySelected(SoftKey softKey) {
 		if (mSoftKeyboardView != null) {
 			SoftKeyboard softKeyboard = mSoftKeyboardView.getSoftKeyboard();
-			if (softKeyboard != null)
-				return softKeyboard.setOneKeySelected(softKey);
+			if (softKeyboard != null) {
+				boolean isBool = softKeyboard.setOneKeySelected(softKey);
+				mSoftKeyboardView.invalidate();
+				return isBool;
+			}
 		}
 		return false;
 	}

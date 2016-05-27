@@ -1,10 +1,9 @@
 package com.open.androidtvwidget.keyboard;
 
-import java.util.List;
-
-import com.open.androidtvwidget.keyboard.SoftKey.SaveSoftKey;
-import com.open.androidtvwidget.utils.OPENLOG;
-
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -16,6 +15,11 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
+
+import com.open.androidtvwidget.keyboard.SoftKey.SaveSoftKey;
+import com.open.androidtvwidget.utils.OPENLOG;
+
+import java.util.List;
 
 /**
  * 软键盘绘制控件.(主软键盘，弹出键盘)
@@ -133,6 +137,10 @@ public class SoftKeyboardView extends View {
 	 * 绘制键值.
 	 */
 	private void drawSoftKey(Canvas canvas, SoftKey softKey, boolean isDrawState) {
+		if (softKey == null) {
+			OPENLOG.E("softKey is null...");
+			return;
+		}
 		// 绘制按键背景.
 		drawSoftKeyBg(canvas, softKey);
 		// 绘制选中状态.
@@ -143,6 +151,12 @@ public class SoftKeyboardView extends View {
 			if (softKey.isKeyPressed()) {
 				drawSoftKeyPressState(canvas, softKey);
 			}
+		}
+		// 绘制选中状态 and 选中边框最前面.
+		// BUG(避免重复绘制) 主要用于挡住文字的，在绘制一次而已.
+		// 如果是透明的选中背景，那就不需要再重复绘制一次文字或者图标了.
+		if (isDrawState && mIsFront) {
+			return;
 		}
 		// 绘制按键内容.
 		String keyLabel = softKey.getKeyLabel();
@@ -195,7 +209,8 @@ public class SoftKeyboardView extends View {
 	private void drawSoftKeyBg(Canvas canvas, SoftKey softKey) {
 		Drawable bgDrawable = softKey.getKeyBgDrawable();
 		if (bgDrawable != null) {
-			bgDrawable.setBounds(softKey.getRect());
+			Rect rect = softKey.getRect();
+			bgDrawable.setBounds(rect);
 			bgDrawable.draw(canvas);
 		}
 	}
@@ -206,7 +221,10 @@ public class SoftKeyboardView extends View {
 	private void drawSoftKeySelectState(Canvas canvas, SoftKey softKey) {
 		Drawable selectDrawable = softKey.getKeySelectDrawable();
 		if (selectDrawable != null) {
-			selectDrawable.setBounds(softKey.getRect());
+			Rect rect = mIsMoveRect ? softKey.getMoveRect() : softKey.getRect();
+			int padding = this.mSelectBgPadding;
+			rect = new Rect(rect.left - padding, rect.top - padding, rect.right + padding, rect.bottom + padding);
+			selectDrawable.setBounds(rect);
 			selectDrawable.draw(canvas);
 		}
 	}
@@ -226,6 +244,13 @@ public class SoftKeyboardView extends View {
 		return mSoftKeyboard;
 	}
 
+	private int mSelectBgPadding = 0;
+	/**
+	 * 设置移动边框的相差的间距.
+	 */
+	public void setSoftKeySelectPadding(int padding) {
+		this.mSelectBgPadding = padding;
+	}
 	public void setSoftKeyPress(boolean isPress) {
 		if (mSoftKeyboard == null) {
 			OPENLOG.E("setSoftKeyPress isPress:" + isPress);
@@ -444,12 +469,73 @@ public class SoftKeyboardView extends View {
 		}
 		// 刷新移动的位置.
 		if (softKey != null) {
+			SoftKey oldsoftkey = mSoftKeyboard.getSelectSoftKey();
 			mSoftKeyboard.setOneKeySelected(softKey);
 			mSoftKeyboard.setSelectRow(currentRow);
 			mSoftKeyboard.setSelectIndex(currentIndex);
-			invalidate(softKey.getRect()); // 优化绘制区域.
+			if (!mIsMoveRect) {
+				invalidate(softKey.getRect()); // 优化绘制区域.
+			} else {
+				setMoveSoftKeyAnimation(oldsoftkey, softKey); // 移动边框.
+			}
 		}
 		return true;
+	}
+
+	private void setMoveSoftKeyAnimation(SoftKey oldSoftkey, SoftKey targetSoftKey) {
+		PropertyValuesHolder valuesXHolder = PropertyValuesHolder.ofFloat("Left", oldSoftkey.getLeft(), targetSoftKey.getLeft());
+		PropertyValuesHolder valuesX1Holder = PropertyValuesHolder.ofFloat("Right", oldSoftkey.getRight(), targetSoftKey.getRight());
+		PropertyValuesHolder valuesYHolder = PropertyValuesHolder.ofFloat("Top", oldSoftkey.getTop(), targetSoftKey.getTop());
+		PropertyValuesHolder valuesY1Holder = PropertyValuesHolder.ofFloat("Bottom", oldSoftkey.getBottom(), targetSoftKey.getBottom());
+		//
+		final ObjectAnimator scaleAnimator = ObjectAnimator.ofPropertyValuesHolder(targetSoftKey, valuesXHolder, valuesX1Holder, valuesYHolder, valuesY1Holder);
+		scaleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				float left = (float) animation.getAnimatedValue("Left");
+				float top = (float) animation.getAnimatedValue("Top");
+				float right = (float) animation.getAnimatedValue("Right");
+				float bottom = (float) animation.getAnimatedValue("Bottom");
+				SoftKey softKey = (SoftKey) scaleAnimator.getTarget();
+				softKey.setMoveLeft(left);
+				softKey.setMoveTop(top);
+				softKey.setMoveRight(right);
+				softKey.setMoveBottom(bottom);
+				postInvalidate();
+			}
+		});
+		AnimatorSet animatorSet = new AnimatorSet();
+		animatorSet.playTogether(scaleAnimator);
+		animatorSet.setDuration(mMoveDuration);
+		animatorSet.start();
+	}
+
+	private static final int DEFAULT_MOVE_DURATION = 300;
+	private boolean mIsMoveRect = false;
+	private int mMoveDuration = DEFAULT_MOVE_DURATION;
+	private boolean mIsFront = false;
+
+	/**
+	 * 设置按键边框的移动时间.
+     */
+	public void setMoveDuration(int moveDuration) {
+		this.mMoveDuration = moveDuration;
+	}
+
+	/**
+	 * 是否移动按键的边框.
+     */
+	public void setMoveSoftKey(boolean isMoveRect) {
+		this.mIsMoveRect = isMoveRect;
+	}
+
+	/**
+	 * 设置选中的按键边框在最前面还是最后面
+	 * @param isFront true 最前面, false 反之 (默认为 false).
+     */
+	public void setSelectSofkKeyFront(boolean isFront) {
+		this.mIsFront = isFront;
+		postInvalidate();
 	}
 
 }

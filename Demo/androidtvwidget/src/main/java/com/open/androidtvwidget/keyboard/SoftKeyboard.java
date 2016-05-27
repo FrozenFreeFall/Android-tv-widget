@@ -170,8 +170,9 @@ public class SoftKeyboard {
 	 * 如狼(470502943) 修复崩溃并添加取消按键高亮问题.
 	 */
 	public boolean setOneKeySelected(SoftKey softKey) {
-		if (softKey == null || mSelectSoftKey != null) {
+		if (softKey == null && mSelectSoftKey != null) {
 			mSelectSoftKey.setKeySelected(false);
+			return false;
 		}
 		softKey.setKeySelected(true);
 		mSelectSoftKey = softKey; // 保存被选中的按键.

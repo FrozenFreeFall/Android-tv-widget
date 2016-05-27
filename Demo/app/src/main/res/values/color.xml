@@ -2,7 +2,6 @@
 <resources>
     
     <color name="white_50">#7fffffff</color>
-    
     <color name="transparent">#00000000</color><!--透明色 -->
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="ivory">#FFFFF0</color><!--象牙色 -->
@@ -144,5 +143,6 @@
     <color name="black">#000000</color><!--黑色 -->
     <color name="grassgreen">#99cc33</color><!--草绿色 -->
     <color name="gray_cc">#cccccc</color><!--灰色cc -->
-    <color name="gray_8f">#8f8f8f</color><!--灰色8f -->
+    <color name="gray_8f">#8f8f8f</color><!--灰色8f -->
+
 </resources>

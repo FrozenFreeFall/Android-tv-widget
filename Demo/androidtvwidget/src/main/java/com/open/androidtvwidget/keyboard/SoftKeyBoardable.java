@@ -8,7 +8,31 @@ import android.view.KeyEvent;
  *
  */
 public interface SoftKeyBoardable {
-	
+
+	/**
+	 * 设置选中的按键边框在最前面还是最后面
+	 * @param isFront true 最前面, false 反之 (默认为 false).
+	 */
+	public void setSelectSofkKeyFront(boolean isFront);
+
+	/**
+	 * 设置移动边框和按键背景相差的间距.
+     */
+	public void setSoftKeySelectPadding(int padding);
+
+	/**
+	 * 设置移动边框的时间.
+     */
+	public void setMoveDuration(int moveDuration);
+
+	/**
+	 * 设置移动边框的标志位.
+	 * @param isMoveRect  true : 移动 false ： 反之.
+     */
+	public void setMoveSoftKey(boolean isMoveRect);
+
+	public SoftKeyboardView getSoftKeyboardView();
+
 	/**
 	 * 链接键盘事件处理.
 	 * @param cb
@@ -34,7 +58,8 @@ public interface SoftKeyBoardable {
 	 */
 	public boolean setKeySelected(SoftKey softKey);
 	public void setDefualtSelectKey(int row, int index);
-	
+	public SoftKey getSelectKey();
+
 	/**
 	 * 外部处理按键事件.
 	 * @param keyCode

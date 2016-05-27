@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- T9键盘 -->
+<Keyboard
+    bg_res="@drawable/main_bg"
+    key_left_padding="@dimen/px10"
+    key_bg_res="@drawable/key_bg_rectangle"
+    key_press_res="@drawable/softkey_bg_press2"
+    key_select_res="@drawable/softkey_bg_select2"
+    key_text_color="#b8bbbf"
+    key_text_size="@dimen/px30"
+    key_top_padding="@dimen/px10"
+    key_height="@dimen/px70"
+    key_width="@dimen/px70"
+    start_pos_x="@dimen/px240"
+    start_pos_y="@dimen/px20"
+    left_right_move="false"
+    top_bottom_move="false" >
+
+    <!-- 第一行 -->
+    <row>
+        <!-- 删除 -->
+        <key
+            key_code="@string/keycode_del"
+            key_icon="@drawable/delete" />
+        <!-- 删除 -->
+        <key
+            key_left_padding="@dimen/px250"
+            key_code="@string/keycode_del"
+            key_icon="@drawable/delete" />
+    </row>
+
+    <!-- 第二行 -->
+    <row>
+        <keys
+            labels="A|B|C|D|E"
+            splitter="|" />
+    </row>
+
+    <!-- 第三行 -->
+    <row>
+        <keys
+            labels="F|G|H|I|J"
+            splitter="|" />
+    </row>
+
+    <!-- 第四行 -->
+    <row>
+        <keys
+            labels="U|V|W|X|Y"
+            splitter="|" />
+    </row>
+
+    <row>
+        <key
+            key_label="Z" />
+        <!-- 123数字切换 -->
+        <key
+            key_code="250"
+            key_icon="@drawable/quit_skb" />
+        <!-- 删除 -->
+        <key
+            key_code="@string/keycode_del"
+            key_icon="@drawable/delete" />
+    </row>
+
+</Keyboard>

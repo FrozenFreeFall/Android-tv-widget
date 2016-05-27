@@ -4,7 +4,7 @@
     android:id="@+id/content11"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mainbackground"
+    android:background="@drawable/main_bg"
     android:clipChildren="false"
     android:clipToPadding="false" >
 
@@ -39,7 +39,7 @@
                     android:layout_width="@dimen/px840"
                     android:layout_height="@dimen/px354"
                     android:layout_marginTop="@dimen/px40"
-                    app:radius="@dimen/px10" 
+                    app:radius="@dimen/px10"
                     app:isShape="true" >
 
                     <ImageView

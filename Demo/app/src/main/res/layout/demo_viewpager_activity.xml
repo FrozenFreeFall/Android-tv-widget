@@ -3,7 +3,7 @@
     android:id="@+id/vp_main_lay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mainbackground"
+    android:background="@drawable/main_bg"
     android:clipChildren="false"
     android:clipToPadding="false" >
 

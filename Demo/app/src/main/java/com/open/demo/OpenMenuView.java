@@ -143,7 +143,7 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
             lv.setDividerHeight(0);
             lv.setCacheColorHint(0);
             lv.setDivider(null);
-//            lv.setSelector(null);
+            lv.setSelector(R.drawable.nocolor);
         }
         // 设置 adpater.
         absListView.setAdapter(new MenuAdpater(openMenu, items));

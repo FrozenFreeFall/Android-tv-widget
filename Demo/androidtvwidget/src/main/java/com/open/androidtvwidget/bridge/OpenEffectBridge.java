@@ -1,5 +1,6 @@
 package com.open.androidtvwidget.bridge;
 
+import com.open.androidtvwidget.utils.Utils;
 import com.open.androidtvwidget.view.MainUpView;
 
 import android.animation.Animator;
@@ -196,16 +197,18 @@ public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 				getMainUpView().setVisibility(mIsHide ? View.INVISIBLE : View.VISIBLE);
 				if (mNewAnimatorListener != null)
 					mNewAnimatorListener.onAnimationEnd(OpenEffectBridge.this, focusView, animation);
-				
+
 				// XF add（先锋TV开发(404780246)修复)
 				// BUG:5.0系统边框错位.
-				// int newWidth = (int) (focusView.getMeasuredWidth() *
-				// mScaleX);
-				// int newHeight = (int) (focusView.getMeasuredHeight() *
-				// mScaleY);
-				// getMainUpView().getLayoutParams().width = newWidth;
-				// getMainUpView().getLayoutParams().height = newHeight;
-				// getMainUpView().requestLayout();
+				if (Utils.getSDKVersion() >= 21) {
+//					int newWidth = (int) (focusView.getMeasuredWidth() *
+//							mScaleX);
+//					int newHeight = (int) (focusView.getMeasuredHeight() *
+//							mScaleY);
+//					getMainUpView().getLayoutParams().width = newWidth;
+//					getMainUpView().getLayoutParams().height = newHeight;
+//					getMainUpView().requestLayout();
+				}
 			}
 
 			@Override

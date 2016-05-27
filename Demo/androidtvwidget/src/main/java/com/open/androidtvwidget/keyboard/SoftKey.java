@@ -23,6 +23,12 @@ public class SoftKey {
 	private float mRightF;
 	private float mTopF;
 	private float mBottomF;
+	// 移动的存储 (避免和LeftF冲突，因为要绘制文字和其它的东西)
+	private float mMoveLeftF;
+	private float mMoveRightF;
+	private float mMoveTopF;
+	private float mMoveBottomF;
+
 	private float mTextSize; // 字体大小.
 	private int mTextColor; // 字体颜色.
 
@@ -162,12 +168,27 @@ public class SoftKey {
 		return new Rect((int) mLeftF, (int) mTopF, (int) mRightF, (int) mBottomF);
 	}
 
+	public Rect getMoveRect() {
+		return new Rect((int) mMoveLeftF, (int) mMoveTopF, (int) mMoveRightF, (int) mMoveBottomF);
+	}
+
+	public RectF getMoveRectF() {
+		return new RectF(mMoveLeftF, mMoveTopF, mMoveRightF, mMoveBottomF);
+	}
+
 	public float getLeftF() {
 		return mLeftF;
 	}
 
 	public int getLeft() {
 		return (int) this.mLeftF;
+	}
+
+	public void setMoveLeft(float left) {
+		this.mMoveLeftF = left;
+	}
+	public int getMoveLeft() {
+		return (int) this.mMoveLeftF;
 	}
 
 	public float getRightF() {
@@ -178,6 +199,13 @@ public class SoftKey {
 		return (int) this.mRightF;
 	}
 
+	public void setMoveRight(float right) {
+		this.mMoveRightF = right;
+	}
+	public int getMoveRight() {
+		return (int) this.mMoveRightF;
+	}
+
 	public float getTopF() {
 		return mTopF;
 	}
@@ -186,12 +214,26 @@ public class SoftKey {
 		return (int) this.mTopF;
 	}
 
+	public void setMoveTop(float top) {
+		this.mMoveTopF = top;
+	}
+	public int getMoveTop() {
+		return (int) this.mMoveTopF;
+	}
+
 	public float getBottomF() {
 		return mBottomF;
 	}
 
 	public int getBottom() {
 		return (int) this.mBottomF;
+	}
+
+	public void setMoveBottom(float bottom) {
+		this.mMoveBottomF = bottom;
+	}
+	public int getMoveBottom() {
+		return (int) this.mMoveBottomF;
 	}
 
 	public float getWidth() {
@@ -203,10 +245,10 @@ public class SoftKey {
 	}
 
 	public void setKeyDimensions(float left, float top, float right, float bottom) {
-		mLeftF = left;
-		mTopF = top;
-		mRightF = right;
-		mBottomF = bottom;
+		mLeftF = mMoveLeftF = left;
+		mTopF = mMoveTopF = top;
+		mRightF = mMoveRightF = right;
+		mBottomF = mMoveBottomF = bottom;
 	}
 
 	public void setKeyLabel(String label) {

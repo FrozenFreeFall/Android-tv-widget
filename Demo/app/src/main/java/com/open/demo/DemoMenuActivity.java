@@ -47,7 +47,7 @@ public class DemoMenuActivity extends Activity {
 		setContentView(R.layout.demo_menu_activity);
 		// test_hscroll = (SmoothHorizontalScrollView)
 		// findViewById(R.id.test_hscroll);
-		findViewById(R.id.content11).setBackgroundResource(R.drawable.mainbackground);
+		findViewById(R.id.content11).setBackgroundResource(R.drawable.main_bg);
 		findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
