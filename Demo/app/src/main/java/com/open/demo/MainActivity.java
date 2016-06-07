@@ -41,6 +41,7 @@ public class MainActivity extends Activity implements OnClickListener {
         /* MainUpView 设置. */
         mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
         // mainUpView1 = new MainUpView(this); // 手动添加(test)
+        // mainUpView1.attach2Window(this); // 手动添加(test)
         mOpenEffectBridge = (OpenEffectBridge) mainUpView1.getEffectBridge();
         // 4.2 绘制有问题，所以不使用绘制边框.
         // 也不支持倒影效果，绘制有问题.

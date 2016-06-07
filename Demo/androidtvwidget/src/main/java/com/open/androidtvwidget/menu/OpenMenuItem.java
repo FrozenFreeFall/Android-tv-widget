@@ -8,11 +8,11 @@ public class OpenMenuItem implements IOpenMenuItem {
 	private int mTextSize = DEFAULT_TEXT_SIZE;
 	private Object mData;
 	private CharSequence mTitle;
-	private OpenMenu mMenu;
-	private OpenSubMenu mSubMenu;
+	private IOpenMenu mMenu;
+	private IOpenMenu mSubMenu;
 	private Drawable mIconDrawable;
 	
-	OpenMenuItem(OpenMenu menu, int id, CharSequence title) {
+	OpenMenuItem(IOpenMenu menu, int id, CharSequence title) {
 		this.mMenu = menu;
 		this.mId = id;
 		this.mTitle = title;
@@ -41,12 +41,12 @@ public class OpenMenuItem implements IOpenMenuItem {
 	}
 
 	@Override
-	public OpenSubMenu getSubMenu() {
+	public IOpenMenu getSubMenu() {
 		return mSubMenu;
 	}
 	
 	@Override
-	public IOpenMenuItem setSubMenu(OpenSubMenu subMenu) {
+	public IOpenMenuItem setSubMenu(IOpenMenu subMenu) {
         mSubMenu = subMenu;
         return this;
     }

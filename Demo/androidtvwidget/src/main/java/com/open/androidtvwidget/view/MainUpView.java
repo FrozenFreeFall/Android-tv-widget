@@ -96,16 +96,13 @@ public class MainUpView extends FrameLayout {
 
 	public MainUpView(Context context) {
 		super(context, null, 0);
-		if (context != null && context instanceof Activity) {
-			attach2Window((Activity) context);
-		}
 		init(context, null);
 	}
 
 	/**
 	 * 手动添加，不在XML添加的话.
 	 */
-	private void attach2Window(Activity activity) {
+	public void attach2Window(Activity activity) {
 		ViewGroup rootView = (ViewGroup) activity.findViewById(Window.ID_ANDROID_CONTENT);
 		ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);

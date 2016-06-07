@@ -49,9 +49,9 @@ public interface IOpenMenuItem {
 	/**
 	 * 保存子菜单.
 	 */
-	public IOpenMenuItem setSubMenu(OpenSubMenu subMenu);
+	public IOpenMenuItem setSubMenu(IOpenMenu subMenu);
 
-	public OpenSubMenu getSubMenu();
+	public IOpenMenu getSubMenu();
 
 	/**
 	 * 判断子菜单是否存在.

@@ -41,7 +41,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="全键盘" />
-        
+
+        <Button
+            android:id="@+id/t9_key_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="T9键盘" />
     </LinearLayout>
 
 </LinearLayout>

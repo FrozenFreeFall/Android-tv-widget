@@ -99,6 +99,11 @@ public class SkbContainer extends RelativeLayout implements SoftKeyBoardable {
 	}
 
 	@Override
+	public int getSkbLayoutId() {
+		return this.mSkbLayout;
+	}
+
+	@Override
 	public void setSoftKeyboard(SoftKeyboard softSkb) {
 		mSoftKeyboardView = (SoftKeyboardView) findViewById(R.id.softKeyboardView);
 		mSoftKeyboardView.setSoftKeyboard(softSkb);

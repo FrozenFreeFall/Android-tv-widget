@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_menu_flay"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:layout_width="match_parent"
@@ -12,12 +13,10 @@
         android:background="#00000000"
         android:orientation="horizontal">
 
+        <!-- 这里插入菜单 listview或者gridview -->
+
     </LinearLayout>
 
-    <!-- 最顶层的移动方框-->
-    <com.open.androidtvwidget.view.MainUpView
-        android:id="@+id/main_up_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <!-- 这里插入移动的边框-->
 
 </FrameLayout>

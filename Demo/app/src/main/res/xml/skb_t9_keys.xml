@@ -4,13 +4,12 @@
     bg_res="@drawable/main_bg"
     key_left_padding="@dimen/px10"
     key_bg_res="@drawable/key_bg_rectangle"
-    key_press_res="@drawable/softkey_bg_press2"
-    key_select_res="@drawable/softkey_bg_select2"
+    key_select_res="@drawable/white_light_10"
     key_text_color="#b8bbbf"
     key_text_size="@dimen/px30"
     key_top_padding="@dimen/px10"
-    key_height="@dimen/px70"
-    key_width="@dimen/px70"
+    key_height="@dimen/px100"
+    key_width="@dimen/px100"
     start_pos_x="@dimen/px240"
     start_pos_y="@dimen/px20"
     left_right_move="false"
@@ -18,48 +17,55 @@
 
     <!-- 第一行 -->
     <row>
-        <!-- 删除 -->
         <key
-            key_code="@string/keycode_del"
-            key_icon="@drawable/delete" />
-        <!-- 删除 -->
+            key_code="1251"
+            key_icon="@drawable/t9_key1" />
         <key
-            key_left_padding="@dimen/px250"
-            key_code="@string/keycode_del"
-            key_icon="@drawable/delete" />
+            key_code="1252"
+            key_icon="@drawable/t9_key2" />
+        <key
+            key_code="1253"
+            key_icon="@drawable/t9_key3" />
     </row>
 
     <!-- 第二行 -->
     <row>
-        <keys
-            labels="A|B|C|D|E"
-            splitter="|" />
+        <key
+            key_code="1254"
+            key_icon="@drawable/t9_key4" />
+        <key
+            key_code="1255"
+            key_icon="@drawable/t9_key5" />
+        <key
+            key_code="1256"
+            key_icon="@drawable/t9_key6" />
     </row>
 
     <!-- 第三行 -->
     <row>
-        <keys
-            labels="F|G|H|I|J"
-            splitter="|" />
+        <key
+            key_code="1257"
+            key_icon="@drawable/t9_key7" />
+        <key
+            key_code="1258"
+            key_icon="@drawable/t9_key8" />
+        <key
+            key_code="1259"
+            key_icon="@drawable/t9_key9" />
     </row>
 
     <!-- 第四行 -->
     <row>
-        <keys
-            labels="U|V|W|X|Y"
-            splitter="|" />
-    </row>
-
-    <row>
+        <!-- 删除-->
         <key
-            key_label="Z" />
-        <!-- 123数字切换 -->
+            key_code="1260"
+            key_icon="@drawable/delete" />
         <key
-            key_code="250"
-            key_icon="@drawable/quit_skb" />
-        <!-- 删除 -->
+            key_code="1250"
+            key_icon="@drawable/t9_key0" />
+        <!-- 清除-->
         <key
-            key_code="@string/keycode_del"
+            key_code="1261"
             key_icon="@drawable/delete" />
     </row>
 

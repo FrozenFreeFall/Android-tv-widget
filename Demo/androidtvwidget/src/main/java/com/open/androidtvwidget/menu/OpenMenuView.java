@@ -1,7 +1,6 @@
-package com.open.demo;
+package com.open.androidtvwidget.menu;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.view.KeyEvent;
@@ -18,18 +17,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.open.androidtvwidget.bridge.EffectNoDrawBridge;
-import com.open.androidtvwidget.menu.IOpenMenu;
-import com.open.androidtvwidget.menu.IOpenMenuItem;
-import com.open.androidtvwidget.menu.IOpenMenuView;
-import com.open.androidtvwidget.menu.OpenMenu;
-import com.open.androidtvwidget.menu.OpenSubMenu;
+import com.open.androidtvwidget.R;
 import com.open.androidtvwidget.utils.GenerateViewId;
 import com.open.androidtvwidget.utils.OPENLOG;
-import com.open.androidtvwidget.view.MainUpView;
 
 import java.util.ArrayList;
 
@@ -42,33 +36,30 @@ import java.util.ArrayList;
  *
  * @author hailongqiu
  */
+@SuppressWarnings("WrongConstant")
 public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelectedListener, OnItemClickListener {
 
     private static final int DEFUALT_MENU_WIDTH = 200;
-    private static final float DEFAULT_SCALE = 1.0f;
     //
     private Context mContext;
-    private boolean isRemoveFloatLat = false;
-    private float mScaleX = DEFAULT_SCALE;
-    private float mScaleY = DEFAULT_SCALE;
+    private boolean isRemoveFloatLat = true;
+    private boolean isInitWindowMenu = false;
     // 定义浮动窗口布局
     private View mMainMenuView;
     private LinearLayout mFloatLayout;
+    private FrameLayout mMainMenuFlay;
+    private View mMoveView; // 用于保存移动VIEW.
     private LayoutParams mWmParams;
     // 创建浮动窗口设置布局参数的对象
     private WindowManager mWindowManager;
     private LayoutInflater mInflater;
     private OnMenuListener mOnMenuListener;
-    // 移动边框.
-    private MainUpView mMainUpView;
-    private View mOldView;
 
     public OpenMenuView(Context context) {
         mContext = context;
         if (mContext == null)
-            throw new AssertionError("你麻痹，你能将Context传正确么？都Null... ...");
+            throw new AssertionError("context is null");
         mInflater = LayoutInflater.from(mContext);
-        initMenuWindow();
     }
 
     private void initMenuWindow() {
@@ -92,42 +83,58 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
         // 设置悬浮窗口长宽数据
         mWmParams.width = LayoutParams.MATCH_PARENT;
         mWmParams.height = LayoutParams.MATCH_PARENT;
-        // 获取浮动窗口视图所在布局
-        initMenuChildView();
     }
 
     private void initMenuChildView() {
         mMainMenuView = mInflater.inflate(R.layout.open_menu_view, null);
-        //
-        mFloatLayout = (LinearLayout) mMainMenuView.findViewById(R.id.main_menu_lay);
-        mMainUpView = (MainUpView) mMainMenuView.findViewById(R.id.main_up_view);
-        // 添加mFloatLayout
+        mFloatLayout = (LinearLayout) mMainMenuView.findViewById(R.id.main_menu_lay); // 用于插入菜单view(listview或者gridview)
+        mMainMenuFlay = (FrameLayout) mMainMenuView.findViewById(R.id.main_menu_flay); // 用于插入移动边框.
+        // 添加整个菜单的view.
         mWindowManager.addView(mMainMenuView, mWmParams);
-        //
-        EffectNoDrawBridge effectNoDrawBridge = new EffectNoDrawBridge();
-        effectNoDrawBridge.setTranDurAnimTime(200);
-        mMainUpView.setEffectBridge(effectNoDrawBridge); // 4.3以下版本边框移动.
-        mMainUpView.setUpRectResource(R.drawable.white_light_10);
+        // 添加移动边框.
+        addMoveView();
+    }
+
+    /**
+     * 添加移动边框.
+     */
+    private void addMoveView() {
+        if (mMoveView != null) {
+            int count = mMainMenuFlay.getChildCount();
+            if (count >= 2) {
+                mMainMenuFlay.removeViewAt(count - 1);
+            }
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.width = 0;
+            layoutParams.height = 0;
+            mMainMenuFlay.addView(mMoveView, layoutParams);
+            mMainMenuFlay.requestLayout();
+        }
     }
 
     /*
      * 设置菜单数据.
      */
     @Override
-    public IOpenMenuView setMenuData(OpenMenu openMenu) {
-        if (isRemoveFloatLat) {
-            initMenuChildView();
-            isRemoveFloatLat = false;
-        }
-        setMenuDataInternal(openMenu);
+    public IOpenMenuView setMenuData(IOpenMenu openMenu) {
+        openMenu.registerDataSetObserver(mMenuSetObserver); // 注册--注册者(全局，责任链返回).
         return this;
     }
 
     @SuppressWarnings("ResourceType")
-    private AbsListView getMenuView(OpenMenu openMenu, ArrayList<IOpenMenuItem> items) {
+    private AbsListView getMenuView(IOpenMenu openMenu, ArrayList<IOpenMenuItem> items) {
         AbsListView absListView = openMenu.getMenuView();
         if (absListView == null) {
+            // absListView 为null，设置默认.
             absListView = new ListView(mContext);
+            // 设置属性(默认)
+            if (absListView instanceof ListView) {
+                ListView lv = (ListView) absListView;
+                lv.setDividerHeight(0);
+                lv.setCacheColorHint(0);
+                lv.setDivider(null);
+                lv.setSelector(R.drawable.nocolor);
+            }
         }
         final AbsListView tempAbsListView = absListView;
         // 设置ID.
@@ -137,14 +144,6 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
         LayoutAnimationController animController = openMenu.getMenuLoadAnimation();
         if (animController != null)
             absListView.setLayoutAnimation(animController);
-        // 设置属性
-        if (absListView instanceof ListView) {
-            ListView lv = (ListView) absListView;
-            lv.setDividerHeight(0);
-            lv.setCacheColorHint(0);
-            lv.setDivider(null);
-            lv.setSelector(R.drawable.nocolor);
-        }
         // 设置 adpater.
         absListView.setAdapter(new MenuAdpater(openMenu, items));
         // 设置事件
@@ -153,10 +152,10 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
         absListView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                View view = tempAbsListView.getSelectedView();
-                mMainUpView.setFocusView(view, mScaleX, mScaleY);
-                mMainUpView.setUnFocusView(mOldView);
-                mOldView = view;
+                if (mOnMenuListener != null) {
+                    View view = tempAbsListView.getSelectedView();
+                    mOnMenuListener.onMenuItemFocusChange(tempAbsListView, view);
+                }
             }
         });
         absListView.setOnItemClickListener(this);
@@ -170,8 +169,140 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
         return absListView;
     }
 
-    @SuppressWarnings("WrongConstant")
-    private void setMenuDataInternal(OpenMenu openMenu) {
+    MenuSetObserver mMenuSetObserver = new MenuSetObserver() {
+        @Override
+        public void onShow(IOpenMenu openMenu) {
+            OPENLOG.D("====onShow====");
+            // 显示菜单.
+            setMenuDataInternal(openMenu);
+        }
+
+        @Override
+        public void onHide(IOpenMenu openMenu) {
+            OPENLOG.D("====onHide====");
+            // 删除菜单.
+            hideMenu(openMenu);
+        }
+    };
+
+    /**
+     * 设置隐藏菜单.
+     */
+    private void hideMenu(IOpenMenu openMenu) {
+        AbsListView absListView = openMenu.getMenuView();
+        hideMenu(absListView);
+    }
+
+    /**
+     * 设置隐藏菜单.
+     */
+    private void hideMenu(final AbsListView absListView) {
+        if (setAbsListViewHideAnimation(absListView, new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                setMenuHideInternal(absListView);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        })) {
+            OPENLOG.D("hideMenu Animation run... ...");
+            return;
+        }
+        setMenuHideInternal(absListView);
+    }
+
+    private void setMenuHideInternal(final AbsListView absListView) {
+        int count = mFloatLayout.getChildCount();
+        int saveIndex = -1;
+        // 删除前面的菜单.
+        for (int i = 0; i < count; i++) {
+            AbsListView v = (AbsListView) mFloatLayout.getChildAt(i);
+            if (v.equals(absListView)) {
+                saveIndex = i;
+                continue;
+            } else if ((saveIndex != -1) && ((saveIndex + 1) == i)) {
+                AbsListView absListView1 = (AbsListView) mFloatLayout.getChildAt(i);
+                MenuAdpater menuAdpater = (MenuAdpater) absListView1.getAdapter();
+                IOpenMenu openMenu = menuAdpater.getOpenMenu();
+                openMenu.hideMenu();
+                break;
+            }
+        }
+        // 删除自身
+        mFloatLayout.removeView(absListView);
+        mFloatLayout.requestLayout();
+        View v = mFloatLayout.getChildAt(mFloatLayout.getChildCount() - 1);
+        if (v != null) {
+            v.setFocusable(true);
+            v.requestFocus();
+        }
+        // 判断是否已经没有了菜单.
+        count = mFloatLayout.getChildCount();
+        if (count == 0 && !isRemoveFloatLat) {
+            // 删除移动边框.
+            if (mMoveView != null) {
+                mMainMenuFlay.removeView(mMoveView);
+            }
+            // 删除多余的菜单view.(不知道有没用)
+            mFloatLayout.removeAllViews();
+            // 删除菜单主view.
+            mWindowManager.removeView(mMainMenuView);
+            isRemoveFloatLat = true;
+        }
+    }
+
+    /**
+     * 获取菜单的隐藏动画并设置动画.
+     */
+    private boolean setAbsListViewHideAnimation(AbsListView absListView, final Animation.AnimationListener cb) {
+        MenuAdpater adpater = (MenuAdpater) absListView.getAdapter();
+        IOpenMenu openMenu = adpater.getOpenMenu();
+        Animation hideAnimation = openMenu.getMenuHideAnimation();
+        if (hideAnimation != null) {
+            absListView.clearAnimation(); // 清除动画.
+            hideAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    cb.onAnimationEnd(animation);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            absListView.startAnimation(hideAnimation);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 设置显示菜单.
+     */
+    private void setMenuDataInternal(IOpenMenu openMenu) {
+        /**
+         * 如果为第一次显示出来，
+         * 需要进行初始化.
+         */
+        if (isRemoveFloatLat) {
+            if (!isInitWindowMenu) {
+                initMenuWindow();
+                isInitWindowMenu = true;
+            }
+            // 获取浮动窗口视图所在布局
+            initMenuChildView();
+            isRemoveFloatLat = false;
+        }
         ArrayList<IOpenMenuItem> items = openMenu.getMenuDatas();
         if (items != null) {
             // 获取自定义的absListView.
@@ -202,17 +333,6 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
     }
 
     /**
-     * 移除悬浮窗口的布局.
-     */
-    private void removeFloatLyaout() {
-        if (mFloatLayout != null) {
-            mFloatLayout.removeAllViews();
-            mWindowManager.removeView(mMainMenuView);
-            isRemoveFloatLat = true;
-        }
-    }
-
-    /**
      * 菜单Menu item adpater.
      *
      * @author hailongqiu
@@ -225,6 +345,10 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
         public MenuAdpater(IOpenMenu openMenu, ArrayList<IOpenMenuItem> items) {
             this.mOpenMenu = openMenu;
             this.mItems = items;
+        }
+
+        public IOpenMenu getOpenMenu() {
+            return this.mOpenMenu;
         }
 
         public void setDatas(ArrayList<IOpenMenuItem> items) {
@@ -257,39 +381,27 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
                 convertView = mInflater.inflate(mOpenMenu.getLayoutID(), parent, false);
             }
             ItemView itemView = (ItemView) convertView;
-            itemView.initialize(getItem(position), 0);
+            itemView.initialize(getItem(position));
             return convertView;
         }
 
-    }
-
-    /**
-     * 删除菜单.
-     */
-    private boolean removeMenu(View v) {
-        if (mFloatLayout.getChildCount() > 1) {
-            mFloatLayout.removeView(v);
-            mFloatLayout.requestLayout();
-            mFloatLayout.getChildAt(mFloatLayout.getChildCount() - 1).setFocusable(true);
-            mFloatLayout.getChildAt(mFloatLayout.getChildCount() - 1).requestFocus();
-        } else {
-            removeFloatLyaout();
-        }
-        return true;
     }
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         int action = event.getAction();
         if (action == KeyEvent.ACTION_DOWN) {
+            OPENLOG.D("====onKey====keyCode:" + keyCode + " event:" + event);
             switch (keyCode) {
                 case KeyEvent.KEYCODE_BACK:
-                    removeMenu(v);
+                    // 删除菜单.
+                    hideMenu((AbsListView) v);
                     return true;
                 case KeyEvent.KEYCODE_DPAD_LEFT:// 防止菜单往左边跑到其它地方.
                     // 如果为listview，左边.就消失.
                     if ((v instanceof ListView)) {
-                        removeMenu(v);
+                        // 删除菜单.(不一定)
+                        hideMenu((AbsListView) v);
                         return true;
                     }
                 case KeyEvent.KEYCODE_DPAD_RIGHT: // 防止菜单往右边跑到其它地方.
@@ -304,47 +416,17 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
         return false;
     }
 
-    private ArrayList<IOpenMenuItem> getMenuItems(AdapterView<?> parent) {
-        MenuAdpater menuAdapter = (MenuAdpater) parent.getAdapter();
-        if (menuAdapter == null) {
-            OPENLOG.E("menuAdapter is null");
-            return null;
-        }
-        ArrayList<IOpenMenuItem> items = menuAdapter.getDatas();
-        if (items == null) {
-            OPENLOG.E("items is null");
-            return null;
-        }
-        return items;
-    }
-
-    /**
-     * 获取菜单的最顶层的移动边框.
-     */
-    public MainUpView getMainUpView() {
-        return this.mMainUpView;
-    }
-
-    public OpenMenuView setScale(float scaleX, float scaleY) {
-        this.mScaleX = scaleX;
-        this.mScaleY = scaleY;
-        return this;
-    }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        // 移动边框.
-        mMainUpView.setFocusView(view, this.mScaleX, this.mScaleY);
-        mMainUpView.setUnFocusView(mOldView);
-        mOldView = view;
         // 菜单item选中事件触发.
         if (mOnMenuListener != null) {
             if (mOnMenuListener.onMenuItemSelected(parent, view, position, id))
                 return;
         }
-        // 移除之前的菜单.(bug:修复鼠标单击)
-        if (removeMenuView(parent, position))
+        // 删除前面的菜单.(bug:修复鼠标单击)
+        if (removeItemMenuFront(parent, position)) {
             return;
+        }
         // 显示菜单.
         initMenuView(parent, position);
     }
@@ -363,54 +445,72 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
             if (mOnMenuListener.onMenuItemClick(parent, view, position, id))
                 return;
         }
-        // 移除之前的菜单.(bug:修复鼠标单击)
-        if (removeMenuView(parent, position))
+        // 删除前面的菜单.(bug:修复鼠标单击)
+        if (removeItemMenuFront(parent, position)) {
             return;
+        }
         // 显示菜单.
         initMenuView(parent, position);
     }
 
     /**
-     * 在显示菜单之前，先移除前面的菜单，为了不显示多个菜单. (bug:修复鼠标单击)
+     * 删除前面的菜单.(bug:修复鼠标单击)
      */
-    private boolean removeMenuView(AdapterView<?> parent, int position) {
+    private boolean removeItemMenuFront(AdapterView<?> parent, int position) {
         int count = mFloatLayout.getChildCount();
-        boolean isRemove = false;
-        int currentPos = 0;
+        int currentPos = -1;
         // 查找控件位置.
         for (int i = 0; i < count; i++) {
             View v = mFloatLayout.getChildAt(i);
             if (v.equals(parent)) {
-                isRemove = true;
                 currentPos = i;
                 break;
             }
         }
-        for (int i = currentPos + 1; i < count; i++) {
-            if (isRemove) {
-                mFloatLayout.removeViewAt(currentPos + 1);
-            }
-        }
+        //
         if (currentPos == (count - 1)) {
-            isRemove = false;
+            currentPos = -1;
+        } else {
+            AbsListView absListView = (AbsListView) mFloatLayout.getChildAt(currentPos + 1);
+            hideMenu(absListView);
         }
-        return isRemove;
+        return currentPos != -1;
     }
 
     private void initMenuView(AdapterView<?> parent, int position) {
         ArrayList<IOpenMenuItem> items = getMenuItems(parent);
         IOpenMenuItem menuItem = items.get(position);
         if (menuItem != null && menuItem.hasSubMenu()) {
-            OpenSubMenu subMenu = menuItem.getSubMenu();
+            IOpenMenu subMenu = menuItem.getSubMenu();
             if (subMenu != null) {
-                setMenuData(subMenu);
+                setMenuDataInternal(subMenu);
             }
         }
+    }
+
+    private ArrayList<IOpenMenuItem> getMenuItems(AdapterView<?> parent) {
+        MenuAdpater menuAdapter = (MenuAdpater) parent.getAdapter();
+        if (menuAdapter == null) {
+            OPENLOG.E("menuAdapter is null");
+            return null;
+        }
+        ArrayList<IOpenMenuItem> items = menuAdapter.getDatas();
+        if (items == null) {
+            OPENLOG.E("items is null");
+            return null;
+        }
+        return items;
     }
 
     @Override
     public IOpenMenuView setOnMenuListener(OnMenuListener cb) {
         this.mOnMenuListener = cb;
+        return this;
+    }
+
+    @Override
+    public IOpenMenuView setMoveView(View v) {
+        mMoveView = v;
         return this;
     }
 

@@ -46,7 +46,7 @@ public class OpenMenuViewItem extends LinearLayout implements IOpenMenuView.Item
 	}
 
 	@Override
-	public void initialize(IOpenMenuItem itemData, int menuType) {
+	public void initialize(IOpenMenuItem itemData) {
 		this.mItemData = itemData;
 		//
 		setTitle(itemData.getTitle());

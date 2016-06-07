@@ -44,7 +44,8 @@ public interface SoftKeyBoardable {
 	 * @param layoutID : xml目录下的键盘ID.
 	 */
 	public void setSkbLayout(int layoutID);
-	
+	public int getSkbLayoutId();
+
 	/**
 	 * 不设置键盘XML，手动编写键盘值.
 	 * @param softSkb

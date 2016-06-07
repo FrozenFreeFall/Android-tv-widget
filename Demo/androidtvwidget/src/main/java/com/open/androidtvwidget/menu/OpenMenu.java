@@ -18,15 +18,16 @@ limitations under the License.
  */
 package com.open.androidtvwidget.menu;
 
-import java.util.ArrayList;
-
-import com.open.androidtvwidget.utils.OPENLOG;
-
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.animation.Animation;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AbsListView;
+
+import com.open.androidtvwidget.utils.OPENLOG;
+
+import java.util.ArrayList;
 
 /**
  * 菜单.
@@ -38,8 +39,10 @@ public class OpenMenu implements IOpenMenu {
 
 	private static final String TAG = "OpenMenu";
 
+	private final MenuDataObservable mMenuDataObservable = new MenuDataObservable(); // 观察者.
+
 	private ArrayList<IOpenMenuItem> mItems;
-	private OpenMenu mParent;
+	private IOpenMenu mParent;
 	private AbsListView mAbsListView;
 	/**
 	 * 菜单属性.
@@ -51,19 +54,42 @@ public class OpenMenu implements IOpenMenu {
 	private int mId;
 	private int mGravity = Gravity.TOP;
 	private Rect mMarginRect; // 增加菜单距离.
-	private LayoutAnimationController mLoadAnimation;
-	private Animation mShowAnimation;
+	private LayoutAnimationController mLoadAnimation; // 菜单item加载动画.
+	private Animation mShowAnimation; // 显示菜单动画.
+	private Animation mHideAnimation; // 隐藏菜单动画.
 
 	public OpenMenu() {
 		init();
 	}
 
-	public void setParentMenu(OpenMenu openMenu) {
+	@Override
+	public void setParentMenu(IOpenMenu openMenu) {
 		mParent = openMenu;
 	}
 
-	public OpenMenu getParentMenu() {
+	@Override
+	public IOpenMenu getParentMenu() {
 		return this.mParent;
+	}
+
+	@Override
+	public void registerDataSetObserver(MenuSetObserver observer) {
+		mMenuDataObservable.registerObserver(observer);
+	}
+
+	@Override
+	public void unregisterDataSetObserver(MenuSetObserver observer) {
+		mMenuDataObservable.unregisterObserver(observer);
+	}
+
+	@Override
+	public void showMenu() {
+		mMenuDataObservable.nofityShow(this);
+	}
+
+	@Override
+	public void hideMenu() {
+		mMenuDataObservable.notifyHide(this);
 	}
 
 	private void init() {
@@ -71,12 +97,12 @@ public class OpenMenu implements IOpenMenu {
 	}
 
 	@Override
-	public OpenMenu setTextSize(int size) {
+	public IOpenMenu setTextSize(int size) {
 		this.mTextSize = size;
 		return this;
 	}
 
-	public IOpenMenuItem addInternal(int itemId, CharSequence title) {
+	private IOpenMenuItem addInternal(int itemId, CharSequence title) {
 		final IOpenMenuItem item = new OpenMenuItem(this, itemId, title);
 		item.setTextSize(mTextSize);
 		mItems.add(item);
@@ -92,7 +118,7 @@ public class OpenMenu implements IOpenMenu {
 	 * 添加子菜单.
 	 */
 	@Override
-	public OpenSubMenu addSubMenu(int pos, OpenSubMenu openSubMenu) {
+	public IOpenMenu addSubMenu(int pos, IOpenMenu openSubMenu) {
 		if (mItems != null && pos < mItems.size()) {
 			IOpenMenuItem menuItem = mItems.get(pos);
 			return addSubMenu(menuItem, openSubMenu);
@@ -100,8 +126,23 @@ public class OpenMenu implements IOpenMenu {
 		return openSubMenu;
 	}
 
-	public OpenSubMenu addSubMenu(IOpenMenuItem menuItem, OpenSubMenu openSubMenu) {
+	public IOpenMenu addSubMenu(IOpenMenuItem menuItem, IOpenMenu openSubMenu) {
 		if (menuItem != null) {
+			//
+			openSubMenu.registerDataSetObserver(new MenuSetObserver() {
+				@Override
+				public void onShow(IOpenMenu openMenu) {
+					OPENLOG.D("===addSubMenu registerDataSetObserver onShow====");
+					mMenuDataObservable.nofityShow(openMenu);
+				}
+
+				@Override
+				public void onHide(IOpenMenu openMenu) {
+					OPENLOG.D("===addSubMenu registerDataSetObserver onHide====");
+					mMenuDataObservable.notifyHide(openMenu);
+				}
+			});
+			//
 			menuItem.setSubMenu(openSubMenu);
 			// 添加父菜单.
 			if (openSubMenu != null) {
@@ -119,7 +160,7 @@ public class OpenMenu implements IOpenMenu {
 		for (IOpenMenuItem item : mItems) {
 			String title = item.getTitle().toString();
 			OPENLOG.E("menu item:" + title);
-			OpenSubMenu submenu = item.getSubMenu();
+			IOpenMenu submenu = item.getSubMenu();
 			if (submenu != null) {
 				OPENLOG.E("=======sub menu======start start start start");
 				submenu.toString();
@@ -239,6 +280,17 @@ public class OpenMenu implements IOpenMenu {
 	@Override
 	public Animation getMenuShowAnimation() {
 		return this.mShowAnimation;
+	}
+
+	@Override
+	public IOpenMenu setMenuHideAnimation(Animation animation) {
+		this.mHideAnimation = animation;
+		return this;
+	}
+
+	@Override
+	public Animation getMenuHideAnimation() {
+		return this.mHideAnimation;
 	}
 
 }

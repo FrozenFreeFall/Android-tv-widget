@@ -11,18 +11,24 @@ public interface IOpenMenuView {
 		public boolean onMenuItemClick(AdapterView<?> parent, View view, int position, long id);
 
 		public boolean onMenuItemSelected(AdapterView<?> parent, View view, int position, long id);
+
+		public boolean onMenuItemFocusChange(AdapterView<?> parent, View view);
 	}
 
 	/**
 	 * 菜单item接口函数.
 	 */
 	public interface ItemView {
-		public void initialize(IOpenMenuItem itemData, int menuType);
+		public void initialize(IOpenMenuItem itemData);
 	}
 
-	public IOpenMenuView setMenuData(OpenMenu openMenu);
+	public IOpenMenuView setMenuData(IOpenMenu openMenu);
 	/**
 	 * 设置菜单view事件.
 	 */
 	public IOpenMenuView setOnMenuListener(OnMenuListener cb);
+	/**
+	 * 添加移动的view
+	 */
+	public IOpenMenuView setMoveView(View v);
 }
