@@ -17,15 +17,18 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 
 import com.open.androidtvwidget.R;
 import com.open.androidtvwidget.utils.GenerateViewId;
 import com.open.androidtvwidget.utils.OPENLOG;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ListView </br>
@@ -183,6 +186,19 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
             // 删除菜单.
             hideMenu(openMenu);
         }
+
+        @Override
+        public void onChanged(IOpenMenu openMenu) {
+            OPENLOG.D("====onChanged====");
+            // 更新菜单界面的数据.
+            AbsListView absListView = openMenu.getMenuView();
+            if (absListView != null) {
+                MenuAdpater adpater = (MenuAdpater) absListView.getAdapter();
+                if (adpater != null)
+                    adpater.notifyDataSetChanged();
+            }
+        }
+
     };
 
     /**
@@ -197,6 +213,8 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
      * 设置隐藏菜单.
      */
     private void hideMenu(final AbsListView absListView) {
+        if (absListView == null)
+            return;
         if (setAbsListViewHideAnimation(absListView, new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -337,7 +355,7 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
      *
      * @author hailongqiu
      */
-    class MenuAdpater extends BaseAdapter {
+    public class MenuAdpater extends BaseAdapter {
 
         private ArrayList<IOpenMenuItem> mItems;
         private IOpenMenu mOpenMenu;
@@ -384,7 +402,6 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
             itemView.initialize(getItem(position));
             return convertView;
         }
-
     }
 
     @Override
@@ -420,7 +437,8 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // 菜单item选中事件触发.
         if (mOnMenuListener != null) {
-            if (mOnMenuListener.onMenuItemSelected(parent, view, position, id))
+            IOpenMenuItem menuItem = getAdapterOpenMenuItem(parent, position);
+            if (mOnMenuListener.onMenuItemSelected(parent, menuItem, view, position, id))
                 return;
         }
         // 删除前面的菜单.(bug:修复鼠标单击)
@@ -442,15 +460,59 @@ public class OpenMenuView implements IOpenMenuView, OnKeyListener, OnItemSelecte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         // 菜单item单击事件触发.
         if (mOnMenuListener != null) {
-            if (mOnMenuListener.onMenuItemClick(parent, view, position, id))
+            IOpenMenuItem menuItem = getAdapterOpenMenuItem(parent, position);
+            if (mOnMenuListener.onMenuItemClick(parent, menuItem, view, position, id))
                 return;
         }
+        // 勾选选中设置.
+        setMenuItemChecked(parent, position);
         // 删除前面的菜单.(bug:修复鼠标单击)
         if (removeItemMenuFront(parent, position)) {
             return;
         }
         // 显示菜单.
         initMenuView(parent, position);
+    }
+
+    /**
+     * 从Adapter中获取菜单item的IOpenMenuItem.
+     */
+    private IOpenMenuItem getAdapterOpenMenuItem(AdapterView<?> parent, int position) {
+        IOpenMenuItem menuItem = null;
+        OpenMenuView.MenuAdpater menuAdpater = (OpenMenuView.MenuAdpater) parent.getAdapter();
+        if (menuAdpater != null) {
+            IOpenMenu openMenu = menuAdpater.getOpenMenu();
+            if (openMenu != null) {
+                List<IOpenMenuItem> items = openMenu.getMenuDatas();
+                if (items != null && items.size() > 0) {
+                    menuItem = items.get(position);
+                }
+            }
+        }
+        return menuItem;
+    }
+
+    /**
+     * 设置菜单item-checked属性.
+     */
+    private void setMenuItemChecked(AdapterView<?> parent, int position) {
+        IOpenMenu openMenu = ((MenuAdpater) parent.getAdapter()).getOpenMenu();
+        CompoundButton compoundButton = openMenu.getCheckedView();
+        if (compoundButton != null) {
+            // radiobutton 其它设置为假.
+            if (compoundButton instanceof RadioButton) { // radiobutton.
+                for (IOpenMenuItem menuItem : openMenu.getMenuDatas()) {
+                    menuItem.setChecked(false);
+                }
+            }
+            // 勾选为true.
+            List<IOpenMenuItem> items = openMenu.getMenuDatas();
+            if (items == null)
+                return;
+            IOpenMenuItem openMenuItem = items.get(position);
+            if (openMenuItem != null)
+                openMenuItem.setChecked(true);
+        }
     }
 
     /**

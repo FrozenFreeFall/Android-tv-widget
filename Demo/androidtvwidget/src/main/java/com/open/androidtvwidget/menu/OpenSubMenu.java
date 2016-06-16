@@ -2,9 +2,8 @@ package com.open.androidtvwidget.menu;
 
 /**
  * 子菜单.
- * 
- * @author hailongqiu
  *
+ * @author hailongqiu
  */
 public class OpenSubMenu extends OpenMenu {
 }

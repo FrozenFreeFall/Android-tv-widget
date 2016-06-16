@@ -119,7 +119,7 @@ public class GenerateValueFiles {
                         .replace("{1}", h + ""));
         fileDir.mkdir();
 
-        File layxFile = new File(fileDir.getAbsolutePath(), "dimens_lay.xml");
+        File layxFile = new File(fileDir.getAbsolutePath(), "dimens.xml");
         //File layyFile = new File(fileDir.getAbsolutePath(), "lay_y.xml");
         try {
             PrintWriter pw = new PrintWriter(new FileOutputStream(layxFile));
