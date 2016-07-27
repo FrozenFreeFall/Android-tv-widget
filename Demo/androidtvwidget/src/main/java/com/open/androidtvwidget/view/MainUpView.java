@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -51,7 +52,7 @@ import android.widget.FrameLayout;
  * <li>{@link #setShadowDrawable}
  * <li>{@link #getShadowDrawable}
  * <li>{@link #setDrawShadowPadding(int)} 用于调整阴影图片边距.
- * <li>{@link #setDrawShadowPadding(Rect)} 用于调整阴影图片边距.
+ * <li>{@link #setDrawShadowPadding(RectF)} 用于调整阴影图片边距.
  * <p>
  * Effcet相关API:
  * <li>{@link #setEffectBridge} 你可以设置自己的放大，边框移动的动画效果.
@@ -63,7 +64,7 @@ import android.widget.FrameLayout;
  * <li>{@link #setUnFocusView}
  * </ul>
  * <p>
- * 
+ *
  * <pre class="prettyprint">
  * public class CalendarActivity extends Activity {
  *     ... ...
@@ -76,7 +77,7 @@ import android.widget.FrameLayout;
  *     }
  *		... ...
  * </pre>
- * 
+ *
  * <p>
  * XML自定义属性:
  * <p>
@@ -171,7 +172,7 @@ public class MainUpView extends FrameLayout {
 	/**
 	 * 根据图片边框 自行 填写 相差的边距. <br>
 	 * 比如 res/drawble/white_light_10.9.png的图片，边距就差很多.
-	 * 
+	 *
 	 * @param size
 	 *            负数边框减小，正数反之(阴影边框一样的).
 	 */
@@ -190,10 +191,29 @@ public class MainUpView extends FrameLayout {
 		}
 	}
 
+	public void setDrawUpRectPadding(RectF rect) {
+		if (mEffectBridge != null) {
+			mEffectBridge.setDrawUpRectPadding(rect);
+			invalidate();
+		}
+	}
+
 	/**
 	 * 获取最上层图片 间距矩形(Rect).
 	 */
 	public Rect getDrawUpRect() {
+		if (mEffectBridge != null) {
+			RectF rectf = mEffectBridge.getDrawUpRect();
+			int left = (int)Math.rint(rectf.left);
+			int right = (int)Math.rint(rectf.right);
+			int bottom = (int)Math.rint(rectf.bottom);
+			int top = (int)Math.rint(rectf.top);
+			return new Rect(left, top, right, bottom);
+		}
+		return null;
+	}
+
+	public RectF getDrawUpRectF() {
 		if (mEffectBridge != null) {
 			return mEffectBridge.getDrawUpRect();
 		}
@@ -254,6 +274,21 @@ public class MainUpView extends FrameLayout {
 	 */
 	public Rect getDrawShadowRect() {
 		if (mEffectBridge != null) {
+			RectF rectf = mEffectBridge.getDrawShadowRect();
+			int left = (int)Math.rint(rectf.left);
+			int right = (int)Math.rint(rectf.right);
+			int bottom = (int)Math.rint(rectf.bottom);
+			int top = (int)Math.rint(rectf.top);
+			return new Rect(left, top, right, bottom);
+		}
+		return null;
+	}
+
+	/**
+	 * 获取阴影图片边距.
+	 */
+	public RectF getDrawShadowRectF() {
+		if (mEffectBridge != null) {
 			return mEffectBridge.getDrawShadowRect();
 		}
 		return null;
@@ -261,7 +296,7 @@ public class MainUpView extends FrameLayout {
 
 	/**
 	 * 移动到 view的位置，并且放大 view.
-	 * 
+	 *
 	 * @param newView
 	 *            新焦点View
 	 * @param oldView
@@ -276,7 +311,7 @@ public class MainUpView extends FrameLayout {
 
 	/**
 	 * 移动到 view的位置，并且放大 view.
-	 * 
+	 *
 	 * @param view
 	 * @param scale
 	 *            放大比例
@@ -300,7 +335,7 @@ public class MainUpView extends FrameLayout {
 
 	/**
 	 * 设置无焦点子控件还原.(默认为1.0F)
-	 * 
+	 *
 	 * @param view
 	 *            老焦点View.
 	 */
@@ -310,7 +345,7 @@ public class MainUpView extends FrameLayout {
 
 	/**
 	 * 老焦点VIEW处理.
-	 * 
+	 *
 	 * @param view
 	 * @param scaleX
 	 *            X缩放比例

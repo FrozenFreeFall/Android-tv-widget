@@ -17,11 +17,21 @@ java GenerateValueFiles 1920 1080 2550,1666;
 java GenerateValueFiles 1920 1080 2550,1666_w,h_w,h....;
 
 
-
-# 如果使用以上工具还是出现偏差，请使用 DimesEx.exe 工具进行 dpi的指定，然后转换.
 # 温馨提示，你可以使用 java GenerateValueFiles 1920 1080 指定你默认的初始化分辨率，然后根据这个分辨率再进行转换.
 
 
 我发现一个BUG，就是 像素转换工具，
 如果有标题栏的话，精度是不对的
 差一个标题栏的高度.所以请设置没有标题栏高度再说吧.
+
+[demo]
+https://pan.baidu.com/s/1jH9sfmm
+
+[使用说明]
+http://note.youdao.com/yws/public/redirect/share?id=ded7f3cb20b67faf9e8b173499101a9a&type=false
+
+【使用注意】
+width, left, right 使用 w_100
+height, top, bottom 使用 h_100
+textsize 使用 w_40
+注意imageview,因为background和src不同, src要压缩比例的，注意设置scaleType.

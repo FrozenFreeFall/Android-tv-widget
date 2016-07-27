@@ -1,3 +1,5 @@
+<!-- clipChildren clipToPadding 不要忘记了，不然移动的边框无法显示出来 -->
+<!-- 不要模仿我使用 margin来定位item，我只是测试适配-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,25 +23,25 @@
             android:id="@+id/main_lay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingRight="80dp" >
+            android:paddingRight="@dimen/w_100" >
 			
             <!-- 小人超出测试Item -->
             <FrameLayout
                 android:id="@+id/gridview_lay"
                 android:focusableInTouchMode="true"
-                android:layout_width="@dimen/px840"
-                android:layout_height="@dimen/px394"
-                android:layout_marginLeft="@dimen/px96"
-                android:layout_marginTop="@dimen/px204"
+                android:layout_width="@dimen/w_840"
+                android:layout_height="@dimen/h_394"
+                android:layout_marginLeft="@dimen/w_96"
+                android:layout_marginTop="@dimen/h_204"
                 android:clickable="true"
                 android:focusable="true"
                 android:nextFocusDown="@+id/listview_lay">
 
                 <com.open.androidtvwidget.view.ReflectItemView
-                    android:layout_width="@dimen/px840"
-                    android:layout_height="@dimen/px354"
-                    android:layout_marginTop="@dimen/px40"
-                    app:radius="@dimen/px10"
+                    android:layout_width="@dimen/w_840"
+                    android:layout_height="@dimen/h_354"
+                    android:layout_marginTop="@dimen/h_60"
+                    app:radius="@dimen/w_10"
                     app:isShape="true" >
 
                     <ImageView
@@ -51,7 +53,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="@dimen/h_60"
                         android:layout_gravity="top"
                         android:background="#FF0000"
                         android:gravity="center_horizontal|center_vertical"
@@ -60,7 +62,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="@dimen/h_60"
                         android:layout_gravity="bottom"
                         android:background="#50000000"
                         android:gravity="center_horizontal|center_vertical"
@@ -78,10 +80,10 @@
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/listview_lay"
-                android:layout_width="@dimen/px404"
-                android:layout_height="@dimen/px246"
-                android:layout_marginLeft="@dimen/px96"
-                android:layout_marginTop="@dimen/px630"
+                android:layout_width="@dimen/w_404"
+                android:layout_height="@dimen/h_246"
+                android:layout_marginLeft="@dimen/w_96"
+                android:layout_marginTop="@dimen/h_630"
                 android:clickable="true"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
@@ -96,9 +98,9 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/h_60"
                     android:layout_gravity="bottom"
-                    android:layout_margin="@dimen/px15"
+                    android:layout_margin="@dimen/w_20"
                     android:background="#FF0000"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="listview 测试"
@@ -107,10 +109,10 @@
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/effect_rlay"
-                android:layout_width="@dimen/px412"
-                android:layout_height="@dimen/px672"
-                android:layout_marginLeft="@dimen/px1412"
-                android:layout_marginTop="@dimen/px204"
+                android:layout_width="@dimen/w_412"
+                android:layout_height="@dimen/h_672"
+                android:layout_marginLeft="@dimen/w_1412"
+                android:layout_marginTop="@dimen/h_204"
                 android:clickable="true"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
@@ -125,7 +127,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/h_60"
                     android:layout_gravity="bottom"
                     android:background="#FF0000"
                     android:gravity="center_vertical|center_horizontal"
@@ -135,10 +137,10 @@
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/viewpager_lay"
-                android:layout_width="@dimen/px412"
-                android:layout_height="@dimen/px672"
-                android:layout_marginLeft="@dimen/px968"
-                android:layout_marginTop="@dimen/px204"
+                android:layout_width="@dimen/w_412"
+                android:layout_height="@dimen/h_672"
+                android:layout_marginLeft="@dimen/w_968"
+                android:layout_marginTop="@dimen/h_204"
                 android:clickable="true"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
@@ -158,17 +160,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
+                    android:paddingLeft="@dimen/w_10"
+                    android:paddingRight="@dimen/w_10"
                     lv:lv_background_color="#3F9FE0"
                     lv:lv_fill_triangle="true"
                     lv:lv_gravity="TOP_RIGHT"
                     lv:lv_text="热门"
-                    lv:lv_text_size="18sp" />
+                    lv:lv_text_size="@dimen/w_35" />
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/h_60"
                     android:layout_gravity="bottom"
                     android:background="#FF0000"
                     android:gravity="center_vertical|center_horizontal"
@@ -178,10 +180,10 @@
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/keyboard_lay"
-                android:layout_width="@dimen/px404"
-                android:layout_height="@dimen/px246"
-                android:layout_marginLeft="@dimen/px532"
-                android:layout_marginTop="@dimen/px630"
+                android:layout_width="@dimen/w_404"
+                android:layout_height="@dimen/h_246"
+                android:layout_marginLeft="@dimen/w_532"
+                android:layout_marginTop="@dimen/h_630"
                 android:clickable="true"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
@@ -196,7 +198,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/h_60"
                     android:layout_gravity="center_vertical"
                     android:background="#FF0000"
                     android:gravity="center_vertical|center_horizontal"
@@ -208,10 +210,10 @@
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/menu_rlayt"
-                android:layout_width="@dimen/px400"
-                android:layout_height="@dimen/px330"
-                android:layout_marginLeft="@dimen/px1858"
-                android:layout_marginTop="@dimen/px204"
+                android:layout_width="@dimen/w_400"
+                android:layout_height="@dimen/h_330"
+                android:layout_marginLeft="@dimen/w_1858"
+                android:layout_marginTop="@dimen/h_204"
                 android:clickable="true"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
@@ -226,7 +228,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/h_60"
                     android:layout_gravity="bottom"
                     android:background="#FF0000"
                     android:gravity="center_vertical|center_horizontal"
@@ -238,10 +240,10 @@
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/recyclerview_rlayt"
-                android:layout_width="@dimen/px400"
-                android:layout_height="@dimen/px330"
-                android:layout_marginLeft="@dimen/px1858"
-                android:layout_marginTop="@dimen/px550"
+                android:layout_width="@dimen/w_400"
+                android:layout_height="@dimen/h_330"
+                android:layout_marginLeft="@dimen/w_1858"
+                android:layout_marginTop="@dimen/h_550"
                 android:clickable="true"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
@@ -257,7 +259,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/h_60"
                     android:layout_gravity="bottom"
                     android:background="#FF0000"
                     android:gravity="center_vertical|center_horizontal"

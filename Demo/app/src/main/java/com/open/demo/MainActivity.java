@@ -3,6 +3,7 @@ package com.open.demo;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.open.androidtvwidget.view.MainUpView;
 
 /**
  * DEMO测试.
+ *  xml布局中 clipChildren clipToPadding 不要忘记了，不然移动的边框无法显示出来的. (强烈注意)
  */
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -120,10 +122,10 @@ public class MainActivity extends Activity implements OnClickListener {
     public void testTopDemo(View newView, float scale) {
         // 测试第一个小人放大的效果.
         if (newView.getId() == R.id.gridview_lay) { // 小人在外面的测试.
-            Rect rect = new Rect(getDimension(R.dimen.px7), -getDimension(R.dimen.px42), getDimension(R.dimen.px7),
-                    getDimension(R.dimen.px7));
-            mOpenEffectBridge.setDrawUpRectPadding(rect); // 设置移动边框间距，不要被挡住了。
-            mOpenEffectBridge.setDrawShadowRectPadding(rect); // 设置阴影边框间距，不要被挡住了。
+            RectF rectf = new RectF(getDimension(R.dimen.w_7), -getDimension(R.dimen.h_63), getDimension(R.dimen.w_7),
+                    getDimension(R.dimen.h_30));
+            mOpenEffectBridge.setDrawUpRectPadding(rectf); // 设置移动边框间距，不要被挡住了。
+            mOpenEffectBridge.setDrawShadowRectPadding(rectf); // 设置阴影边框间距，不要被挡住了。
             mOpenEffectBridge.setDrawUpRectEnabled(false); // 让移动边框绘制在小人的下面.
             test_top_iv.animate().scaleX(scale).scaleY(scale).setDuration(100).start(); // 让小人超出控件.
         } else { // 其它的还原.
@@ -134,8 +136,8 @@ public class MainActivity extends Activity implements OnClickListener {
         }
     }
 
-    public int getDimension(int id) {
-        return (int) getResources().getDimension(id);
+    public float getDimension(int id) {
+        return getResources().getDimension(id);
     }
 
     @Override
@@ -179,11 +181,13 @@ public class MainActivity extends Activity implements OnClickListener {
     }
 
     private void switchNoDrawBridgeVersion() {
+        RectF rectf = new RectF(getDimension(R.dimen.w_20), getDimension(R.dimen.h_20), getDimension(R.dimen.w_18), getDimension(R.dimen.h_18));
         EffectNoDrawBridge effectNoDrawBridge = new EffectNoDrawBridge();
         effectNoDrawBridge.setTranDurAnimTime(200);
+//        effectNoDrawBridge.setDrawUpRectPadding(rectf);
         mainUpView1.setEffectBridge(effectNoDrawBridge); // 4.3以下版本边框移动.
         mainUpView1.setUpRectResource(R.drawable.white_light_10); // 设置移动边框的图片.
-        mainUpView1.setDrawUpRectPadding(new Rect(25, 25, 23, 23)); // 边框图片设置间距.
+        mainUpView1.setDrawUpRectPadding(rectf); // 边框图片设置间距.
     }
 
 }

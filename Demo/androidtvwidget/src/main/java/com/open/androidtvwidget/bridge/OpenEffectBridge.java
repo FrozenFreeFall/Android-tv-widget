@@ -139,12 +139,12 @@ public class OpenEffectBridge extends BaseEffectBridgeWrapper {
 		int oldWidth = 0;
 		int oldHeight = 0;
 		
-		int newX = 0;
-		int newY = 0;
+		float newX = 0;
+		float newY = 0;
 		
 		if (focusView != null) {
-			newWidth = (int) (focusView.getMeasuredWidth() * scaleX);
-			newHeight = (int) (focusView.getMeasuredHeight() * scaleY);
+			newWidth = (int) (Math.rint(focusView.getMeasuredWidth() * scaleX));
+			newHeight = (int) (Math.rint(focusView.getMeasuredHeight() * scaleY));
 			oldWidth = moveView.getMeasuredWidth();
 			oldHeight = moveView.getMeasuredHeight();
 			Rect fromRect = findLocationWithView(moveView); // 获取moveView在屏幕上的位置.

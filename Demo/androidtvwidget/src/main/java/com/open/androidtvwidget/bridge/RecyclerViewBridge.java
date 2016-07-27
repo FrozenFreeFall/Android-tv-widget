@@ -5,6 +5,7 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
@@ -28,7 +29,7 @@ public class RecyclerViewBridge extends EffectNoDrawBridge {
 	 */
 	@Override
 	public void flyWhiteBorder(final View focusView, View moveView, float scaleX, float scaleY) {
-		Rect paddingRect = getDrawUpRect();
+		RectF paddingRect = getDrawUpRect();
 		int newWidth = 0;
 		int newHeight = 0;
 		int oldWidth = 0;
@@ -50,13 +51,13 @@ public class RecyclerViewBridge extends EffectNoDrawBridge {
 				mDy = 0;
 			}
 			//
-			int x = toRect.left - fromRect.left - (paddingRect.left);
-			int y = toRect.top - fromRect.top - (paddingRect.top);
+			int x = toRect.left - fromRect.left - ((int)Math.rint(paddingRect.left));
+			int y = toRect.top - fromRect.top - ((int)Math.rint(paddingRect.top));
 			newX = x - Math.abs(focusView.getMeasuredWidth() - newWidth) / 2;
 			newY = y - Math.abs(focusView.getMeasuredHeight() - newHeight) / 2;
 			//
-			newWidth += (paddingRect.right + paddingRect.left);
-			newHeight += (paddingRect.bottom + paddingRect.top);
+			newWidth += ((int)Math.rint(paddingRect.right) + (int)Math.rint(paddingRect.left));
+			newHeight += ((int)Math.rint(paddingRect.bottom) + (int)Math.rint(paddingRect.top));
 		}
 
 		// 取消之前的动画.

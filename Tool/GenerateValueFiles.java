@@ -13,25 +13,29 @@ public class GenerateValueFiles {
 
     private String dirStr = "./res";
 
-    private final static String WTemplate = "<dimen name=\"px{0}\">{1}px</dimen>\n";
-    private final static String HTemplate = "<dimen name=\"y{0}\">{1}px</dimen>\n";
+    private final static String WTemplate = "<dimen name=\"w_{0}\">{1}px</dimen>\n";
+    private final static String HTemplate = "<dimen name=\"h_{0}\">{1}px</dimen>\n";
 
     /**
      * {0}-HEIGHT
      */
     private final static String VALUE_TEMPLATE = "values-{0}x{1}";
 
-    private static final String SUPPORT_DIMESION = "320,480;480,800;480,854;540,960;600,1024;720,1184;720,1196;720,1280;768,1024;800,1280;1080,1812;1080,1920;1440,2560;";
+    private static final String SUPPORT_DIMESION = "1280,720;1280,800;1920,1080;2560,1440;";
 
     private String supportStr = SUPPORT_DIMESION;
 
+	 /**
+     * baseX:width
+	 * baseY:height
+     */
     public GenerateValueFiles(int baseX, int baseY, String supportStr) {
         this.baseW = baseX;
         this.baseH = baseY;
 
         if (!this.supportStr.contains(baseX + "," + baseY)) {
             //this.supportStr += baseX + "," + baseY + ";";
-			this.supportStr += baseY + "," + baseX + ";";
+			this.supportStr += baseX + "," + baseY + ";";
         }
 
         this.supportStr += validateInput(supportStr);
@@ -70,21 +74,30 @@ public class GenerateValueFiles {
                 System.out.println("skip invalidate params : w,h = " + val);
                 continue;
             }
-            sb.append(h + "," + w + ";");
+            sb.append(w + "," + h + ";");
         }
 
         return sb.toString();
     }
-
+	
+	/**
+	 * xml 1
+     */
     public void generate() {
         String[] vals = supportStr.split(";");
         for (String val : vals) {
             String[] wh = val.split(",");
-            generateXmlFile(Integer.parseInt(wh[1]), Integer.parseInt(wh[0]));
+			int w = Integer.parseInt(wh[0]);
+			int h = Integer.parseInt(wh[1]);
+			System.out.println("正在转换===> to width : " + w + " to height:" + h);
+            generateXmlFile(w, h);
         }
 
     }
-
+	
+	/**
+	 * xml 2
+     */
     private void generateXmlFile(int w, int h) {
 
         StringBuffer sbForWidth = new StringBuffer();
@@ -119,15 +132,17 @@ public class GenerateValueFiles {
                         .replace("{1}", h + ""));
         fileDir.mkdir();
 
-        File layxFile = new File(fileDir.getAbsolutePath(), "dimens.xml");
-        //File layyFile = new File(fileDir.getAbsolutePath(), "lay_y.xml");
+        File layxFile = new File(fileDir.getAbsolutePath(), "w_dimens.xml");
+        File layyFile = new File(fileDir.getAbsolutePath(), "h_dimens.xml");
         try {
+			// width
             PrintWriter pw = new PrintWriter(new FileOutputStream(layxFile));
             pw.print(sbForWidth.toString());
             pw.close();
-            //pw = new PrintWriter(new FileOutputStream(layyFile));
-            //pw.print(sbForHeight.toString());
-            //pw.close();
+			// height
+            pw = new PrintWriter(new FileOutputStream(layyFile));
+            pw.print(sbForHeight.toString());
+			pw.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -139,8 +154,8 @@ public class GenerateValueFiles {
     }
 
     public static void main(String[] args) {
-        int baseW = 320;
-        int baseH = 400;
+        int baseW = 1920;
+        int baseH = 1080;
         String addition = "";
         try {
             if (args.length >= 3) {
@@ -155,7 +170,6 @@ public class GenerateValueFiles {
                 addition = args[0];
             }
         } catch (NumberFormatException e) {
-
             System.err
                     .println("right input params : java -jar xxx.jar width height w,h_w,h_..._w,h;");
             e.printStackTrace();

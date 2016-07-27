@@ -4,6 +4,7 @@ import com.open.androidtvwidget.view.MainUpView;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -62,11 +63,15 @@ public abstract class BaseEffectBridge {
 	public void setDrawUpRectPadding(Rect rect) {
 		
 	}
-	
-	public Rect getDrawUpRect() {
+
+	public void setDrawUpRectPadding(RectF rect) {
+
+	}
+
+	public RectF getDrawUpRect() {
 		return null;
 	}
-	
+
 	/**
 	 * 设置边框阴影
 	 */
@@ -83,8 +88,11 @@ public abstract class BaseEffectBridge {
 	
 	public void setDrawShadowRectPadding(Rect rect) {
 	}
-	
-	public Rect getDrawShadowRect() {
+
+	public void setDrawShadowRectPadding(RectF rect) {
+	}
+
+	public RectF getDrawShadowRect() {
 		return null;
 	}
 	
