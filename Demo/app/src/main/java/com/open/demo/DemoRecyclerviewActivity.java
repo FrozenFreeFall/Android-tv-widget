@@ -50,6 +50,7 @@ public class DemoRecyclerviewActivity extends Activity implements OnClickListene
         recyclerView.setOnItemListener(new RecyclerViewTV.OnItemListener() {
             @Override
             public void onItemPreSelected(RecyclerViewTV parent, View itemView, int position) {
+				//mRecyclerViewBridge.setUnFocusView(oldView);
             }
 
             @Override
