@@ -1,56 +1,45 @@
 package com.open.androidtvwidget.view;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.GridView;
 
 /**
  * GridView TV版本.
- * @author hailongqiu 356752238@qq.com
  *
+ * @author hailongqiu 356752238@qq.com
  */
 public class GridViewTV extends GridView {
 
-	public GridViewTV(Context context) {
-		super(context);
-		init(context, null);
-	}
+    public GridViewTV(Context context) {
+        this(context, null);
+    }
 
-	public GridViewTV(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init(context, attrs);
-	}
-	
-	/**
-	 * 崩溃了.
-	 */
-	@Override
-	protected void dispatchDraw(Canvas canvas) {
-		try {
-			super.dispatchDraw(canvas);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    public GridViewTV(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context, attrs);
+    }
 
-	WidgetTvViewBring mWidgetTvViewBring;
-	
-	private void init(Context context, AttributeSet attrs) {
-		this.setChildrenDrawingOrderEnabled(true);
-		mWidgetTvViewBring = new WidgetTvViewBring(this); 
-	}
+    @Override
+    public boolean isInTouchMode() {
+        return !(hasFocus() && !super.isInTouchMode());
+    }
 
-	@Override
-	public void bringChildToFront(View child) {
-		mWidgetTvViewBring.bringChildToFront(this, child);
-	}
+    private void init(Context context, AttributeSet attrs) {
+        this.setChildrenDrawingOrderEnabled(true);
+    }
 
-	@Override
-	protected int getChildDrawingOrder(int childCount, int i) {
-		// position = getSelectedItemPosition() - getFirstVisiblePosition();
-		return mWidgetTvViewBring.getChildDrawingOrder(childCount, i);
-	}
+    @Override
+    protected int getChildDrawingOrder(int childCount, int i) {
+        if (this.getSelectedItemPosition() != -1) {
+            if (i + this.getFirstVisiblePosition() == this.getSelectedItemPosition()) {// 这是原本要在最后一个刷新的item
+                return childCount - 1;
+            }
+            if (i == childCount - 1) {// 这是最后一个需要刷新的item
+                return this.getSelectedItemPosition() - this.getFirstVisiblePosition();
+            }
+        }
+        return i;
+    }
 
 }

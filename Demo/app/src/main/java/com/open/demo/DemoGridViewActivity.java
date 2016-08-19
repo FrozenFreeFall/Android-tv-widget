@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import com.open.androidtvwidget.bridge.EffectNoDrawBridge;
 import com.open.androidtvwidget.utils.Utils;
@@ -33,6 +34,9 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
 import android.widget.AdapterView;
@@ -47,108 +51,105 @@ import android.widget.Toast;
  */
 public class DemoGridViewActivity extends Activity {
 
-	private List<Map<String, Object>> data;
-	private MainUpView mainUpView1;
-	private View mOldView;
-	private GridView gridView;
-	
-	SimpleAdapter simpleAdapter;
-	String[] from = { "text" };
-	int[] to = { R.id.textView };
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.demo_grid_view);
+    private List<Map<String, Object>> data;
+    private MainUpView mainUpView1;
+    private View mOldView;
+    private GridView gridView;
 
-		gridView = (GridView) findViewById(R.id.gridView);
-		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
-		// 建议使用 NoDraw.
-		mainUpView1.setEffectBridge(new EffectNoDrawBridge()); 
-		EffectNoDrawBridge bridget = (EffectNoDrawBridge) mainUpView1.getEffectBridge();
-		bridget.setTranDurAnimTime(200);
-		// 设置移动边框的图片.
-		mainUpView1.setUpRectResource(R.drawable.white_light_10);
-		// 移动方框缩小的距离.
-		mainUpView1.setDrawUpRectPadding(new Rect(10, 10, 10, -55)); 
-		// 加载数据.
-		getData(200);
-		//
-		updateGridViewAdapter();
-		gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
-		//
-		gridView.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				/**
-				 * 这里注意要加判断是否为NULL.
-				 * 因为在重新加载数据以后会出问题.
-				 */
-				if (view != null) {
-					view.bringToFront();
-					mainUpView1.setFocusView(view, mOldView, 1.2f);
-				}
-				mOldView = view;
-			}
+    SimpleAdapter simpleAdapter;
+    String[] from = {"text"};
+    int[] to = {R.id.textView};
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-		gridView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				String text = "position:" + position;
-				// 测试数据更新.
-				if (position == 0) {
-					getData(3);
-					updateGridViewAdapter();
-					text += "-->更新数据3个";
-				} else if (position == 1){
-					getData(100);
-					updateGridViewAdapter();
-					text += "-->更新数据100个";
-				} else if (position == 2) {
-					getData(2000);
-					updateGridViewAdapter();
-					text += "-->更新数据2000个";
-				} else {
-					// ... ...
-				}
-				Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
-			}
-		});
-		//  pengjunkun <junkun@mgtv.com> 修复.
-		// 在布局加咱完成后，设置选中第一个 (test)
-		gridView.addOnLayoutChangeListener(new OnLayoutChangeListener() {
-			@Override
-			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
-					int oldRight, int oldBottom) {
-				if (gridView.getChildCount() > 0) {
-					gridView.setSelection(0);
-					View newView = gridView.getChildAt(0);
-					newView.bringToFront();
-					mainUpView1.setFocusView(newView, 1.2f);
-					mOldView = gridView.getChildAt(0);
-				}
-			}
-		});
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.demo_grid_view);
 
-	public List<Map<String, Object>> getData(int count) {
-		data = new ArrayList<Map<String, Object>>();
-		for (int i = 0; i < count; i++) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("text", "电影" + i);
-			data.add(map);
-		}
-		return data;
-	}
-	
-	private void updateGridViewAdapter() {
-		simpleAdapter = new SimpleAdapter(this, data, R.layout.item_gridview, from, to);
-		gridView.setAdapter(simpleAdapter);
-		simpleAdapter.notifyDataSetChanged();
-	}
-	
+        gridView = (GridView) findViewById(R.id.gridView);
+        mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
+        // 建议使用 NoDraw.
+        mainUpView1.setEffectBridge(new EffectNoDrawBridge());
+        EffectNoDrawBridge bridget = (EffectNoDrawBridge) mainUpView1.getEffectBridge();
+        bridget.setTranDurAnimTime(200);
+        // 设置移动边框的图片.
+        mainUpView1.setUpRectResource(R.drawable.white_light_10);
+        // 移动方框缩小的距离.
+        mainUpView1.setDrawUpRectPadding(new Rect(10, 10, 10, -55));
+        // 加载数据.
+        getData(200);
+        //
+        updateGridViewAdapter();
+        gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        //
+        gridView.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                /**
+                 * 这里注意要加判断是否为NULL.
+                 * 因为在重新加载数据以后会出问题.
+                 */
+                if (view != null) {
+                    mainUpView1.setFocusView(view, mOldView, 1.2f);
+                }
+                mOldView = view;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        gridView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "GridView Item " + position, Toast.LENGTH_LONG).show();
+            }
+        });
+        initGridViewData(new Random().nextInt(3));
+        // 延时请求其它位置的item.
+        Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                gridView.requestFocusFromTouch();
+                gridView.setSelection(2);
+            }
+        };
+        handler.sendMessageDelayed(handler.obtainMessage(), 188);
+    }
+
+    private void initGridViewData(int position) {
+        String text = "position:" + position;
+        // 测试数据更新.
+        if (position == 0) {
+            getData(3);
+            updateGridViewAdapter();
+            text += "-->更新数据3个";
+        } else if (position == 1) {
+            getData(100);
+            updateGridViewAdapter();
+            text += "-->更新数据100个";
+        } else if (position == 2) {
+            getData(2000);
+            updateGridViewAdapter();
+            text += "-->更新数据2000个";
+        } else {
+            // ... ...
+        }
+    }
+
+    public List<Map<String, Object>> getData(int count) {
+        data = new ArrayList<Map<String, Object>>();
+        for (int i = 0; i < count; i++) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("text", "电影" + i);
+            data.add(map);
+        }
+        return data;
+    }
+
+    private void updateGridViewAdapter() {
+        simpleAdapter = new SimpleAdapter(this, data, R.layout.item_gridview, from, to);
+        gridView.setAdapter(simpleAdapter);
+        simpleAdapter.notifyDataSetChanged();
+    }
+
 }

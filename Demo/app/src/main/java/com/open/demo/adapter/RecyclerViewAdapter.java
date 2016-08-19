@@ -9,6 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<GridViewHolder> {
 	private final List<String> labels;
@@ -26,7 +29,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<GridViewHolder> {
 	}
 
 	@Override
-	public void onBindViewHolder(GridViewHolder arg0, int arg1) {
+	public void onBindViewHolder(GridViewHolder gh, int pos) {
+		TextView textView = (TextView) gh.tv;
+		textView.setText("item " + labels.get(pos));
 	}
 
 	@Override

@@ -13,6 +13,9 @@ public abstract class MenuSetObserver {
     public void onChanged(IOpenMenu openMenu) {
     }
 
+    public void onChanged() {
+    }
+
     public void onInvalidated() {
     }
 }

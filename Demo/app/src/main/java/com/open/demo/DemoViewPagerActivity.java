@@ -199,7 +199,9 @@ public class DemoViewPagerActivity extends Activity implements OnTabSelectListen
 		gridView.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				OPENLOG.D("onItemSelected position:" + position + " " + (mOldFocus.getParent() instanceof GridView));
+				if (mOldFocus != null) {
+					OPENLOG.D("onItemSelected position:" + position + " " + (mOldFocus.getParent() instanceof GridView));
+				}
 				int pos = viewpager.getCurrentItem();
 				final MainUpView mainUpView = (MainUpView) viewList.get(pos).findViewById(R.id.mainUpView1);
 				final OpenEffectBridge bridge = (OpenEffectBridge) mainUpView.getEffectBridge();

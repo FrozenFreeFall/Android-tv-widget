@@ -16,7 +16,7 @@ public class GridViewHolder extends ViewHolder {
 	public GridViewHolder(View itemView) {
 		super(itemView);
 //		iv = (ImageView)itemView.findViewById(R.id.);
-//		tv = (TextView)itemView.findViewById(R.id.);
+		tv = (TextView)itemView.findViewById(R.id.textView);
 	}
 
 }
