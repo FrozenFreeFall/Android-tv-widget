@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -13,17 +14,13 @@ import android.widget.TextView;
 
 import com.open.androidtvwidget.R;
 import com.open.androidtvwidget.utils.GenerateViewId;
+import com.open.androidtvwidget.utils.OPENLOG;
 
 /**
- * 菜单Menu中的Item View.
- * 如果要写自己的东西，可以在这里更新自己的需求或者模仿写.
- *
- * @author hailongqiu 356752238@qq.com
+ * Created by hailongqiu on 2016/8/23.
  */
-public class OpenMenuItemView extends LinearLayout implements IOpenMenuView.ItemView {
-
-    private IOpenMenuItem mItemData;
-    private int mMenuType;
+public class OpenMenuItemView extends LinearLayout implements OpenMenuItem.ItemView {
+    private OpenMenuItem mItemData;
     private Context mContext;
 
     private ImageView mIconView;
@@ -33,13 +30,19 @@ public class OpenMenuItemView extends LinearLayout implements IOpenMenuView.Item
     private LayoutInflater mInflater;
 
     public OpenMenuItemView(Context context) {
-        super(context);
-        this.mContext = context;
+        this(context, null, 0);
     }
 
     public OpenMenuItemView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
+    }
+
+    public OpenMenuItemView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         this.mContext = context;
+        //
+        setFocusableInTouchMode(true);
+        setFocusable(true);
     }
 
     @Override
@@ -49,15 +52,11 @@ public class OpenMenuItemView extends LinearLayout implements IOpenMenuView.Item
     }
 
     @Override
-    public void initialize(IOpenMenuItem itemData) {
+    public void initialize(OpenMenuItem itemData) {
         this.mItemData = itemData;
         //
-        boolean hasSubMenu = itemData.hasSubMenu(); // 判断是否有子菜单.
-        if (hasSubMenu) {
-
-        }
         setTitle(itemData.getTitle());
-        setIcon(itemData.getIcon());
+        setIcon(itemData.getIconRes());
         setTextSize(itemData.getTextSize());
         setChecked(itemData, itemData.isChecked());
         // 如果没有设置菜单ITEM ID，则默认设置ID.
@@ -79,16 +78,17 @@ public class OpenMenuItemView extends LinearLayout implements IOpenMenuView.Item
         }
     }
 
-    public void setIcon(Drawable icon) {
-        if (mIconView == null && icon == null)
+    public void setIcon(int icon) {
+        if (mIconView == null && icon <= 0)
             return;
 
         if (mIconView == null) {
             insertIconView();
         }
 
-        if (icon != null) {
-            mIconView.setImageDrawable(icon);
+        if (icon > 0) {
+            Drawable d = getContext().getResources().getDrawable(icon);
+            mIconView.setImageDrawable(d);
             if (mIconView.getVisibility() != VISIBLE) {
                 mIconView.setVisibility(VISIBLE);
             }
@@ -97,13 +97,13 @@ public class OpenMenuItemView extends LinearLayout implements IOpenMenuView.Item
         }
     }
 
-    public void setChecked(IOpenMenuItem itemData, boolean checked) {
-        if (itemData.getCheckedView() != null) {
-            if (mCompoundButton == null) {
-                insertCompoundButton(itemData);
-            }
-            mCompoundButton.setChecked(checked);
-        }
+    public void setChecked(OpenMenuItem itemData, boolean checked) {
+//        if (itemData.getCheckedView() != null) {
+//            if (mCompoundButton == null) {
+//                insertCompoundButton(itemData);
+//            }
+//            mCompoundButton.setChecked(checked);
+//        }
     }
 
     /**
@@ -124,7 +124,7 @@ public class OpenMenuItemView extends LinearLayout implements IOpenMenuView.Item
     /**
      * 插入勾选view.
      */
-    private void insertCompoundButton(IOpenMenuItem itemData) {
+    private void insertCompoundButton(OpenMenuItem itemData) {
         mCompoundButton = new RadioButton(mContext);
         addView(mCompoundButton, 0);
     }

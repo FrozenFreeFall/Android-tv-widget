@@ -8,6 +8,7 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:visibility="gone"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -44,4 +45,10 @@
 
     </LinearLayout>
 
+    <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
+        android:id="@+id/recyclerView_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.open.androidtvwidget.leanback.recycle.RecyclerViewTV>
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.open.androidtvwidget.recycle;
+package com.open.androidtvwidget.leanback.recycle;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -7,7 +7,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.open.androidtvwidget.utils.OPENLOG;
@@ -37,6 +36,7 @@ public class RecyclerViewTV extends RecyclerView {
     private int mSelectedItemOffsetEnd;
     private int position = 0;
     private OnItemListener mOnItemListener;
+    private OnItemClickListener mOnItemClickListener; // item 单击事件.
     private ItemListener mItemListener;
     private int offset = -1;
 
@@ -61,8 +61,8 @@ public class RecyclerViewTV extends RecyclerView {
              */
             @Override
             public void onClick(View itemView) {
-                if (null != mOnItemListener) {
-                    mOnItemListener.onItemClick(RecyclerViewTV.this, itemView, getChildLayoutPosition(itemView));
+                if (null != mOnItemClickListener) {
+                    mOnItemClickListener.onItemClick(RecyclerViewTV.this, itemView, getChildLayoutPosition(itemView));
                 }
             }
 
@@ -348,13 +348,19 @@ public class RecyclerViewTV extends RecyclerView {
 
         void onItemSelected(RecyclerViewTV parent, View itemView, int position);
 
-        void onItemClick(RecyclerViewTV parent, View itemView, int position);
-
         void onReviseFocusFollow(RecyclerViewTV parent, View itemView, int position);
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(RecyclerViewTV parent, View itemView, int position);
+    }
+
     public void setOnItemListener(OnItemListener onItemListener) {
-        mOnItemListener = onItemListener;
+        this.mOnItemListener = onItemListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
     }
 
 }

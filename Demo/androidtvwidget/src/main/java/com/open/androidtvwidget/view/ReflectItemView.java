@@ -45,19 +45,17 @@ public class ReflectItemView extends FrameLayout {
     private static int sViewIDNum = 0;
     private int viewIDNum = 0;
 
-    public ReflectItemView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init(context, attrs);
+    public ReflectItemView(Context context) {
+        this(context, null, 0);
     }
 
     public ReflectItemView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+        this(context, attrs, 0);
     }
 
-    public ReflectItemView(Context context) {
-        super(context);
-        init(context, null);
+    public ReflectItemView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(context, attrs);
     }
 
     private void init(Context context, AttributeSet attrs) {

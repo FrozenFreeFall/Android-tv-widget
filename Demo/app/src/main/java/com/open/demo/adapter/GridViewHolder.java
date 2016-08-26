@@ -1,13 +1,13 @@
 package com.open.demo.adapter;
 
+import com.open.androidtvwidget.leanback.mode.OpenPresenter;
 import com.open.demo.R;
 
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class GridViewHolder extends ViewHolder {
+public class GridViewHolder extends OpenPresenter.ViewHolder {
 	
 	public ImageView iv; 
 	public TextView tv;

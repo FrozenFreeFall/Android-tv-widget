@@ -1,65 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- RecyclerView DEMO -->
+<?xml version="1.0" encoding="utf-8"?><!-- RecyclerView DEMO -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/h_liner_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="横向LinerLayout" />
-
-        <Button
-            android:id="@+id/v_liner_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="纵向LinerLayout" />
-
-        <Button
-            android:id="@+id/h_grid_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="纵向GridLayout" />
-
-        <Button
-            android:id="@+id/v_grid_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="纵向GridLayout" />
-
-        <Button
-            android:id="@+id/head_grid_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="带标题头GridLayout" />
-    </LinearLayout>
-
-    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <com.open.androidtvwidget.recycle.RecyclerViewTV
+        <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
+            android:id="@+id/left_menu_rv"
+            android:layout_width="@dimen/w_200"
+            android:layout_height="match_parent"
+            android:focusable="false"
+            android:nextFocusRight="@+id/recyclerView" />
+
+        <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
             android:id="@+id/recyclerView"
-            android:paddingBottom="80dp"
-            android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#000000"
-            android:clipToPadding="false"
-            android:focusable="false" >
-            
-        </com.open.androidtvwidget.recycle.RecyclerViewTV>
+            android:focusable="false"
+            android:nextFocusLeft="@+id/left_menu_rv"
+            android:padding="20dp"
+            android:paddingBottom="80dp">
 
-    </RelativeLayout>
+        </com.open.androidtvwidget.leanback.recycle.RecyclerViewTV>
+
+    </LinearLayout>
     <!-- 最顶层边框 -->
 
     <com.open.androidtvwidget.view.MainUpView
