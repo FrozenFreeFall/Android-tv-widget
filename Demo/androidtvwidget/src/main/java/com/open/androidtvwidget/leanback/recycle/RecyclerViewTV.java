@@ -98,8 +98,14 @@ public class RecyclerViewTV extends RecyclerView {
 
     @Override
     public void onChildAttachedToWindow(View child) {
-        child.setOnClickListener(mItemListener);
-        child.setOnFocusChangeListener(mItemListener);
+        // 设置单击事件，修复.
+        if (!child.hasOnClickListeners()){
+            child.setOnClickListener(mItemListener);
+        }
+        // 设置焦点事件，修复.
+        if (child.getOnFocusChangeListener() == null) {
+            child.setOnFocusChangeListener(mItemListener);
+        }
     }
 
     @Override

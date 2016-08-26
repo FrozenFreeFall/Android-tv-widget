@@ -3,6 +3,8 @@ package com.open.androidtvwidget.leanback.mode;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
+
 /**
  * Created by hailongqiu on 2016/8/22.
  */
@@ -50,4 +52,7 @@ public abstract class OpenPresenter {
 
     }
 
+    public void setAdapter(GeneralAdapter adapter) {
+
+    }
 }

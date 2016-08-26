@@ -16,6 +16,8 @@ public class GeneralAdapter extends RecyclerView.Adapter {
 
     public GeneralAdapter(OpenPresenter presenter) {
         this.mPresenter = presenter;
+        if (this.mPresenter != null)
+            this.mPresenter.setAdapter(this);
     }
 
     public OpenPresenter getPresenter() {

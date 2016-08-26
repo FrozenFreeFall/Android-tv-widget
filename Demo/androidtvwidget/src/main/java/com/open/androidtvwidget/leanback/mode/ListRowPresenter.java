@@ -3,6 +3,7 @@ package com.open.androidtvwidget.leanback.mode;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
 import com.open.androidtvwidget.leanback.widget.ItemContainerView;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class ListRowPresenter extends OpenPresenter {
     OpenPresenter mItemListPresenter;// item 标题头下面的 横向 items.
 
     List<ListRow> mItems;
+    GeneralAdapter mAdapter;
 
     /**
      * 你可以设置自己的 头 presenter, 还有横向 presenter.
@@ -27,16 +29,29 @@ public class ListRowPresenter extends OpenPresenter {
      */
     public ListRowPresenter(List<ListRow> items, OpenPresenter headPresenter, OpenPresenter listPresenter) {
         this.mItems = items;
-        if (headPresenter != null) {
-            this.mItemHeaderPresenter = headPresenter;
-        }
-        if (listPresenter != null) {
-            this.mItemListPresenter = listPresenter;
-        }
+        this.mItemHeaderPresenter = headPresenter;
+        this.mItemListPresenter = listPresenter;
     }
 
     public ListRowPresenter(List<ListRow> items) {
-        this(items, new ItemHeaderPresenter(), new ItemListPresenter(new DefualtListPresenter()));
+        this(items, null, null);
+    }
+
+    @Override
+    public void setAdapter(GeneralAdapter adapter) {
+        this.mAdapter = adapter;
+    }
+
+    public void setItems(List<ListRow> items, int position) {
+        this.mItems = items;
+        if (this.mAdapter != null)
+            this.mAdapter.notifyItemChanged(position);
+    }
+
+    public void setItems(List<ListRow> items) {
+        this.mItems = items;
+        if (this.mAdapter != null)
+            this.mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -60,11 +75,17 @@ public class ListRowPresenter extends OpenPresenter {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemContainerView itemContainerView = new ItemContainerView(parent.getContext());
         // 添加标题头.
-        ViewHolder headVH = mItemHeaderPresenter.onCreateViewHolder(parent, viewType);
-        itemContainerView.addHeaderView(headVH.view);
+        ViewHolder headVH = null;
+        if (mItemHeaderPresenter != null) {
+            headVH = mItemHeaderPresenter.onCreateViewHolder(parent, viewType);
+            itemContainerView.addHeaderView(headVH.view);
+        }
         // 添加横向控件.
-        ViewHolder listVH = mItemListPresenter.onCreateViewHolder(parent, viewType);
-        itemContainerView.addRowView(listVH.view);
+        ViewHolder listVH = null;
+        if (mItemListPresenter != null) {
+            listVH = mItemListPresenter.onCreateViewHolder(parent, viewType);
+            itemContainerView.addRowView(listVH.view);
+        }
         //
         return new ListRowViewHolder(itemContainerView, headVH, listVH);
     }

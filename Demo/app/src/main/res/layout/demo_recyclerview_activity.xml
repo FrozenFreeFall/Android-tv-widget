@@ -15,16 +15,14 @@
             android:id="@+id/left_menu_rv"
             android:layout_width="@dimen/w_200"
             android:layout_height="match_parent"
-            android:focusable="false"
-            android:nextFocusRight="@+id/recyclerView" />
+            android:focusable="false"/>
 
         <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#000000"
+            android:background="@color/aliceblue"
             android:focusable="false"
-            android:nextFocusLeft="@+id/left_menu_rv"
             android:padding="20dp"
             android:paddingBottom="80dp">
 

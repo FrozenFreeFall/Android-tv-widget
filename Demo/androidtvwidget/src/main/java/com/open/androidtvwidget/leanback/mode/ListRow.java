@@ -1,6 +1,7 @@
 package com.open.androidtvwidget.leanback.mode;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -25,6 +26,10 @@ public class ListRow {
 
     public void add(Object item) {
         mItems.add(item);
+    }
+
+    public void addAll(Object items) {
+        this.mItems.addAll((Collection<?>) items);
     }
 
     public List<Object> getItems() {

@@ -1,12 +1,9 @@
 package com.open.androidtvwidget.leanback.mode;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.open.androidtvwidget.R;
 import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
-import com.open.androidtvwidget.leanback.recycle.LinearLayoutManagerTV;
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.open.androidtvwidget.leanback.widget.ListContentView;
 
@@ -16,51 +13,61 @@ import com.open.androidtvwidget.leanback.widget.ListContentView;
  */
 public class ItemListPresenter extends OpenPresenter {
 
-    DefualtListPresenter mListPresenter;
-
-    public ItemListPresenter() {
-        mListPresenter = new DefualtListPresenter();
-    }
-
-    public ItemListPresenter(DefualtListPresenter listPresenter) {
-        this.mListPresenter = listPresenter;
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ListContentView listContentView = new ListContentView(parent.getContext());
         return new ItemListViewHolder(listContentView, listContentView.getRecyclerViewTV());
     }
 
+    public DefualtListPresenter getDefualtListPresenter() {
+        return new DefualtListPresenter();
+    }
+
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Object item) {
+    public void onBindViewHolder(ViewHolder viewHolder, final Object item) {
         final ItemListViewHolder itemListViewHolder = (ItemListViewHolder) viewHolder;
-        mListPresenter.setItems(item);
-        GeneralAdapter generalAdapter = new GeneralAdapter(mListPresenter);
-//        new AutoMeaureGridLayoutManager(viewHolder.view.getContext(), 4, GridLayoutManager.VERTICAL, false)
-        LinearLayoutManagerTV lm = new LinearLayoutManagerTV(viewHolder.view.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        lm.setAutoMeasureEnabled(true); // 自动适应布局.
-        itemListViewHolder.mRecyclerViewTV.setLayoutManager(lm);
+        if (itemListViewHolder.defualtListPresenter == null) {
+            itemListViewHolder.defualtListPresenter = getDefualtListPresenter();
+        }
+        itemListViewHolder.defualtListPresenter.setItems(item);
+        GeneralAdapter generalAdapter = new GeneralAdapter(itemListViewHolder.defualtListPresenter);
+        itemListViewHolder.mRecyclerViewTV.setLayoutManager(itemListViewHolder.defualtListPresenter.getLayoutManger(viewHolder.view.getContext()));
         itemListViewHolder.mRecyclerViewTV.setAdapter(generalAdapter);
         itemListViewHolder.mRecyclerViewTV.setOnItemListener(new RecyclerViewTV.OnItemListener() {
             @Override
             public void onItemPreSelected(RecyclerViewTV parent, View itemView, int position) {
-                itemView.animate().scaleX(1.0f).scaleY(1.0f).start();
+                if (itemListViewHolder.defualtListPresenter.getOnItemListener() != null) {
+                    itemListViewHolder.defualtListPresenter.getOnItemListener().onItemPreSelected(parent, itemView, position);
+                }
             }
 
             @Override
             public void onItemSelected(RecyclerViewTV parent, View itemView, int position) {
-                itemView.animate().scaleX(1.3f).scaleY(1.3f).start();
+                if (itemListViewHolder.defualtListPresenter.getOnItemListener() != null) {
+                    itemListViewHolder.defualtListPresenter.getOnItemListener().onItemSelected(parent, itemView, position);
+                }
             }
 
             @Override
             public void onReviseFocusFollow(RecyclerViewTV parent, View itemView, int position) {
+                if (itemListViewHolder.defualtListPresenter.getOnItemListener() != null) {
+                    itemListViewHolder.defualtListPresenter.getOnItemListener().onReviseFocusFollow(parent, itemView, position);
+                }
+            }
+        });
+        itemListViewHolder.mRecyclerViewTV.setOnItemClickListener(new RecyclerViewTV.OnItemClickListener() {
+            @Override
+            public void onItemClick(RecyclerViewTV parent, View itemView, int position) {
+                if (itemListViewHolder.defualtListPresenter.getOnItemClickListener() != null) {
+                    itemListViewHolder.defualtListPresenter.getOnItemClickListener().onItemClick(parent, itemView, position);
+                }
             }
         });
     }
 
     static class ItemListViewHolder extends OpenPresenter.ViewHolder {
         private RecyclerViewTV mRecyclerViewTV;
+        private DefualtListPresenter defualtListPresenter;
 
         public ItemListViewHolder(View view, RecyclerViewTV rv) {
             super(view);

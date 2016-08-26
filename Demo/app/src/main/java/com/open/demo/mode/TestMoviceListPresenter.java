@@ -1,28 +1,48 @@
 package com.open.demo.mode;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.open.androidtvwidget.leanback.mode.DefualtListPresenter;
+import com.open.androidtvwidget.leanback.widget.OpenCardView;
 import com.open.demo.R;
 
 /**
  * Leanback 横向item demo.
+ * 如果你想改变标题头的样式，那就写自己的吧.
  * Created by hailongqiu on 2016/8/25.
  */
 public class TestMoviceListPresenter extends DefualtListPresenter {
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View headview = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recyclerview_view, parent, false);
-        return new ViewHolder(headview);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.lb_h_item, parent, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         Movie movie = ((Movie) getItem(position));
-        TextView textview = (TextView) viewHolder.view.findViewById(R.id.textView);
-        textview.setText(movie.getTitle());
+        OpenCardView openCardView = (OpenCardView) viewHolder.view;
+        openCardView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    v.animate().scaleX(1.2f).scaleY(1.2f).setDuration(300).start();
+                } else {
+                    v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).start();
+                }
+            }
+        });
+        openCardView.setBackgroundResource(R.drawable.mainview_cloudlist);
+        Drawable d = viewHolder.view.getResources().getDrawable(R.drawable.ic_sp_block_focus);
+        openCardView.setShadowDrawable(d);
+        //
+        TextView tv = (TextView) openCardView.findViewById(R.id.title_tv);
+        tv.setText(movie.getTitle());
     }
+
 }
