@@ -27,11 +27,13 @@ public class DefualtListPresenter extends OpenPresenter {
 
     }
 
-
+    /**
+     * 返回自己的 LayoutMAnger.
+     */
     public RecyclerView.LayoutManager getLayoutManger(Context context) {
-        LinearLayoutManagerTV lm = new LinearLayoutManagerTV(context, LinearLayoutManager.HORIZONTAL, false);
-        lm.setAutoMeasureEnabled(true); // 自动适应布局.
-        return lm;
+        LinearLayoutManagerTV layoutManager = new LinearLayoutManagerTV(context, LinearLayoutManager.HORIZONTAL, false);
+        layoutManager.setAutoMeasureEnabled(true); // 自动适应布局.
+        return layoutManager;
     }
 
     public float getScaleX() {
@@ -83,8 +85,8 @@ public class DefualtListPresenter extends OpenPresenter {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-//        Mo str = ((String) mItems.get(position));
-//        Button btn = ((Button) viewHolder.view);
-//        btn.setText(str);
+        String str = ((String) mItems.get(position));
+        Button btn = ((Button) viewHolder.view);
+        btn.setText(str);
     }
 }

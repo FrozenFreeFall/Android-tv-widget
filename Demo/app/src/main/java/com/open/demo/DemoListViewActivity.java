@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.open.androidtvwidget.bridge.EffectNoDrawBridge;
 import com.open.androidtvwidget.utils.Utils;
+import com.open.androidtvwidget.view.ListViewTV;
 import com.open.androidtvwidget.view.MainUpView;
 
 import android.app.Activity;
@@ -31,14 +32,14 @@ public class DemoListViewActivity extends Activity {
 	private MainUpView mainUpView1;
 	private LayoutInflater mInflater;
 	private View mOldView;
-	private ListView listView;
+	private ListViewTV listView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.demo_list_view);
 		this.mInflater = LayoutInflater.from(getApplicationContext());
-		listView = (ListView) findViewById(R.id.listview);
+		listView = (ListViewTV) findViewById(R.id.listview);
 		mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
 		// 默认是 OpenEff...，建议使用 NoDraw... ...
 		mainUpView1.setEffectBridge(new EffectNoDrawBridge()); 
@@ -76,8 +77,7 @@ public class DemoListViewActivity extends Activity {
 		Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				listView.requestFocusFromTouch();
-				listView.setSelection(2);
+				listView.setDefualtSelect(2);
 			}
 		};
 		handler.sendMessageDelayed(handler.obtainMessage(), 188);

@@ -2,7 +2,6 @@ package com.open.demo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -16,12 +15,13 @@ import com.open.androidtvwidget.bridge.EffectNoDrawBridge;
 import com.open.androidtvwidget.bridge.OpenEffectBridge;
 import com.open.androidtvwidget.utils.OPENLOG;
 import com.open.androidtvwidget.utils.Utils;
-import com.open.androidtvwidget.view.MainLayout;
+import com.open.androidtvwidget.view.FrameMainLayout;
 import com.open.androidtvwidget.view.MainUpView;
+import com.open.androidtvwidget.view.SmoothHorizontalScrollView;
 
 /**
  * DEMO测试.
- *  xml布局中 clipChildren clipToPadding 不要忘记了，不然移动的边框无法显示出来的. (强烈注意)
+ * xml布局中 clipChildren clipToPadding 不要忘记了，不然移动的边框无法显示出来的. (强烈注意)
  */
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -38,6 +38,8 @@ public class MainActivity extends Activity implements OnClickListener {
         // WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.test_main);
+        SmoothHorizontalScrollView hscroll_view = (SmoothHorizontalScrollView) findViewById(R.id.hscroll_view);
+        hscroll_view.setFadingEdge((int)getDimension(R.dimen.w_100)); // 滚动窗口也需要适配.
         //
         test_top_iv = findViewById(R.id.test_top_iv);
         /* MainUpView 设置. */
@@ -63,7 +65,7 @@ public class MainActivity extends Activity implements OnClickListener {
         // mainUpView1.setDrawShadowPadding(0); // 阴影图片设置距离.
         // mOpenEffectBridge.setTranDurAnimTime(500); // 动画时间.
 
-        MainLayout main_lay11 = (MainLayout) findViewById(R.id.main_lay);
+        FrameMainLayout main_lay11 = (FrameMainLayout) findViewById(R.id.main_lay);
         main_lay11.getViewTreeObserver().addOnGlobalFocusChangeListener(new OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(final View oldFocus, final View newFocus) {
@@ -181,7 +183,9 @@ public class MainActivity extends Activity implements OnClickListener {
     }
 
     private void switchNoDrawBridgeVersion() {
-        RectF rectf = new RectF(getDimension(R.dimen.w_20), getDimension(R.dimen.h_20), getDimension(R.dimen.w_18), getDimension(R.dimen.h_18));
+        float density = getResources().getDisplayMetrics().density;
+        RectF rectf = new RectF(getDimension(R.dimen.w_10) * density, getDimension(R.dimen.h_10) * density,
+                getDimension(R.dimen.w_9) * density, getDimension(R.dimen.h_9) * density);
         EffectNoDrawBridge effectNoDrawBridge = new EffectNoDrawBridge();
         effectNoDrawBridge.setTranDurAnimTime(200);
 //        effectNoDrawBridge.setDrawUpRectPadding(rectf);

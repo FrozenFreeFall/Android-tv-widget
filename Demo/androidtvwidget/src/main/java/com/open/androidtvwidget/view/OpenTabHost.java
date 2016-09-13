@@ -27,8 +27,7 @@ import android.widget.TabWidget;
 public class OpenTabHost extends TabHost {
 
 	public OpenTabHost(Context context) {
-		super(context);
-		init(context, null);
+		this(context, null);
 	}
 
 	public OpenTabHost(Context context, AttributeSet attrs) {
@@ -38,6 +37,9 @@ public class OpenTabHost extends TabHost {
 
 	private Context mContext;
 	private TabWidget mTabWidget; // 标题栏.
+	private BaseTabTitleAdapter mAdapter;
+	private List<View> mCacheView = new ArrayList<View>();
+	private OnTabSelectListener mOnTabSelectListener;
 
 	private void init(Context context, AttributeSet attrs) {
 		this.mContext = context;
@@ -63,8 +65,6 @@ public class OpenTabHost extends TabHost {
 			}
 		});
 	}
-
-	private OnTabSelectListener mOnTabSelectListener;
 
 	public void setOnTabSelectListener(OnTabSelectListener cb) {
 		this.mOnTabSelectListener = cb;
@@ -97,9 +97,6 @@ public class OpenTabHost extends TabHost {
 			return v;
 		}
 	}
-
-	private BaseTabTitleAdapter mAdapter;
-	private List<View> mCacheView = new ArrayList<View>();
 
 	public void setAdapter(BaseTabTitleAdapter adapter) {
 		mCacheView.clear();

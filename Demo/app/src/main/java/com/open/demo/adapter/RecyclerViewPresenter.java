@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
 import com.open.androidtvwidget.leanback.mode.OpenPresenter;
 import com.open.demo.R;
 
@@ -18,12 +19,29 @@ import java.util.List;
 public class RecyclerViewPresenter extends OpenPresenter {
 
     private final List<String> labels;
+    private GeneralAdapter mAdapter;
 
     public RecyclerViewPresenter(int count) {
         this.labels = new ArrayList<String>(count);
         for (int i = 0; i < count; i++) {
             labels.add(String.valueOf(i));
         }
+    }
+
+    @Override
+    public void setAdapter(GeneralAdapter adapter) {
+        this.mAdapter = adapter;
+    }
+
+    /**
+     * 用于数据加载更多测试.
+     */
+    public void addDatas(int count) {
+        int sum = labels.size();
+        for (int i = sum; i < sum + count; i++) {
+            labels.add(String.valueOf(i));
+        }
+        this.mAdapter.notifyDataSetChanged();
     }
 
     @Override

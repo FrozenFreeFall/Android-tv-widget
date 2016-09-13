@@ -34,4 +34,12 @@ http://note.youdao.com/yws/public/redirect/share?id=ded7f3cb20b67faf9e8b17349910
 width, left, right 使用 w_100
 height, top, bottom 使用 h_100
 textsize 使用 w_40
+padding 尽量使用 left_padding right_padd... 等等来使用.
 注意imageview,因为background和src不同, src要压缩比例的，注意设置scaleType.
+
+【资源文件分辨率问题】
+如果.9图片无法适配，请注意
+请看目录的图片，还是不太明白
+具体看这里:http://www.cocoachina.com/android/20151030/13971.html
+还有这里:http://www.androidtvdev.com/forum.php?mod=viewthread&tid=307&extra=
+

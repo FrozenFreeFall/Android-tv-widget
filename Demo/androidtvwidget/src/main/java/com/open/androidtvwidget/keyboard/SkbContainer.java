@@ -4,6 +4,7 @@ import com.open.androidtvwidget.R;
 import com.open.androidtvwidget.utils.OPENLOG;
 
 import android.content.Context;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -61,6 +62,11 @@ public class SkbContainer extends RelativeLayout implements SoftKeyBoardable {
 	@Override
 	public void setSoftKeySelectPadding(int padding) {
 		mSoftKeyboardView.setSoftKeySelectPadding(padding);
+	}
+
+	@Override
+	public void setSoftKeySelectPadding(RectF rectf) {
+		mSoftKeyboardView.setSoftKeySelectPadding(rectf);
 	}
 
 	@Override

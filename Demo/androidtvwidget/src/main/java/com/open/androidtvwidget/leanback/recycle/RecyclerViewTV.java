@@ -4,18 +4,25 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 
+import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
+import com.open.androidtvwidget.leanback.recycle.impl.PrvInterface;
 import com.open.androidtvwidget.utils.OPENLOG;
+
+import java.util.ArrayList;
 
 /**
  * RecyclerView TV适配版本.
  * https://github.com/zhousuqiang/TvRecyclerView(参考源码)
  */
-public class RecyclerViewTV extends RecyclerView {
+public class RecyclerViewTV extends RecyclerView implements PrvInterface {
 
     public RecyclerViewTV(Context context) {
         this(context, null);
@@ -39,6 +46,8 @@ public class RecyclerViewTV extends RecyclerView {
     private OnItemClickListener mOnItemClickListener; // item 单击事件.
     private ItemListener mItemListener;
     private int offset = -1;
+
+    private RecyclerViewTV.OnChildViewHolderSelectedListener mChildViewHolderSelectedListener;
 
     private void init(Context context) {
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
@@ -99,7 +108,7 @@ public class RecyclerViewTV extends RecyclerView {
     @Override
     public void onChildAttachedToWindow(View child) {
         // 设置单击事件，修复.
-        if (!child.hasOnClickListeners()){
+        if (!child.hasOnClickListeners()) {
             child.setOnClickListener(mItemListener);
         }
         // 设置焦点事件，修复.
@@ -122,17 +131,23 @@ public class RecyclerViewTV extends RecyclerView {
 
     @Override
     public boolean isInTouchMode() {
-        boolean result = super.isInTouchMode();
         // 解决4.4版本抢焦点的问题
         if (Build.VERSION.SDK_INT == 19) {
-            return !(hasFocus() && !result);
+            return !(hasFocus() && !super.isInTouchMode());
         } else {
-            return result;
+            return super.isInTouchMode();
         }
     }
 
     @Override
     public void requestChildFocus(View child, View focused) {
+        // 一行的选中.
+        if (mChildViewHolderSelectedListener != null) {
+            int pos = getPositionByView(child);
+            RecyclerView.ViewHolder vh = getChildViewHolder(child);
+            mChildViewHolderSelectedListener.onChildViewHolderSelected(this, vh, pos);
+        }
+        //
         if (null != child) {
             if (mSelectedItemCentered) {
                 mSelectedItemOffsetStart = !isVertical() ? (getFreeWidth() - child.getWidth()) : (getFreeHeight() - child.getHeight());
@@ -274,9 +289,10 @@ public class RecyclerViewTV extends RecyclerView {
      * 与setSelectedItemAtCentered()方法二选一
      *
      * @param offsetStart
-     * @param offsetEnd
+     * @param offsetEnd 从结尾到你移动的位置.
      */
     public void setSelectedItemOffset(int offsetStart, int offsetEnd) {
+        setSelectedItemAtCentered(false);
         this.mSelectedItemOffsetStart = offsetStart;
         this.mSelectedItemOffsetEnd = offsetEnd;
     }
@@ -295,6 +311,13 @@ public class RecyclerViewTV extends RecyclerView {
         if (mItemView == null)
             mItemView = getFocusedChild();
         return mItemView;
+    }
+
+    public int getSelectPostion() {
+        View view = getSelectView();
+        if (view != null)
+            return getPositionByView(view);
+        return -1;
     }
 
     @Override
@@ -357,6 +380,11 @@ public class RecyclerViewTV extends RecyclerView {
         void onReviseFocusFollow(RecyclerViewTV parent, View itemView, int position);
     }
 
+    public interface OnChildViewHolderSelectedListener {
+        public void onChildViewHolderSelected(RecyclerView parent, RecyclerView.ViewHolder vh,
+                                              int position);
+    }
+
     public interface OnItemClickListener {
         void onItemClick(RecyclerViewTV parent, View itemView, int position);
     }
@@ -367,6 +395,180 @@ public class RecyclerViewTV extends RecyclerView {
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
+    }
+
+    /**
+     * 控制焦点高亮问题.
+     * 2016.08.29
+     */
+    public void setOnChildViewHolderSelectedListener(OnChildViewHolderSelectedListener listener) {
+        mChildViewHolderSelectedListener = listener;
+    }
+
+    private int getPositionByView(View view) {
+        if (view == null) {
+            return NO_POSITION;
+        }
+        LayoutParams params = (LayoutParams) view.getLayoutParams();
+        if (params == null || params.isItemRemoved()) {
+            // when item is removed, the position value can be any value.
+            return NO_POSITION;
+        }
+        return params.getViewPosition();
+    }
+
+    /////////////////// 按键加载更多 start start start //////////////////////////
+
+    private PagingableListener mPagingableListener;
+    private boolean isLoading = false;
+
+    public interface PagingableListener {
+        void onLoadMoreItems();
+    }
+
+    @Override
+    public void setOnLoadMoreComplete() {
+        isLoading = false;
+    }
+
+    @Override
+    public void setPagingableListener(PagingableListener pagingableListener) {
+        this.mPagingableListener = pagingableListener;
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int action = event.getAction();
+        int keyCode = event.getKeyCode();
+        if (action == KeyEvent.ACTION_UP) {
+            if (!isHorizontalLayoutManger() && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                // 垂直布局向下按键.
+                exeuteKeyEvent();
+            } else if (isHorizontalLayoutManger() && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                // 横向布局向右按键.
+                exeuteKeyEvent();
+            }
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    private boolean exeuteKeyEvent() {
+        int totalItemCount = getLayoutManager().getItemCount();
+        int lastVisibleItem = findLastVisibleItemPosition();
+        int lastComVisiPos = findLastCompletelyVisibleItemPosition();
+        int visibleItemCount = getChildCount();
+        int firstVisibleItem = findFirstVisibleItemPosition();
+        // 判断是否显示最底了.
+        if (!isLoading && totalItemCount - visibleItemCount <= firstVisibleItem) {
+            isLoading = true;
+            if (mPagingableListener != null) {
+//                OPENLOG.D(" totalItemCount: " + totalItemCount +
+//                        " lastVisibleItem: " + lastVisibleItem +
+//                        " lastComVisiPos: " + lastComVisiPos);
+                mPagingableListener.onLoadMoreItems();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断是否为横向布局
+     */
+    private boolean isHorizontalLayoutManger() {
+        LayoutManager lm = getLayoutManager();
+        if (lm != null) {
+            if (lm instanceof LinearLayoutManager) {
+                LinearLayoutManager llm = (LinearLayoutManager) lm;
+                return LinearLayoutManager.HORIZONTAL == llm.getOrientation();
+            }
+            if (lm instanceof GridLayoutManager) {
+                GridLayoutManager glm = (GridLayoutManager) lm;
+                return GridLayoutManager.HORIZONTAL == glm.getOrientation();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 最后的位置.
+     */
+    public int findLastVisibleItemPosition() {
+        RecyclerView.LayoutManager layoutManager = getLayoutManager();
+        if (layoutManager != null) {
+            if (layoutManager instanceof LinearLayoutManager) {
+                return ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+            }
+            if (layoutManager instanceof GridLayoutManager) {
+                return ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
+            }
+        }
+        return RecyclerView.NO_POSITION;
+    }
+
+    /**
+     * 滑动到底部.
+     */
+    public int findLastCompletelyVisibleItemPosition() {
+        LayoutManager layoutManager = getLayoutManager();
+        if (layoutManager != null) {
+            if (layoutManager instanceof LinearLayoutManager) {
+                return ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
+            }
+            if (layoutManager instanceof GridLayoutManager) {
+                return ((GridLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
+            }
+        }
+        return RecyclerView.NO_POSITION;
+    }
+
+    public int findFirstVisibleItemPosition() {
+        LayoutManager lm = getLayoutManager();
+        if (lm != null) {
+            if (lm instanceof LinearLayoutManager) {
+                return ((LinearLayoutManager) lm).findFirstVisibleItemPosition();
+            }
+            if (lm instanceof GridLayoutManager) {
+                return ((GridLayoutManager) lm).findFirstVisibleItemPosition();
+            }
+        }
+        return RecyclerView.NO_POSITION;
+    }
+
+    /////////////////// 按键加载更多 end end end //////////////////////////
+
+    /////////////////// 按键拖动 Item start start start ///////////////////////
+
+    private final ArrayList<OnItemKeyListener> mOnItemKeyListeners =
+            new ArrayList<OnItemKeyListener>();
+
+    public static interface OnItemKeyListener {
+        public boolean dispatchKeyEvent(KeyEvent event);
+    }
+
+    public void addOnItemKeyListener(OnItemKeyListener listener) {
+        mOnItemKeyListeners.add(listener);
+    }
+
+    public void removeOnItemKeyListener(OnItemKeyListener listener) {
+        mOnItemKeyListeners.remove(listener);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent e) {
+        return super.onInterceptTouchEvent(e);
+    }
+
+    ////////////////// 按键拖动 Item end end end /////////////////////////
+
+    /**
+     * 设置默认选中.
+     */
+    public void setDefaultSelect(int pos) {
+        GeneralAdapter.ViewHolder vh = (GeneralAdapter.ViewHolder) findViewHolderForAdapterPosition(pos);
+        requestFocusFromTouch();
+        if (vh != null)
+            vh.itemView.requestFocus();
     }
 
 }

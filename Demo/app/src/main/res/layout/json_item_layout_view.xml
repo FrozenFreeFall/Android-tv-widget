@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.open.androidtvwidget.view.LabelView
+        android:id="@+id/labelview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        app:lv_background_color="#3F9FE0"
+        app:lv_fill_triangle="true"
+        app:lv_gravity="TOP_RIGHT"
+        app:lv_text="热门"
+        app:lv_text_size="@dimen/w_20" />
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/h_50"
+        android:layout_gravity="bottom"
+        android:background="@color/red" />
+</merge>

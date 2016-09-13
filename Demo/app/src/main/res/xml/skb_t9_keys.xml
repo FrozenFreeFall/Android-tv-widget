@@ -2,16 +2,16 @@
 <!-- T9键盘 -->
 <Keyboard
     bg_res="@drawable/main_bg"
-    key_left_padding="@dimen/px10"
+    key_left_padding="@dimen/w_10"
     key_bg_res="@drawable/key_bg_rectangle"
     key_select_res="@drawable/white_light_10"
     key_text_color="#b8bbbf"
-    key_text_size="@dimen/px30"
-    key_top_padding="@dimen/px10"
-    key_height="@dimen/px100"
-    key_width="@dimen/px100"
-    start_pos_x="@dimen/px240"
-    start_pos_y="@dimen/px20"
+    key_text_size="@dimen/w_30"
+    key_top_padding="@dimen/h_10"
+    key_height="@dimen/h_100"
+    key_width="@dimen/w_100"
+    start_pos_x="@dimen/w_240"
+    start_pos_y="@dimen/h_20"
     left_right_move="false"
     top_bottom_move="false" >
 

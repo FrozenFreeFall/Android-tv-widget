@@ -54,6 +54,10 @@ public class ListRowPresenter extends OpenPresenter {
             this.mAdapter.notifyDataSetChanged();
     }
 
+    public List<ListRow> getItems() {
+        return this.mItems;
+    }
+
     @Override
     public int getItemCount() {
         return mItems != null ? mItems.size() : 0;
@@ -100,12 +104,12 @@ public class ListRowPresenter extends OpenPresenter {
         }
 
         if (listRowViewHolder.mListViewHolder != null) {
-            mItemListPresenter.onBindViewHolder(listRowViewHolder.mListViewHolder, listRow.getItems());
+            mItemListPresenter.onBindViewHolder(listRowViewHolder.mListViewHolder, listRow);
         }
 
     }
 
-    static class ListRowViewHolder extends OpenPresenter.ViewHolder {
+    public static class ListRowViewHolder extends OpenPresenter.ViewHolder {
 
         ViewHolder mHeadViewHolder;
         ViewHolder mListViewHolder;
@@ -116,6 +120,9 @@ public class ListRowPresenter extends OpenPresenter {
             this.mListViewHolder = lilstVH;
         }
 
+        public ViewHolder getListViewHolder() {
+            return mListViewHolder;
+        }
     }
 
 }

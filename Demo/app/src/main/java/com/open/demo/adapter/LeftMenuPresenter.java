@@ -20,7 +20,6 @@ public class LeftMenuPresenter extends OpenPresenter {
             add("纵向LinerLayout");
             add("横向GridLayout");
             add("纵向GridLayout");
-            add("带标题头GridLayout");
             add("Leanback demo");
         }
     };

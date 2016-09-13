@@ -51,4 +51,9 @@ public class ListViewTV extends ListView {
         return mWidgetTvViewBring.getChildDrawingOrder(childCount, i);
     }
 
+    public void setDefualtSelect(int pos) {
+        requestFocusFromTouch();
+        setSelection(pos);
+    }
+
 }

@@ -146,6 +146,7 @@ public class ReflectItemView extends FrameLayout {
      */
     public void setRefHeight(int height) {
         this.mRefHeight = height;
+        invalidate();
     }
 
     public int getRefHeight() {

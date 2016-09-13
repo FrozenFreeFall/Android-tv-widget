@@ -42,4 +42,9 @@ public class GridViewTV extends GridView {
         return i;
     }
 
+    public void setDefualtSelect(int pos) {
+        requestFocusFromTouch();
+        setSelection(pos);
+    }
+
 }

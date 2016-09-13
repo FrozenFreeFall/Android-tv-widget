@@ -4,34 +4,16 @@
     android:id="@+id/content11"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
-    android:paddingTop="80dp">
-	
-      <com.open.androidtvwidget.view.GridViewTV
-        android:id="@+id/gridView"
-        android:nextFocusUp="@+id/title_bar2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:padding="30dp"
-        android:paddingTop="80dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:columnWidth="200dp"
-        android:gravity="center_vertical"
-        android:horizontalSpacing="12dp"
-        android:numColumns="auto_fit"
-        android:scrollbars="none"
-        android:verticalSpacing="20dp" />
-      
+    android:background="@color/transparent">
+
     <com.open.androidtvwidget.view.SmoothHorizontalScrollView
+        android:id="@+id/test_hscroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:visibility="gone"
         android:scrollbars="none" >
 
-        <com.open.androidtvwidget.view.MainLayout
+        <com.open.androidtvwidget.view.FrameMainLayout
             android:id="@+id/main_lay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -40,10 +22,10 @@
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/page2_item1"
                 android:nextFocusUp="@+id/title_bar2"
-                android:layout_width="@dimen/px840"
-                android:layout_height="@dimen/px394"
-                android:layout_marginLeft="@dimen/px96"
-                android:layout_marginTop="@dimen/px204"
+                android:layout_width="@dimen/w_840"
+                android:layout_height="@dimen/h_394"
+                android:layout_marginLeft="@dimen/w_96"
+                android:layout_marginTop="@dimen/h_204"
                 android:clickable="true"
                 android:focusable="true">
 
@@ -70,10 +52,10 @@
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/page2_item2"
-                android:layout_width="@dimen/px404"
-                android:layout_height="@dimen/px246"
-                android:layout_marginLeft="@dimen/px96"
-                android:layout_marginTop="@dimen/px630"
+                android:layout_width="@dimen/w_404"
+                android:layout_height="@dimen/h_246"
+                android:layout_marginLeft="@dimen/w_96"
+                android:layout_marginTop="@dimen/h_630"
                 android:background="@drawable/mainview_searchsong"
                 android:clickable="true"
                 android:focusable="true"
@@ -94,10 +76,10 @@
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/page2_item5"
                 android:nextFocusUp="@+id/title_bar2"
-                android:layout_width="@dimen/px412"
-                android:layout_height="@dimen/px672"
-                android:layout_marginLeft="@dimen/px1412"
-                android:layout_marginTop="@dimen/px204"
+                android:layout_width="@dimen/w_412"
+                android:layout_height="@dimen/h_672"
+                android:layout_marginLeft="@dimen/w_1412"
+                android:layout_marginTop="@dimen/h_204"
                 android:background="@drawable/mainview_huodong"
                 android:clickable="true"
                 android:focusable="true">
@@ -112,10 +94,10 @@
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/page2_item4"
                 android:nextFocusUp="@+id/title_bar2"
-                android:layout_width="@dimen/px412"
-                android:layout_height="@dimen/px672"
-                android:layout_marginLeft="@dimen/px968"
-                android:layout_marginTop="@dimen/px204"
+                android:layout_width="@dimen/w_412"
+                android:layout_height="@dimen/h_672"
+                android:layout_marginLeft="@dimen/w_968"
+                android:layout_marginTop="@dimen/h_204"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/mainview_cloudlist"
@@ -145,10 +127,10 @@
 
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/page2_item3"
-                android:layout_width="@dimen/px404"
-                android:layout_height="@dimen/px246"
-                android:layout_marginLeft="@dimen/px532"
-                android:layout_marginTop="@dimen/px630"
+                android:layout_width="@dimen/w_404"
+                android:layout_height="@dimen/h_246"
+                android:layout_marginLeft="@dimen/w_532"
+                android:layout_marginTop="@dimen/h_630"
                 android:background="@drawable/mainview_type"
                 android:clickable="true"
                 android:focusable="true"
@@ -164,10 +146,10 @@
             <com.open.androidtvwidget.view.ReflectItemView
                 android:id="@+id/page2_item6"
                 android:nextFocusUp="@+id/title_bar2"
-                android:layout_width="@dimen/px412"
-                android:layout_height="@dimen/px672"
-                android:layout_marginLeft="@dimen/px1858"
-                android:layout_marginTop="@dimen/px204"
+                android:layout_width="@dimen/w_412"
+                android:layout_height="@dimen/h_672"
+                android:layout_marginLeft="@dimen/w_1858"
+                android:layout_marginTop="@dimen/h_204"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/mainview_cloudlist" >
@@ -179,14 +161,8 @@
                     android:scaleType="fitXY"
                     android:src="@drawable/mainview_cloudlist" />
             </com.open.androidtvwidget.view.ReflectItemView>
-        </com.open.androidtvwidget.view.MainLayout>
+        </com.open.androidtvwidget.view.FrameMainLayout>
     </com.open.androidtvwidget.view.SmoothHorizontalScrollView>
 
-    <!-- 最顶层边框 -->
-
-    <com.open.androidtvwidget.view.MainUpView
-        android:id="@+id/mainUpView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 </RelativeLayout>

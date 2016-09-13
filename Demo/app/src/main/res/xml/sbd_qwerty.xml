@@ -3,18 +3,18 @@
 <Keyboard
     bg_res="@drawable/main_bg"
     key_bg_res="@drawable/key_bg_rectangle"
-    key_height="@dimen/px100"
-    key_left_padding="@dimen/px10"
+    key_height="@dimen/h_100"
+    key_left_padding="@dimen/w_10"
     key_select_res="@drawable/white_light_10"
     key_text_color="#b8bbbf"
-    key_text_size="@dimen/px60"
-    key_top_padding="@dimen/px10"
-    key_width="@dimen/px100"
+    key_text_size="@dimen/w_60"
+    key_top_padding="@dimen/h_10"
+    key_width="@dimen/w_100"
     left_right_move="true"
     qwerty="true"
     qwerty_uppercase="false"
-    start_pos_x="@dimen/px240"
-    start_pos_y="@dimen/px20"
+    start_pos_x="@dimen/w_240"
+    start_pos_y="@dimen/h_20"
     top_bottom_move="false" >
 
     <!-- 第一行 -->
@@ -53,13 +53,13 @@
         <key
             key_code="@string/keycode_center"
             key_icon="@drawable/g_search_icon"
-            key_height="@dimen/px210"
-            key_text_size="@dimen/px30" />
+            key_height="@dimen/h_210"
+            key_text_size="@dimen/h_30" />
     </row>
 
     <!-- 第三行 -->
     <row
-        key_bottom_padding="@dimen/px30">
+        key_bottom_padding="@dimen/h_30">
         <keys
             codes="54|52|31|50"
             labels="Z|X|C|V"
@@ -68,7 +68,7 @@
         <key
             key_code="@string/keycode_space"
             key_icon="@drawable/kongge"
-            key_width="@dimen/px210" />
+            key_width="@dimen/w_210" />
 
         <keys
             codes="30|42|41"

@@ -19,59 +19,39 @@ public class ItemListPresenter extends OpenPresenter {
         return new ItemListViewHolder(listContentView, listContentView.getRecyclerViewTV());
     }
 
-    public DefualtListPresenter getDefualtListPresenter() {
-        return new DefualtListPresenter();
-    }
-
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final Object item) {
         final ItemListViewHolder itemListViewHolder = (ItemListViewHolder) viewHolder;
-        if (itemListViewHolder.defualtListPresenter == null) {
-            itemListViewHolder.defualtListPresenter = getDefualtListPresenter();
-        }
-        itemListViewHolder.defualtListPresenter.setItems(item);
-        GeneralAdapter generalAdapter = new GeneralAdapter(itemListViewHolder.defualtListPresenter);
-        itemListViewHolder.mRecyclerViewTV.setLayoutManager(itemListViewHolder.defualtListPresenter.getLayoutManger(viewHolder.view.getContext()));
+        ListRow listRow = (ListRow) item;
+        DefualtListPresenter openPresenter = (DefualtListPresenter) listRow.getOpenPresenter();
+        itemListViewHolder.setDefualtListPresenter(openPresenter); // 保存一下，外面需要调用.
+        openPresenter.setItems(listRow.getItems());
+        itemListViewHolder.mRecyclerViewTV.setLayoutManager(openPresenter.getLayoutManger(viewHolder.view.getContext()));
+        GeneralAdapter generalAdapter = new GeneralAdapter(openPresenter);
         itemListViewHolder.mRecyclerViewTV.setAdapter(generalAdapter);
-        itemListViewHolder.mRecyclerViewTV.setOnItemListener(new RecyclerViewTV.OnItemListener() {
-            @Override
-            public void onItemPreSelected(RecyclerViewTV parent, View itemView, int position) {
-                if (itemListViewHolder.defualtListPresenter.getOnItemListener() != null) {
-                    itemListViewHolder.defualtListPresenter.getOnItemListener().onItemPreSelected(parent, itemView, position);
-                }
-            }
-
-            @Override
-            public void onItemSelected(RecyclerViewTV parent, View itemView, int position) {
-                if (itemListViewHolder.defualtListPresenter.getOnItemListener() != null) {
-                    itemListViewHolder.defualtListPresenter.getOnItemListener().onItemSelected(parent, itemView, position);
-                }
-            }
-
-            @Override
-            public void onReviseFocusFollow(RecyclerViewTV parent, View itemView, int position) {
-                if (itemListViewHolder.defualtListPresenter.getOnItemListener() != null) {
-                    itemListViewHolder.defualtListPresenter.getOnItemListener().onReviseFocusFollow(parent, itemView, position);
-                }
-            }
-        });
-        itemListViewHolder.mRecyclerViewTV.setOnItemClickListener(new RecyclerViewTV.OnItemClickListener() {
-            @Override
-            public void onItemClick(RecyclerViewTV parent, View itemView, int position) {
-                if (itemListViewHolder.defualtListPresenter.getOnItemClickListener() != null) {
-                    itemListViewHolder.defualtListPresenter.getOnItemClickListener().onItemClick(parent, itemView, position);
-                }
-            }
-        });
+        itemListViewHolder.mRecyclerViewTV.setOnItemListener(openPresenter.getOnItemListener());
+        itemListViewHolder.mRecyclerViewTV.setOnItemClickListener(openPresenter.getOnItemClickListener());
     }
 
-    static class ItemListViewHolder extends OpenPresenter.ViewHolder {
+    public static class ItemListViewHolder extends OpenPresenter.ViewHolder {
         private RecyclerViewTV mRecyclerViewTV;
-        private DefualtListPresenter defualtListPresenter;
+        private DefualtListPresenter mDefualtListPresenter;
 
         public ItemListViewHolder(View view, RecyclerViewTV rv) {
             super(view);
             this.mRecyclerViewTV = rv;
+        }
+
+        public void setDefualtListPresenter(DefualtListPresenter presenter) {
+            this.mDefualtListPresenter = presenter;
+        }
+
+        public DefualtListPresenter getDefualtListPresenter() {
+            return this.mDefualtListPresenter;
+        }
+
+        public RecyclerViewTV getRecyclerViewTV() {
+            return this.mRecyclerViewTV;
         }
     }
 

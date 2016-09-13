@@ -134,7 +134,7 @@ public class XmlKeyboardLoader {
 						boolean isQwerty = getBoolean(xrp, XMLATTR_QWERTY, false); // 英文键盘
 						boolean isLRMove = getBoolean(xrp, XMLATTR_LEFT_RIGHT_MOVE, true); // 左右移动
 						boolean isTBMove = getBoolean(xrp, XMLATTR_TOP_BOTTOM_MOVE, true); // 上下移动
-						skbHeight = (int) getFloat(xrp, XMLATTR_KEYBOARD_HEIGHT, -1f);
+						skbHeight = (int) getFloat(xrp, XMLATTR_KEYBOARD_HEIGHT, -1f); // 键盘高度.
 						softKeyboard = new SoftKeyboard();
 						softKeyboard.setKeyboardBg(bg);
 						softKeyboard.setHeight(skbHeight); // 键盘高度.
@@ -186,6 +186,7 @@ public class XmlKeyboardLoader {
 							softKeyboard.addSoftKey(softKey);
 							mSaveKeyXPos += softKey.getWidth() + attrKeys.mKeyLeftPadding;
 						}
+						mSaveKeyXPos += attrKeys.mKeyRightPadding;
 					} else if (XMLTAG_KEY.compareTo(attr) == 0) { // key
 						if (null == softKeyboard) {
 							OPENLOG.E("XMLTAG_KEY softKeyboard null");
@@ -196,7 +197,7 @@ public class XmlKeyboardLoader {
 						}
 						softKey = getSoftKey(xrp, attrKey);
 						softKeyboard.addSoftKey(softKey);
-						mSaveKeyXPos += softKey.getWidth() + attrKey.mKeyLeftPadding;
+						mSaveKeyXPos += softKey.getWidth() + attrKey.mKeyLeftPadding + attrKey.mKeyRightPadding;
 					}
 				} else if (mXmlEventType == XmlResourceParser.END_TAG) {
 					// 判断是否为 </row>
@@ -277,6 +278,7 @@ public class XmlKeyboardLoader {
 		float mKeyXPos;
 		float mKeyYPos;
 		float mKeyLeftPadding;
+		float mKeyRightPadding;
 		float mKeyTopPadding;
 		float mkeyBottomPadding;
 		float mTextSize = KEY_TEXT_SIZE;
@@ -295,6 +297,7 @@ public class XmlKeyboardLoader {
 			this.mKeySelectDrawable = getDrawable(mXrp, XMLATTR_KEY_SELECT_RES, defAttr.mKeySelectDrawable); // 按键选中.
 			this.mKeyPressDrawable = getDrawable(mXrp, XMLATTR_KEY_PRESS_RES, defAttr.mKeyPressDrawable); // 按键按下.
 			this.mKeyLeftPadding = getFloat(mXrp, XMLATTR_KEY_LEFT_PADDING, defAttr.mKeyLeftPadding);
+			this.mKeyRightPadding = getFloat(mXrp, XMLATTR_KEY_RIGHT_PADDING, defAttr.mKeyRightPadding); //右边
 			this.mKeyTopPadding = getFloat(mXrp, XMLATTR_KEY_TOP_PADDING, defAttr.mKeyTopPadding);
 			this.mkeyBottomPadding = getFloat(mXrp, XMLATTR_KEY_BOTTOM_PADDING, defAttr.mkeyBottomPadding);
 			this.mKeyXPos = getFloat(mXrp, XMLATTR_START_POS_X, defAttr.mKeyXPos);

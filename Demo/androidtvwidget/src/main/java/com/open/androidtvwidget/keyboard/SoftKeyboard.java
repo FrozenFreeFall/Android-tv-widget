@@ -260,7 +260,7 @@ public class SoftKeyboard {
 		if (mKeyRows.get(row).getSoftKeys() == null)
 			return false;
 		List<SoftKey> softKeys = mKeyRows.get(row).getSoftKeys();
-		index = Math.max(Math.min(row, (softKeys.size() - 1)), 0);
+		index = Math.max(Math.min(index, (softKeys.size() - 1)), 0);
 		SoftKey softKey = softKeys.get(index);
 		if (softKey != null) {
 			mSelectRow = row;

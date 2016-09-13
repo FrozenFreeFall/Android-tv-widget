@@ -55,4 +55,5 @@ public abstract class OpenPresenter {
     public void setAdapter(GeneralAdapter adapter) {
 
     }
+
 }

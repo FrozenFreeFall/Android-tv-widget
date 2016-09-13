@@ -21,7 +21,7 @@ public class GenerateValueFiles {
      */
     private final static String VALUE_TEMPLATE = "values-{0}x{1}";
 
-    private static final String SUPPORT_DIMESION = "1280,720;1280,800;1920,1080;2560,1440;";
+    private static final String SUPPORT_DIMESION = "1024,600;1280,672;1280,720;1280,736;1280,800;1366,768;1920,1080;2048,1440;2048,1536;2560,1440;2560,1600;";
 
     private String supportStr = SUPPORT_DIMESION;
 

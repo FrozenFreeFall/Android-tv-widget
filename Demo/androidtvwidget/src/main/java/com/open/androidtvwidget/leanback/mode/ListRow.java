@@ -1,5 +1,7 @@
 package com.open.androidtvwidget.leanback.mode;
 
+import com.open.androidtvwidget.utils.OPENLOG;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.List;
  */
 public class ListRow {
     private Object mHeaderItem;
+    private DefualtListPresenter mOpenPresenter;
     private List<Object> mItems = new ArrayList<Object>();
 
     public ListRow(Object header) {
@@ -34,6 +37,14 @@ public class ListRow {
 
     public List<Object> getItems() {
         return this.mItems;
+    }
+
+    public void setOpenPresenter(DefualtListPresenter openPresenter) {
+        this.mOpenPresenter = openPresenter;
+    }
+
+    public DefualtListPresenter getOpenPresenter() {
+        return this.mOpenPresenter;
     }
 
 }

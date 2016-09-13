@@ -24,6 +24,12 @@ import com.open.androidtvwidget.utils.Utils;
 public class EffectNoDrawBridge extends OpenEffectBridge {
 	protected AnimatorSet mCurrentAnimatorSet;
 
+	@Override
+	public void clearAnimator() {
+		if (mCurrentAnimatorSet != null)
+			mCurrentAnimatorSet.end();
+	}
+
 	/**
 	 * 设置背景，边框不使用绘制.
 	 */

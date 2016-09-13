@@ -2,30 +2,32 @@ package com.open.demo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.GridLayoutManager.SpanSizeLookup;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.open.androidtvwidget.bridge.RecyclerViewBridge;
 import com.open.androidtvwidget.leanback.adapter.GeneralAdapter;
+import com.open.androidtvwidget.leanback.mode.DefualtListPresenter;
 import com.open.androidtvwidget.leanback.mode.ItemHeaderPresenter;
 import com.open.androidtvwidget.leanback.mode.ItemListPresenter;
 import com.open.androidtvwidget.leanback.mode.ListRow;
 import com.open.androidtvwidget.leanback.mode.ListRowPresenter;
 import com.open.androidtvwidget.leanback.mode.OpenPresenter;
 import com.open.androidtvwidget.leanback.recycle.GridLayoutManagerTV;
+import com.open.androidtvwidget.leanback.recycle.LinearLayoutManagerTV;
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.open.androidtvwidget.utils.OPENLOG;
 import com.open.androidtvwidget.view.MainUpView;
-import com.open.demo.adapter.HeaderGridPresenter;
 import com.open.demo.adapter.LeftMenuPresenter;
 import com.open.demo.adapter.RecyclerViewPresenter;
+import com.open.demo.mode.LeanbackTestData;
 import com.open.demo.mode.Movie;
-import com.open.demo.mode.NewItemListPresenter;
 import com.open.demo.mode.TestMoviceListPresenter;
 
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class DemoRecyclerviewActivity extends Activity implements RecyclerViewTV
     private MainUpView mainUpView1;
     private RecyclerViewBridge mRecyclerViewBridge;
     private View oldView;
+    private View load_more_pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +55,24 @@ public class DemoRecyclerviewActivity extends Activity implements RecyclerViewTV
         setContentView(R.layout.demo_recyclerview_activity);
         OPENLOG.initTag("hailongqiu", true); // 打开debug信息.
         mContext = DemoRecyclerviewActivity.this;
+        load_more_pb = findViewById(R.id.load_more_pb);
         left_menu_rv = (RecyclerViewTV) findViewById(R.id.left_menu_rv);
         mRecyclerView = (RecyclerViewTV) findViewById(R.id.recyclerView);
         mainUpView1 = (MainUpView) findViewById(R.id.mainUpView1);
         mainUpView1.setEffectBridge(new RecyclerViewBridge());
         // 注意这里，需要使用 RecyclerViewBridge 的移动边框 Bridge.
         mRecyclerViewBridge = (RecyclerViewBridge) mainUpView1.getEffectBridge();
-        mRecyclerViewBridge.setUpRectResource(R.drawable.test_rectangle);
+        mRecyclerViewBridge.setUpRectResource(R.drawable.video_cover_cursor);
+        float density = getResources().getDisplayMetrics().density;
+        RectF receF = new RectF(getDimension(R.dimen.w_45) * density, getDimension(R.dimen.h_40) * density,
+                getDimension(R.dimen.w_45) * density, getDimension(R.dimen.h_40) * density);
+        mRecyclerViewBridge.setDrawUpRectPadding(receF);
         // 初始化左侧菜单.
         initLeftMenu();
         //  初始化带标题头的demo.
 //        testHeaderGridLayout();
-        testLeanbackDemo();
+//        testLeanbackDemo();
+        testRecyclerViewLinerLayout(RecyclerView.HORIZONTAL);
         //
         mRecyclerView.setOnItemListener(this);
         // item 单击事件处理.
@@ -119,13 +128,52 @@ public class DemoRecyclerviewActivity extends Activity implements RecyclerViewTV
      * 测试LinerLayout.
      */
     private void testRecyclerViewLinerLayout(int orientation) {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManagerTV layoutManager = new LinearLayoutManagerTV(this);
         layoutManager.setOrientation(orientation);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setFocusable(false);
-        GeneralAdapter generalAdapter = new GeneralAdapter(new RecyclerViewPresenter(100));
-        mRecyclerView.setAdapter(generalAdapter);
+        mRecyclerViewPresenter = new RecyclerViewPresenter(20);
+        mGeneralAdapter = new GeneralAdapter(mRecyclerViewPresenter);
+        mRecyclerView.setAdapter(mGeneralAdapter);
+        mRecyclerView.setSelectedItemOffset(111, 111); // 测试移动间距.
+        mRecyclerView.setPagingableListener(new RecyclerViewTV.PagingableListener() {
+            @Override
+            public void onLoadMoreItems() {
+                // 加载更多测试.
+//                moreHandler.removeCallbacksAndMessages(null);
+                Message msg = moreHandler.obtainMessage();
+                msg.arg1 = 10;
+                moreHandler.sendMessageDelayed(msg, 3000);
+                load_more_pb.setVisibility(View.VISIBLE);
+            }
+        });
+        mFocusHandler.sendEmptyMessageDelayed(10, 1000);
     }
+
+    private int mSavePos = 2;
+
+    Handler mFocusHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (!isListRowPresenter())
+                mRecyclerView.setDefaultSelect(mSavePos);
+        }
+    };
+
+    RecyclerViewPresenter mRecyclerViewPresenter;
+    GeneralAdapter mGeneralAdapter;
+
+    Handler moreHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            mRecyclerViewPresenter.addDatas(msg.arg1);
+            mSavePos = mRecyclerView.getSelectPostion();
+            mRecyclerView.setOnLoadMoreComplete(); // 加载更多完毕.
+            mFocusHandler.sendEmptyMessageDelayed(10, 10); // 延时请求焦点.
+            OPENLOG.D("加载更多....");
+            load_more_pb.setVisibility(View.GONE);
+        }
+    };
 
     /**
      * 测试GridLayout.
@@ -135,83 +183,88 @@ public class DemoRecyclerviewActivity extends Activity implements RecyclerViewTV
         gridlayoutManager.setOrientation(orientation);
         mRecyclerView.setLayoutManager(gridlayoutManager);
         mRecyclerView.setFocusable(false);
-        GeneralAdapter generalAdapter = new GeneralAdapter(new RecyclerViewPresenter(100));
-        mRecyclerView.setAdapter(generalAdapter);
-    }
-
-    /**
-     * 测试带标题栏的grid.
-     */
-    private void testHeaderGridLayout() {
-        final GridLayoutManagerTV gridlayoutManager = new GridLayoutManagerTV(this, 5); // 解决快速长按焦点丢失问题.
-        gridlayoutManager.setOrientation(GridLayoutManager.VERTICAL);
-        // recyclerView.setHasFixedSize(true); // 保持固定的大小
-        mRecyclerView.setLayoutManager(gridlayoutManager);
-        mRecyclerView.setFocusable(false);
-        final HeaderGridPresenter headerGridAdapter = new HeaderGridPresenter(100);
-        GeneralAdapter generalAdapter = new GeneralAdapter(headerGridAdapter);
-        mRecyclerView.setAdapter(generalAdapter);
-        gridlayoutManager.setSpanSizeLookup(new SpanSizeLookup() {
+        mRecyclerView.setSelectedItemAtCentered(true); // 设置item在中间移动.
+        mRecyclerViewPresenter = new RecyclerViewPresenter(25);
+        mGeneralAdapter = new GeneralAdapter(mRecyclerViewPresenter);
+        mRecyclerView.setAdapter(mGeneralAdapter);
+        mRecyclerView.setPagingableListener(new RecyclerViewTV.PagingableListener() {
             @Override
-            public int getSpanSize(int position) {
-                return headerGridAdapter.isHeader(position) ? gridlayoutManager.getSpanCount() : 1;
+            public void onLoadMoreItems() {
+                // 加载更多测试.
+//                moreHandler.removeCallbacksAndMessages(null);
+                Message msg = moreHandler.obtainMessage();
+                msg.arg1 = 21;
+                moreHandler.sendMessageDelayed(msg, 3000);
             }
         });
     }
 
-    /**
-     * Leanback 标题头.
-     */
-    private static final String MOVIE_CATEGORY[] = {
-            "全部软件",
-            "聊天工具",
-            "浏览器",
-            "游戏娱乐",
-            "网络游戏",
-            "杀毒安全",
-    };
+    ///////////////////////////////////////////////////////////////
+    ////   Leanback 测试 Demo start ---->
+    ///////////////////////////////////////////////////////////////
 
-    /**
-     * Leanback 横向 数据测试.
-     */
-    private static final List<Movie> MOVIE_ITEMS = new ArrayList<Movie>() {
-        {
-            add(new Movie(0, "天天2模拟器"));
-            add(new Movie(0, "陌陌222"));
-            add(new Movie(0, "爱奇艺222"));
-            add(new Movie(0, "英雄2联盟2"));
-            add(new Movie(0, "腾讯22视频"));
-            add( new Movie(0, "QQ22音乐"));
-            add(new Movie(0, "无敌22讯飞"));
-            add(new Movie(0, "360浏览器"));
-            add(new Movie(0, "美图秀秀"));
-            add(new Movie(0, "YY语音"));
-            add(new Movie(0, "迅雷"));
-            add(new Movie(0, "腾讯视频"));
-            add(new Movie(0, "酷狗阴影"));
-            add(new Movie(0, "优酷"));
-            add(new Movie(0, "篮球"));
-            add(new Movie(0, "足球"));
-        }
-    };
-    private static final List<Movie> MOVIE_ITEMS2 = new ArrayList<Movie>() {
-        {
-            add(new Movie(0, "天天模拟器AAA"));
-            add(new Movie(0, "陌陌AAA"));
-            add(new Movie(0, "爱奇艺222AAA"));
-            add(new Movie(0, "英雄2联盟2AA"));
-            add(new Movie(0, "腾讯视频AA"));
-            add(new Movie(0, "酷狗阴影AA"));
-            add(new Movie(0, "优酷AA"));
-            add(new Movie(0, "篮球AA"));
-            add(new Movie(0, "足球AAA1"));
-            add(new Movie(0, "足球AAA15"));
-            add(new Movie(0, "足球AAA16"));
-        }
-    };
+    private final RecyclerViewTV.OnChildViewHolderSelectedListener mRowSelectedListener =
+            new RecyclerViewTV.OnChildViewHolderSelectedListener() {
+                @Override
+                public void onChildViewHolderSelected(RecyclerView parent,
+                                                      RecyclerView.ViewHolder viewHolder, int position) {
+                    onRowSelected(parent, viewHolder, position, -1);
+                }
+            };
 
+    private GeneralAdapter.ViewHolder mSelectedViewHolder;
     List<ListRow> mListRows = new ArrayList<ListRow>();
     ListRowPresenter mListRowPresenter;
+
+    /**
+     * 一行选中.
+     */
+    private void onRowSelected(RecyclerView parent, RecyclerView.ViewHolder viewHolder,
+                               int position, int subposition) {
+        if (mSelectedViewHolder != viewHolder) {
+//            OPENLOG.D("pos:" + position + " vh:" + viewHolder);
+            // 先清除 MselectedViewHolder 的一行选中颜色.
+            if (mSelectedViewHolder != null) {
+                setRowViewSelected(mSelectedViewHolder, false);
+            }
+            // 设置当前选中的 一行的选中颜色.
+            mSelectedViewHolder = (GeneralAdapter.ViewHolder) viewHolder;
+            if (mSelectedViewHolder != null) {
+                setRowViewSelected(mSelectedViewHolder, true);
+            }
+        }
+    }
+
+    /**
+     * 改变一行的颜色.这里只是DEMO，你可以改变一行的图片哈，或者背景颜色哈.
+     * 具体可以看Leanback的android demo.
+     */
+    private void setRowViewSelected(GeneralAdapter.ViewHolder viewHolder, boolean selected) {
+        if (isListRowPresenter()) {
+            try {
+                ListRowPresenter.ListRowViewHolder listRowPresenter = (ListRowPresenter.ListRowViewHolder) viewHolder.getViewHolder();
+                ItemListPresenter.ItemListViewHolder itemListViewHolder = (ItemListPresenter.ItemListViewHolder) listRowPresenter.getListViewHolder();
+                DefualtListPresenter defualtListPresenter = itemListViewHolder.getDefualtListPresenter();
+                if (defualtListPresenter instanceof TestMoviceListPresenter) {
+                    TestMoviceListPresenter testMoviceListPresenter = (TestMoviceListPresenter) defualtListPresenter;
+                    testMoviceListPresenter.setSelect(selected);
+                    //
+                    RecyclerViewTV recyclerViewTV = itemListViewHolder.getRecyclerViewTV();
+                    int count = recyclerViewTV.getChildCount();
+                    for (int i = 0; i < count; i++) {
+                        View view = recyclerViewTV.getChildAt(i);
+                        if (selected) {
+                            view.setAlpha(0.5f);
+                        } else {
+                            view.setAlpha(1.0f);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
      * Leanback Demo.
@@ -219,36 +272,60 @@ public class DemoRecyclerviewActivity extends Activity implements RecyclerViewTV
     private void testLeanbackDemo() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setSelectedItemAtCentered(true); // 设置item在中间移动.
         // 添加测试数据。
-        for (int i = 0; i < MOVIE_CATEGORY.length; i++) {
-            String txt = MOVIE_CATEGORY[i];
+        for (int i = 0; i < LeanbackTestData.MOVIE_CATEGORY.length; i++) {
+            String txt = LeanbackTestData.MOVIE_CATEGORY[i];
             // 添加一行的数据.
             ListRow listRow = new ListRow(txt); // 标题头.
-            List<Movie> movies = MOVIE_ITEMS;
-            if (i % 2 == 0)
-                movies = MOVIE_ITEMS2;
+            List<Movie> movies = LeanbackTestData.MOVIE_ITEMS;
+            if (i % 2 == 1)
+                movies = LeanbackTestData.MOVIE_ITEMS2;
             listRow.addAll(movies); // 添加列的数据.
+            listRow.setOpenPresenter(new TestMoviceListPresenter()); // 设置列的item样式.
             // 添加一行的数据（标题头，列的数据)
             mListRows.add(listRow);
         }
+        // 添加最后一行数据.
+        ListRow lastListRow = new ListRow("设置");
+        lastListRow.add("网络wifi");
+        lastListRow.add("声音");
+        lastListRow.add("声音");
+        lastListRow.setOpenPresenter(new DefualtListPresenter());
+        mListRows.add(lastListRow);
         // 测试demo, 一般你想要自己的效果，
         // 继承 Header 和 List 可以继承 OpenPresente来重写.
         //  而横向中的item 继承 DefualtListPresenter 来重写.
         mListRowPresenter = new ListRowPresenter(mListRows,
                 new ItemHeaderPresenter(),
-                new NewItemListPresenter());
+                new ItemListPresenter());
         GeneralAdapter generalAdapter = new GeneralAdapter(mListRowPresenter);
         mRecyclerView.setAdapter(generalAdapter);
-        // 更新数据测试
-        Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                ListRow listRow = mListRows.get(0);
-                listRow.setHeaderItem("改变标题头数据");
-                mListRowPresenter.setItems(mListRows, 0);
-            }
-        };
+        // 行选中的事件.
+        mRecyclerView.setOnChildViewHolderSelectedListener(mRowSelectedListener);
+        // 更新数据测试.
         handler.sendEmptyMessageDelayed(10, 6666);
+    }
+
+    // 更新数据测试(更新某条数据).
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            View view = mRecyclerView.getSelectView();
+            // 请求更新数据.
+            ListRow listRow = mListRows.get(0);
+            listRow.setHeaderItem("改变标题头数据");
+            mListRowPresenter.setItems(mListRows, 0);
+            // 只有保存原来的焦点view的位置, 然后 延时请求焦点.
+        }
+    };
+
+    ///////////////////////////////////////////////////////////////
+    ////   Leanback 测试 Demo end ---->
+    ///////////////////////////////////////////////////////////////
+
+    public float getDimension(int id) {
+        return getResources().getDimension(id);
     }
 
     // 左边侧边栏的单击事件.
@@ -266,10 +343,7 @@ public class DemoRecyclerviewActivity extends Activity implements RecyclerViewTV
             case 3: // 纵向 grid layout.
                 testRecyclerViewGridLayout(GridLayoutManager.VERTICAL);
                 break;
-            case 4: // 带header的grid.
-                testHeaderGridLayout();
-                break;
-            case 5: // Leanback demo.
+            case 4: // Leanback demo. (带标题头的demo).
                 testLeanbackDemo();
                 break;
             default:

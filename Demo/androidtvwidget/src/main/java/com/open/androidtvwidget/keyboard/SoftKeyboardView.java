@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetricsInt;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -222,8 +223,15 @@ public class SoftKeyboardView extends View {
 		Drawable selectDrawable = softKey.getKeySelectDrawable();
 		if (selectDrawable != null) {
 			Rect rect = mIsMoveRect ? softKey.getMoveRect() : softKey.getRect();
-			int padding = this.mSelectBgPadding;
-			rect = new Rect(rect.left - padding, rect.top - padding, rect.right + padding, rect.bottom + padding);
+			int leftPadding, rightPadding, topPadding, bottomPadding;
+			leftPadding = rightPadding = topPadding = bottomPadding = 0;
+			if (this.mSelectBgRect != null) {
+				leftPadding = (int)Math.rint(mSelectBgRect.left);
+				rightPadding = (int)Math.rint(mSelectBgRect.right);
+				topPadding = (int)Math.rint(mSelectBgRect.top);
+				bottomPadding = (int)Math.rint(mSelectBgRect.bottom);
+			}
+			rect = new Rect(rect.left - leftPadding, rect.top - rightPadding, rect.right + topPadding, rect.bottom + bottomPadding);
 			selectDrawable.setBounds(rect);
 			selectDrawable.draw(canvas);
 		}
@@ -244,13 +252,19 @@ public class SoftKeyboardView extends View {
 		return mSoftKeyboard;
 	}
 
-	private int mSelectBgPadding = 0;
+	private RectF mSelectBgRect;
+
 	/**
 	 * 设置移动边框的相差的间距.
 	 */
 	public void setSoftKeySelectPadding(int padding) {
-		this.mSelectBgPadding = padding;
+		setSoftKeySelectPadding(new RectF(padding, padding, padding, padding));
 	}
+
+	public void setSoftKeySelectPadding(RectF rect) {
+		this.mSelectBgRect = rect;
+	}
+
 	public void setSoftKeyPress(boolean isPress) {
 		if (mSoftKeyboard == null) {
 			OPENLOG.E("setSoftKeyPress isPress:" + isPress);

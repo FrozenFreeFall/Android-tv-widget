@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><!-- json网络布局加载 -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_lay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <com.open.androidtvwidget.view.SmoothHorizontalScrollView
+        android:id="@+id/hscroll_view"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.open.androidtvwidget.view.FrameMainLayout
+            android:id="@+id/main_lay"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.open.androidtvwidget.view.FrameMainLayout>
+
+    </com.open.androidtvwidget.view.SmoothHorizontalScrollView>
+
+    <com.open.androidtvwidget.view.MainUpView
+        android:id="@+id/mainup_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</FrameLayout>

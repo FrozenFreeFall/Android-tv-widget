@@ -1,5 +1,6 @@
 package com.open.androidtvwidget.keyboard;
 
+import android.graphics.RectF;
 import android.view.KeyEvent;
 
 /**
@@ -19,6 +20,7 @@ public interface SoftKeyBoardable {
 	 * 设置移动边框和按键背景相差的间距.
      */
 	public void setSoftKeySelectPadding(int padding);
+	public void setSoftKeySelectPadding(RectF rectf);
 
 	/**
 	 * 设置移动边框的时间.

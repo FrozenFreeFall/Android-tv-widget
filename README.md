@@ -6,6 +6,10 @@ QQ群：522186932
 
 ![运行DEMO](https://git.oschina.net/hailongqiu/AndroidTVWidget/raw/master/doc/demo.gif?dir=0&filepath=doc%2Fdemo.gif&oid=f30160b097d319e464d106b39c6b5414acc9fdac&sha=9de6aa98d14c3c80d88f4dfb93a5064ba2614a81 "在这里输入图片标题")
 
+Leanback 框架(类似谷歌的Leanback,更简直，更方便):
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0911/112714_3027c40f_111902.gif "在这里输入图片标题")
+
+
 键盘框架：
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/0528/012952_10a76d5c_111902.gif "在这里输入图片标题")

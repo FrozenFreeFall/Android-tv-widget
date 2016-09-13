@@ -6,6 +6,7 @@ import com.open.androidtvwidget.keyboard.SoftKeyBoardListener;
 import com.open.androidtvwidget.utils.OPENLOG;
 
 import android.app.Activity;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -139,7 +140,12 @@ public class DemoKeyBoardActivity extends Activity {
 	private void setSkbContainerMove() {
 		mOldSoftKey = null;
 		skbContainer.setMoveSoftKey(true); // 设置是否移动按键边框.
-		skbContainer.setSoftKeySelectPadding((int)getResources().getDimension(R.dimen.px25)); // 设置移动边框相差的间距.
+		RectF rectf = new RectF((int)getResources().getDimension(R.dimen.
+				w_25), (int)getResources().getDimension(R.dimen.
+				h_25), (int)getResources().getDimension(R.dimen.
+				w_25), (int)getResources().getDimension(R.dimen.
+				h_25));
+		skbContainer.setSoftKeySelectPadding(rectf); // 设置移动边框相差的间距.
 		skbContainer.setMoveDuration(200); // 设置移动边框的时间(默认:300)
 		skbContainer.setSelectSofkKeyFront(true); // 设置选中边框在最前面.
 	}

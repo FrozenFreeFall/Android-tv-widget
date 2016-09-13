@@ -18,12 +18,10 @@ public class OpenTabTitleAdapter extends BaseTabTitleAdapter {
 	private List<String> titleList = new ArrayList<String>();
 
 	public OpenTabTitleAdapter() {
-//		for (int i = 0; i < 4; i++) {
 			titleList.add("推荐");
 			titleList.add("电影");
 			titleList.add("电视剧");
 			titleList.add("设置");
-//		}
 	}
 
 	@Override
@@ -65,6 +63,9 @@ public class OpenTabTitleAdapter extends BaseTabTitleAdapter {
 		return convertView;
 	}
 
+	/**
+	 * 这里只是demo，你可以设置自己的标题栏.
+     */
 	private View newTabIndicator(Context context, String tabName, boolean focused) {
 		final String name = tabName;
 		View viewC = View.inflate(context, R.layout.tab_view_indicator_item, null);

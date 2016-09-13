@@ -18,14 +18,14 @@ import android.widget.FrameLayout;
  * @author hailongqiu
  *
  */
-public class MainLayout extends FrameLayout {
+public class FrameMainLayout extends FrameLayout {
 
-	public MainLayout(Context context) {
+	public FrameMainLayout(Context context) {
 		super(context);
 		init(context);
 	}
 
-	public MainLayout(Context context, AttributeSet attrs) {
+	public FrameMainLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
 	}
