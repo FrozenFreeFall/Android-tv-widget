@@ -1,3 +1,5 @@
+git 上的项目暂时已经不更新.  关注这里：https://git.oschina.net/kumei/AndroidTVWidget
+
 # Android TV 开发框架
 
 官方论坛：http://www.androidtvdev.com/ 
