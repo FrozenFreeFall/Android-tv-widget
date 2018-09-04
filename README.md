@@ -1,6 +1,9 @@
 git 上的项目暂时已经不更新.  关注这里：https://git.oschina.net/kumei/AndroidTVWidget
 
- 
+ 欢迎加入TV开源社区，我们一起完善：https://gitee.com/kumei
+
+收录了一些常用的TV库：https://gitee.com/kumei/Android_tv_libs
+
 一些 tv开发经验小总结，https://gitee.com/kumei/AndroidTVWidget/wikis/Home
 
 # Android TV 开发框架
