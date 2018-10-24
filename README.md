@@ -10,7 +10,7 @@ git 上的项目暂时已经不更新.  关注这里：https://git.oschina.net/
 
 官方论坛：http://www.androidtvdev.com/ 
 
-QQ群：522186932
+QQ群1：522186932 (已满)  QQ群2:468357191
 
 ![运行DEMO](https://git.oschina.net/hailongqiu/AndroidTVWidget/raw/master/doc/demo.gif?dir=0&filepath=doc%2Fdemo.gif&oid=f30160b097d319e464d106b39c6b5414acc9fdac&sha=9de6aa98d14c3c80d88f4dfb93a5064ba2614a81 "在这里输入图片标题")
 
