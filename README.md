@@ -20,7 +20,7 @@ QQ群1：522186932  QQ群2:468357191
 推荐理由
 简历
 ------------
-评论区有详细的职位列表
+ISSUES有详细的职位列表
 ```
 
 ![运行DEMO](https://git.oschina.net/hailongqiu/AndroidTVWidget/raw/master/doc/demo.gif?dir=0&filepath=doc%2Fdemo.gif&oid=f30160b097d319e464d106b39c6b5414acc9fdac&sha=9de6aa98d14c3c80d88f4dfb93a5064ba2614a81 "在这里输入图片标题")
