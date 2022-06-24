@@ -12,6 +12,12 @@ git 上的项目暂时已经不更新.  关注这里：https://git.oschina.net/
 
 QQ群1：522186932  QQ群2:468357191
 
+微信群：
+
+
+![输入图片说明](https://gitee.com/kumei/Launcher/raw/develop/Android%20TV%E5%BC%80%E5%8F%91%E7%BE%A4%20(1).png)
+
+
 ```
 极米科技有限公司招聘各种技术岗位，后台，应用，系统，还有硬件等等. 
 想投简历的小伙伴发给我，我直接内推，欢迎各位加入极米这个大家庭；
