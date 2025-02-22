@@ -10,13 +10,9 @@ git 上的项目暂时已经不更新.  关注这里：https://git.oschina.net/
 
 官方论坛：http://www.androidtvdev.com/ 
 
-QQ群1：522186932  QQ群2:468357191
+QQ群1：522186932（人满）  QQ群2:468357191（人满）
 
-微信群：
-
-
-![输入图片说明](https://gitee.com/kumei/Launcher/raw/develop/Android%20TV%E5%BC%80%E5%8F%91%E7%BE%A4%20(1).png)
-
+加入电报群：https://t.me/androidtvdev
 
 ```
 极米科技有限公司招聘各种技术岗位，后台，应用，系统，还有硬件等等. 
